@@ -1,0 +1,87 @@
+---
+/**
+ * Netlify Forms works by scanning the deployed HTML at build time for
+ * data-netlify="true", so nothing here needs JavaScript or a backend. Three
+ * details are load-bearing and easy to delete by accident:
+ *
+ *   1. the hidden form-name input, without which submissions arrive unlabelled
+ *   2. the honeypot field, which catches bots that fill in every input
+ *   3. the action, which points at the thank-you page we ship below
+ *
+ * The free tier allows roughly 100 submissions a month. Use Google Forms for
+ * anything with real volume, such as event registration, and keep this for
+ * general enquiries.
+ */
+---
+
+<form
+  name="contact"
+  method="POST"
+  action="/thank-you/"
+  data-netlify="true"
+  netlify-honeypot="bot-field"
+  class="grid gap-4 sm:grid-cols-2"
+>
+  <input type="hidden" name="form-name" value="contact" />
+  <p class="hidden">
+    <label>Leave this field empty: <input name="bot-field" /></label>
+  </p>
+
+  <div class="sm:col-span-1">
+    <label for="name" class="block text-sm font-medium text-ink">Name</label>
+    <input
+      id="name"
+      name="name"
+      type="text"
+      required
+      autocomplete="name"
+      class="mt-1 w-full rounded-md border border-sindoor-200 bg-white px-3 py-2 text-ink"
+    />
+  </div>
+
+  <div class="sm:col-span-1">
+    <label for="email" class="block text-sm font-medium text-ink">Email</label>
+    <input
+      id="email"
+      name="email"
+      type="email"
+      required
+      autocomplete="email"
+      class="mt-1 w-full rounded-md border border-sindoor-200 bg-white px-3 py-2 text-ink"
+    />
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="topic" class="block text-sm font-medium text-ink">I am writing about</label>
+    <select
+      id="topic"
+      name="topic"
+      class="mt-1 w-full rounded-md border border-sindoor-200 bg-white px-3 py-2 text-ink"
+    >
+      <option>Joining as a member</option>
+      <option>Volunteering at an event</option>
+      <option>Bengali language classes</option>
+      <option>Something else</option>
+    </select>
+  </div>
+
+  <div class="sm:col-span-2">
+    <label for="message" class="block text-sm font-medium text-ink">Message</label>
+    <textarea
+      id="message"
+      name="message"
+      rows="4"
+      required
+      class="mt-1 w-full rounded-md border border-sindoor-200 bg-white px-3 py-2 text-ink"
+    ></textarea>
+  </div>
+
+  <div class="sm:col-span-2">
+    <button
+      type="submit"
+      class="rounded-md bg-sindoor-600 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-sindoor-700"
+    >
+      Send message
+    </button>
+  </div>
+</form>

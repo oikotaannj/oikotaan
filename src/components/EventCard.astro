@@ -1,0 +1,65 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { formatDateRange, isoDate } from "../lib/dates";
+
+interface Props {
+  event: CollectionEntry<"events">;
+}
+
+const { event } = Astro.props;
+const { title, titleBengali, date, endDate, time, venue, summary, image, imageAlt } = event.data;
+const href = `/events/${event.id}/`;
+---
+
+<article
+  class="group flex h-full flex-col overflow-hidden rounded-xl border border-sindoor-100 bg-white transition-shadow hover:shadow-lg"
+>
+  {
+    image && (
+      <img
+        src={image}
+        alt={imageAlt ?? ""}
+        width="800"
+        height="450"
+        loading="lazy"
+        decoding="async"
+        class="aspect-[16/9] w-full object-cover"
+      />
+    )
+  }
+
+  <div class="flex flex-1 flex-col p-5">
+    <time datetime={isoDate(date)} class="text-sm font-semibold text-sindoor-600">
+      {formatDateRange(date, endDate)}
+    </time>
+
+    <h3 class="mt-1 text-lg font-semibold text-ink">
+      <!-- The whole card is clickable via this stretched link, which keeps one
+           real anchor in the accessibility tree instead of wrapping the card in
+           an <a> that swallows the heading. -->
+      <a href={href} class="after:absolute after:inset-0 group-hover:text-sindoor-700">
+        {title}
+      </a>
+    </h3>
+    {
+      titleBengali && (
+        <p lang="bn" class="text-sm text-ink-soft">
+          {titleBengali}
+        </p>
+      )
+    }
+
+    <p class="mt-3 flex-1 text-sm leading-relaxed text-ink-soft">{summary}</p>
+
+    <p class="mt-4 text-sm text-ink-soft">
+      <span class="font-medium text-ink">{venue}</span>
+      {time && <span class="block">{time}</span>}
+    </p>
+  </div>
+</article>
+
+<style>
+  article {
+    position: relative;
+  }
+</style>

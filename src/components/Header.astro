@@ -1,0 +1,67 @@
+---
+import { site, nav } from "../site.config";
+import Container from "./Container.astro";
+
+// Trailing slashes are inconsistent between the dev server and the built site,
+// so both are stripped before comparing or /events/ never highlights itself.
+const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
+---
+
+<header class="sticky top-0 z-40 border-b border-sindoor-100 bg-cream/95 backdrop-blur">
+  <Container class="flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+    <!-- min-w-0 lets this shrink inside the flex row. Without it the long
+         organisation name refuses to give up width, the nav is pushed past the
+         right edge, and the whole page scrolls sideways on a phone. -->
+    <a href="/" class="group flex min-w-0 items-center gap-3">
+      <span
+        class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-sindoor-600 font-serif text-lg text-white sm:h-11 sm:w-11 sm:text-xl"
+        aria-hidden="true"
+      >
+        ব
+      </span>
+      <span class="min-w-0 leading-tight">
+        <!-- The full name does not fit beside the nav on a 375px screen, so
+             phones get the initials and everything else gets the name. Both are
+             inside the same link, so the accessible name is still correct. -->
+        <span class="block font-semibold text-ink group-hover:text-sindoor-700 sm:hidden">
+          {site.shortName}
+        </span>
+        <span class="hidden font-semibold text-ink group-hover:text-sindoor-700 sm:block">
+          {site.name}
+        </span>
+        <span lang="bn" class="hidden text-sm text-ink-soft sm:block">{site.nameBengali}</span>
+      </span>
+    </a>
+
+    <nav aria-label="Main" class="flex shrink-0 items-center gap-1 sm:gap-2">
+      {
+        nav.map((item) => {
+          const href = item.href.replace(/\/+$/, "") || "/";
+          const isCurrent = current === href;
+          return (
+            <a
+              href={item.href}
+              aria-current={isCurrent ? "page" : undefined}
+              class:list={[
+                "rounded-md px-2 py-2 text-sm font-medium transition-colors sm:px-3",
+                isCurrent
+                  ? "bg-sindoor-50 text-sindoor-700"
+                  : "text-ink-soft hover:bg-sindoor-50 hover:text-sindoor-700",
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+      <a
+        href={site.zeffy.donateUrl}
+        target="_blank"
+        rel="noopener"
+        class="ml-1 rounded-md bg-sindoor-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-sindoor-700 sm:px-4"
+      >
+        Donate
+      </a>
+    </nav>
+  </Container>
+</header>

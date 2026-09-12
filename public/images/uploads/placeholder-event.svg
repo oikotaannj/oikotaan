@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <rect width="800" height="450" fill="#fdf3f2"/>
+  <g fill="#f0b429">
+    <circle cx="120" cy="70" r="16"/><circle cx="180" cy="55" r="16"/><circle cx="240" cy="70" r="16"/>
+    <circle cx="300" cy="55" r="16"/><circle cx="360" cy="70" r="16"/><circle cx="420" cy="55" r="16"/>
+    <circle cx="480" cy="70" r="16"/><circle cx="540" cy="55" r="16"/><circle cx="600" cy="70" r="16"/>
+    <circle cx="660" cy="55" r="16"/>
+  </g>
+  <text x="400" y="250" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="30" fill="#c1272d">Replace me</text>
+  <text x="400" y="296" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="18" fill="#5a4f47">Put your image in public/images/uploads/</text>
+  <text x="400" y="324" text-anchor="middle" font-family="Helvetica, Arial, sans-serif"
+        font-size="18" fill="#5a4f47">and keep it under 200KB</text>
+</svg>

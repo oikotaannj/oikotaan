@@ -1,0 +1,125 @@
+---
+import type { GetStaticPaths } from "astro";
+import type { CollectionEntry } from "astro:content";
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/Container.astro";
+import { formatDateRange, isoDate } from "../../lib/dates";
+
+// One page is generated per Markdown file in src/content/events/. Adding an
+// event is therefore adding a file: there is no route to register and no list
+// to update by hand.
+export const getStaticPaths: GetStaticPaths = async () => {
+  const events = await getCollection("events", ({ data }) => !data.draft);
+  return events.map((event) => ({
+    params: { slug: event.id },
+    props: { event },
+  }));
+};
+
+interface Props {
+  event: CollectionEntry<"events">;
+}
+
+const { event } = Astro.props;
+const {
+  title,
+  titleBengali,
+  date,
+  endDate,
+  time,
+  venue,
+  address,
+  summary,
+  image,
+  imageAlt,
+  ticketUrl,
+} = event.data;
+const { Content } = await render(event);
+
+const mapUrl = address
+  ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
+  : null;
+---
+
+<BaseLayout title={title} description={summary} image={image}>
+  <article>
+    <header class="border-b border-sindoor-100 bg-sindoor-50">
+      <Container class="py-12">
+        <a href="/events/" class="text-sm font-medium text-sindoor-700 hover:underline">
+          &larr; All events
+        </a>
+        <h1 class="mt-4 text-3xl font-bold text-ink sm:text-4xl">{title}</h1>
+        {
+          titleBengali && (
+            <p lang="bn" class="mt-1 text-xl text-sindoor-700">
+              {titleBengali}
+            </p>
+          )
+        }
+        <p class="mt-4 max-w-2xl text-lg text-ink-soft">{summary}</p>
+
+        <dl class="mt-8 grid gap-6 sm:grid-cols-3">
+          <div>
+            <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">When</dt>
+            <dd class="mt-1 font-medium text-ink">
+              <time datetime={isoDate(date)}>{formatDateRange(date, endDate)}</time>
+              {time && <span class="block font-normal text-ink-soft">{time}</span>}
+            </dd>
+          </div>
+          <div class="sm:col-span-2">
+            <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">Where</dt>
+            <dd class="mt-1 font-medium text-ink">
+              {venue}
+              {
+                address && (
+                  <a
+                    href={mapUrl}
+                    target="_blank"
+                    rel="noopener"
+                    class="block font-normal text-ink-soft hover:text-sindoor-700 hover:underline"
+                  >
+                    {address}
+                  </a>
+                )
+              }
+            </dd>
+          </div>
+        </dl>
+
+        {
+          ticketUrl && (
+            <a
+              href={ticketUrl}
+              target="_blank"
+              rel="noopener"
+              class="mt-8 inline-block rounded-md bg-sindoor-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-sindoor-700"
+            >
+              Register or buy tickets
+            </a>
+          )
+        }
+      </Container>
+    </header>
+
+    {
+      image && (
+        <Container class="mt-10">
+          <img
+            src={image}
+            alt={imageAlt ?? ""}
+            width="1200"
+            height="630"
+            class="aspect-[16/9] w-full rounded-xl object-cover"
+          />
+        </Container>
+      )
+    }
+
+    <Container class="py-10">
+      <div class="prose prose-lg max-w-none prose-headings:text-ink prose-a:text-sindoor-700">
+        <Content />
+      </div>
+    </Container>
+  </article>
+</BaseLayout>

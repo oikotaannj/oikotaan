@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import { site } from "../site.config";
+---
+
+<BaseLayout title="Thank you" description="We have received your message.">
+  <Container class="py-24 text-center">
+    <p class="text-5xl" aria-hidden="true">🪔</p>
+    <h1 class="mt-6 text-3xl font-bold text-ink">Thank you, we have it</h1>
+    <p class="mx-auto mt-4 max-w-md text-lg text-ink-soft">
+      Someone from the committee will write back within a few days. We are all volunteers, so thank
+      you for your patience.
+    </p>
+    <a
+      href="/"
+      class="mt-8 inline-block rounded-md bg-sindoor-600 px-6 py-3 font-semibold text-white hover:bg-sindoor-700"
+    >
+      Back to the homepage
+    </a>
+    <p class="mt-6 text-sm text-ink-soft">
+      Something urgent? Email <a
+        href={`mailto:${site.email}`}
+        class="font-medium text-sindoor-700 hover:underline">{site.email}</a
+      >
+    </p>
+  </Container>
+</BaseLayout>

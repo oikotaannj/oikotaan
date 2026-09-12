@@ -1,0 +1,19 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# local env files
+.env
+.env.production
+
+# macOS / editors
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# netlify
+.netlify/

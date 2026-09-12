@@ -1,0 +1,24 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # Pinned so a Netlify default bump cannot break a build that works locally.
+  # Keep this in step with .nvmrc.
+  NODE_VERSION = "22"
+
+# Deploy previews are the point of this setup: every pull request gets its own
+# live URL, so a change can be looked at on a phone before it is merged.
+[context.deploy-preview]
+  command = "npm run build"
+
+[[redirects]]
+  from = "/donate"
+  to = "https://www.zeffy.com/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin/index.html"
+  status = 200

@@ -1,0 +1,81 @@
+# Sveltia CMS configuration.
+#
+# The fields below must stay in step with the Zod schema in
+# src/content.config.ts. If they drift, the CMS will happily save frontmatter
+# that fails the next build, and the person who saved it will have no idea why.
+
+backend:
+  name: github
+  repo: YOUR-GITHUB-ORG/bengali-association-nj # change me
+  branch: main
+  # One-time setup: deploy the sveltia-cms-auth Cloudflare Worker and put its
+  # URL here. See README, "Wiring up the content editor".
+  base_url: https://YOUR-AUTH-WORKER.workers.dev
+
+# Editors get a preview branch and a pull request instead of committing to main
+# directly, which means the same deploy preview the kids use.
+publish_mode: editorial_workflow
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  - name: events
+    label: Events
+    label_singular: Event
+    folder: src/content/events
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: titleBengali, label: Title in Bengali, widget: string, required: false }
+      - {
+          name: date,
+          label: Date,
+          widget: datetime,
+          date_format: YYYY-MM-DD,
+          time_format: false,
+          picker_utc: true,
+        }
+      - {
+          name: endDate,
+          label: End date (multi-day events only),
+          widget: datetime,
+          date_format: YYYY-MM-DD,
+          time_format: false,
+          picker_utc: true,
+          required: false,
+        }
+      - {
+          name: time,
+          label: Time,
+          widget: string,
+          required: false,
+          hint: "Free text, e.g. 6:00 PM onwards",
+        }
+      - { name: venue, label: Venue, widget: string }
+      - { name: address, label: Full address, widget: string, required: false }
+      - {
+          name: summary,
+          label: One-line summary,
+          widget: text,
+          pattern: ["^.{1,200}$", "Keep this under 200 characters"],
+        }
+      - { name: image, label: Banner image, widget: image, required: false }
+      - {
+          name: imageAlt,
+          label: Describe the image for screen readers,
+          widget: string,
+          required: false,
+        }
+      - { name: ticketUrl, label: Zeffy ticket link, widget: string, required: false }
+      - { name: featured, label: Pin to homepage, widget: boolean, default: false }
+      - {
+          name: draft,
+          label: Hide from the site (still writing it),
+          widget: boolean,
+          default: false,
+        }
+      - { name: body, label: Details, widget: markdown }

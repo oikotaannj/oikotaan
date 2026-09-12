@@ -1,0 +1,67 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/**
+ * Tailwind v4 is configured in CSS, not in a tailwind.config.js file.
+ * Every token below becomes a utility class: --color-sindoor-600 gives you
+ * bg-sindoor-600, text-sindoor-600, border-sindoor-600 and so on.
+ *
+ * Change a value here and it changes everywhere on the site at once. That is
+ * the whole point of putting colours in one place, so resist the urge to write
+ * bg-[#c1272d] in a template.
+ */
+@theme {
+  /* Noto Sans Bengali is listed in the body stack, not only the Bengali stack.
+     Default system fonts render যুক্তাক্ষর (conjuncts) inconsistently on Windows
+     and Android, so any stray Bengali word in an English sentence needs it too. */
+  --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Noto Serif Bengali", ui-serif, Georgia, Cambria, serif;
+  --font-bengali: "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
+
+  /* Alpona red, the colour of Durga Puja and Poila Boishakh. */
+  --color-sindoor-50: #fdf3f2;
+  --color-sindoor-100: #fce4e2;
+  --color-sindoor-200: #facdc9;
+  --color-sindoor-300: #f5a49e;
+  --color-sindoor-400: #ec726b;
+  --color-sindoor-500: #dc4740;
+  --color-sindoor-600: #c1272d;
+  --color-sindoor-700: #a11f26;
+  --color-sindoor-800: #851c21;
+  --color-sindoor-900: #6f1b1f;
+
+  /* Marigold, for accents and highlights. */
+  --color-marigold-300: #f7d488;
+  --color-marigold-400: #f0b429;
+  --color-marigold-500: #e8a33d;
+  --color-marigold-600: #c77f16;
+
+  --color-cream: #fff9f2;
+  --color-ink: #1f1a17;
+  --color-ink-soft: #5a4f47;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Bengali text sits lower and needs more line height than Latin at the same
+   font-size, or the মাত্রা (the headline stroke) crowds the line above it. */
+:lang(bn) {
+  font-family: var(--font-bengali);
+  line-height: 1.9;
+}
+
+/* Keyboard users need to see where they are. The browser default outline
+   disappears against the cream background, so we draw our own. */
+:focus-visible {
+  outline: 3px solid var(--color-sindoor-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}

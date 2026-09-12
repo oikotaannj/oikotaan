@@ -1,0 +1,25 @@
+---
+import { site } from "../site.config";
+
+/**
+ * Google Calendar's embed only renders if the calendar itself is public.
+ * If this box comes up empty, the calendar is still private: open Calendar
+ * settings, find the calendar, and tick "Make available to public".
+ */
+const params = new URLSearchParams({
+  src: site.googleCalendarId,
+  ctz: site.timeZone,
+  mode: "MONTH",
+  showTitle: "0",
+  showPrint: "0",
+  showTabs: "0",
+  showCalendars: "0",
+  bgcolor: "#ffffff",
+});
+const src = `https://calendar.google.com/calendar/embed?${params.toString()}`;
+---
+
+<div class="overflow-hidden rounded-xl border border-sindoor-100 bg-white">
+  <iframe src={src} title="Community calendar" loading="lazy" class="h-[520px] w-full border-0"
+  ></iframe>
+</div>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+---
+
+<BaseLayout title="Page not found">
+  <Container class="py-24 text-center">
+    <p class="font-serif text-6xl text-sindoor-600" lang="bn" aria-hidden="true">৪০৪</p>
+    <h1 class="mt-4 text-3xl font-bold text-ink">We could not find that page</h1>
+    <p class="mx-auto mt-3 max-w-md text-ink-soft">
+      The link may be old, or we may have moved something. Try the events page.
+    </p>
+    <a
+      href="/events/"
+      class="mt-8 inline-block rounded-md bg-sindoor-600 px-6 py-3 font-semibold text-white hover:bg-sindoor-700"
+    >
+      See events
+    </a>
+  </Container>
+</BaseLayout>
