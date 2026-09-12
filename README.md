@@ -49,10 +49,11 @@ src/
   components/           Reusable pieces: Header, Footer, EventCard, ContactForm.
   layouts/BaseLayout    The shell every page sits inside: <head>, fonts, header, footer.
   pages/                One file per route. index.astro is the homepage.
+  pages/admin/          The content editor, served at /admin
   styles/global.css     Colours and fonts, defined once as Tailwind tokens.
   lib/dates.ts          Date formatting, including the UTC handling events depend on.
 public/
-  admin/                The content editor served at /admin
+  admin/config.yml      What the editor shows in its form. Read at runtime, not build time.
   images/uploads/       Images. Keep every file under 200KB.
 ```
 

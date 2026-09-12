@@ -1,0 +1,43 @@
+---
+/**
+ * The content editor, served at /admin.
+ *
+ * This is an Astro page rather than a plain file in public/, because the dev
+ * server does not resolve /admin/ to /admin/index.html for public assets: the
+ * built site worked and `npm run dev` returned a 404, which is the worst way
+ * round for anyone learning on this repo.
+ *
+ * The page deliberately does not use BaseLayout. The CMS renders its own full
+ * screen application, and the site header and footer around it would be noise.
+ *
+ * Its configuration stays in public/admin/config.yml, copied through untouched,
+ * because the CMS reads that file at runtime rather than at build time.
+ */
+
+// Pinned on purpose. Sveltia is pre-1.0, so a floating range would hand every
+// editor whatever shipped that morning, and a CMS that breaks silently is worse
+// than one that needs a deliberate version bump twice a year.
+const SVELTIA_VERSION = "0.210.3";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Oikotaan content editor</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <!-- Without this the CMS guesses the config location from the URL. Naming it
+         explicitly means /admin keeps working if the route ever moves. -->
+    <link rel="cms-config-url" type="text/yaml" href="/admin/config.yml" />
+  </head>
+  <body>
+    <!-- is:inline keeps Astro from trying to bundle a cross-origin URL at build
+         time. Without it the build fails rather than emitting the script tag. -->
+    <script
+      is:inline
+      type="module"
+      src={`https://unpkg.com/@sveltia/cms@${SVELTIA_VERSION}/dist/sveltia-cms.js`}></script>
+  </body>
+</html>
