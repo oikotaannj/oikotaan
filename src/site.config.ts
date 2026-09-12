@@ -7,14 +7,14 @@
  * inside a component, put it here instead.
  */
 export const site = {
-  name: "Bengali Association of New Jersey",
-  shortName: "BANJ",
-  nameBengali: "নিউ জার্সি বঙ্গীয় সমিতি",
+  name: "Oikotaan",
+  shortName: "Oikotaan",
+  nameBengali: "ঐকতান",
   tagline: "Celebrating Bengali culture, language and community in New Jersey.",
   description:
     "A volunteer-run 501(c)(3) nonprofit bringing Bengali families across New Jersey together through cultural programs, language classes and community service.",
 
-  email: "hello@example-banj.org",
+  email: "hello@oikotaan.org",
   town: "Edison, New Jersey",
 
   social: {

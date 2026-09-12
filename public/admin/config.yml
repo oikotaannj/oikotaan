@@ -6,7 +6,7 @@
 
 backend:
   name: github
-  repo: YOUR-GITHUB-ORG/bengali-association-nj # change me
+  repo: YOUR-GITHUB-ORG/oikotaan # change me
   branch: main
   # One-time setup: deploy the sveltia-cms-auth Cloudflare Worker and put its
   # URL here. See README, "Wiring up the content editor".

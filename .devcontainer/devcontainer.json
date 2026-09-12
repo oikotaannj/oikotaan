@@ -1,5 +1,5 @@
 {
-  "name": "BANJ website",
+  "name": "Oikotaan website",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   "postCreateCommand": "npm install",
   "forwardPorts": [4321],

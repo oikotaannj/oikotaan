@@ -2,9 +2,9 @@
   <rect width="1200" height="630" fill="#fff9f2"/>
   <circle cx="1080" cy="90" r="220" fill="#fdf3f2"/>
   <circle cx="120" cy="560" r="180" fill="#fdf3f2"/>
+  <text x="80" y="210" font-family="Georgia, serif" font-size="54" fill="#c1272d">ঐকতান</text>
   <rect x="80" y="250" width="72" height="6" rx="3" fill="#e8a33d"/>
-  <text x="80" y="200" font-family="Georgia, serif" font-size="46" fill="#c1272d">নিউ জার্সি বঙ্গীয় সমিতি</text>
-  <text x="80" y="330" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="bold" fill="#1f1a17">Bengali Association</text>
-  <text x="80" y="404" font-family="Helvetica, Arial, sans-serif" font-size="64" font-weight="bold" fill="#1f1a17">of New Jersey</text>
-  <text x="80" y="470" font-family="Helvetica, Arial, sans-serif" font-size="28" fill="#5a4f47">Culture, language and community.</text>
+  <text x="80" y="356" font-family="Helvetica, Arial, sans-serif" font-size="76" font-weight="bold" fill="#1f1a17">Oikotaan</text>
+  <text x="80" y="430" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#5a4f47">Bengali culture, language and community</text>
+  <text x="80" y="474" font-family="Helvetica, Arial, sans-serif" font-size="30" fill="#5a4f47">in New Jersey.</text>
 </svg>

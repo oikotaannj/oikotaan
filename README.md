@@ -1,4 +1,4 @@
-# Bengali Association of New Jersey — website
+# Oikotaan — website
 
 A static site built with [Astro](https://astro.build) and [Tailwind CSS](https://tailwindcss.com),
 hosted free on Netlify. There is no server and no database: pages are generated
@@ -9,7 +9,7 @@ store submissions is handed to a service that does it for free.
 GitHub (source of truth)
    │  merge to main
    ▼
-Netlify  ──► www.example-banj.org
+Netlify  ──► www.oikotaan.org
    │
    ├── Netlify Forms  → general enquiries (~100/month on the free tier)
    ├── Zeffy          → donations, tickets, membership (no fees to us)
