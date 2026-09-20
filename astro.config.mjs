@@ -6,7 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 // `site` feeds the sitemap and any absolute URLs (Open Graph tags, RSS).
 // Point it at the real domain the day it is registered.
 export default defineConfig({
-  site: "https://www.oikotaan.org",
+  site: "https://www.oikotaannj.org",
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

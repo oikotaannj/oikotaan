@@ -9,7 +9,7 @@ store submissions is handed to a service that does it for free.
 GitHub (source of truth)
    │  merge to main
    ▼
-Netlify  ──► www.oikotaan.org
+Netlify  ──► www.oikotaannj.org
    │
    ├── Netlify Forms  → general enquiries (~100/month on the free tier)
    ├── Zeffy          → donations, tickets, membership (no fees to us)

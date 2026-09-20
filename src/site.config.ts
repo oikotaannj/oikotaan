@@ -14,7 +14,7 @@ export const site = {
   description:
     "A volunteer-run 501(c)(3) nonprofit bringing Bengali families across New Jersey together through cultural programs, language classes and community service.",
 
-  email: "hello@oikotaan.org",
+  email: "hello@oikotaannj.org",
   town: "6 Matthew Road, Hillsborough, NJ 08844",
 
   social: {
