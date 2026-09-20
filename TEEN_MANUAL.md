@@ -18,6 +18,113 @@ The website is made from files in this repository:
 The live website comes from `main`. You should never edit `main` directly. Make
 a branch, make one focused change, open a pull request, and wait for review.
 
+## How websites work
+
+A website is a collection of files and services that work together:
+
+- A **domain name** is the human-friendly address, such as
+   `www.oikotaannj.org`.
+- A **browser** requests a page when someone types an address or clicks a link.
+- A **host** stores the website and sends its files back to the browser.
+- A **page** is the content shown at one address, such as a home page or event
+   page.
+- **Assets** are supporting files such as images, fonts, styles, and scripts.
+- A **link** connects one page or website to another.
+- A **form** collects information from a visitor and sends it to a service or
+   inbox.
+
+The browser turns the files it receives into the page people see. It combines
+the page's content with its layout, colours, images, and interactive behaviour.
+Different screen sizes may display the same page differently so that it remains
+usable on a phone, tablet, or computer.
+
+When a website is updated, someone changes the source files, checks the result,
+and publishes a new version. A useful general workflow is:
+
+```text
+write -> preview -> check -> publish -> monitor -> improve
+```
+
+The source files are not usually edited directly on the live website. Keeping a
+history of changes makes it possible to review work, find mistakes, and restore
+an earlier version. Private information and passwords should never be placed in
+public website files.
+
+```mermaid
+flowchart LR
+   Visitor[Visitor] --> Address[Domain name]
+   Address --> Host[Website host]
+   Host --> Files[Page files and assets]
+   Files --> Browser[Browser]
+   Browser --> Page[Page the visitor sees]
+
+   Author[Contributor] --> Source[Source files]
+   Source --> Preview[Preview and checks]
+   Preview --> Publish[Published version]
+   Publish --> Host
+```
+
+## How this website works
+
+When someone visits Oikotaan, this is the basic journey:
+
+1. They open a URL such as `/events/poila-boishakh-2026/`.
+2. Netlify serves the finished files for that page.
+3. Astro created those files earlier from the source code in this repository.
+4. The source code combines page layouts, reusable components, styles, and
+   content such as event Markdown files.
+
+This site is **static**. There is no server or database running behind each
+page. Astro builds the pages ahead of time, which makes the site fast and
+reliable. GitHub stores the source files, Netlify builds them, and Netlify
+publishes the result.
+
+The normal publishing path is:
+
+```text
+your branch -> pull request -> Netlify preview -> review -> main -> live site
+```
+
+An event Markdown file is content. An Astro file is a template or page. A CSS
+file controls appearance. Git records the change, and the pull request gives
+another person a chance to check it before it becomes public.
+
+## Code structure
+
+Open the `oikotaan` folder in VS Code. These are the places you will use most:
+
+```text
+oikotaan/
+├── src/
+│   ├── content/events/       Event Markdown files; one file creates one event
+│   ├── components/           Reusable pieces such as the header and event card
+│   ├── layouts/              The shared shell around every page
+│   ├── pages/                Website routes; index.astro is the homepage
+│   ├── styles/global.css     Colours, fonts, spacing, and global styles
+│   ├── site.config.ts        Organisation details and external links
+│   ├── content.config.ts     Rules for valid event information
+│   └── lib/dates.ts           Shared date formatting helpers
+├── public/
+│   ├── images/uploads/        Images used by events and pages
+│   └── admin/config.yml       Settings for the browser content editor
+├── .devcontainer/             Optional Codespaces setup
+├── run.sh                     Start, check, build, and preview commands
+├── package.json               Project commands and package list
+├── netlify.toml               Netlify build and redirect settings
+└── .nvmrc                     Required Node.js version
+```
+
+For a first contribution, stay inside `src/content/events/` or make a small
+text change in a page. The most useful rule is: **content goes in content
+files; repeated design goes in components; page-specific structure goes in
+pages; appearance goes in CSS**.
+
+Astro uses the filename inside `src/pages/` to decide a URL. For example,
+`src/pages/events/index.astro` creates `/events/`, while
+`src/pages/events/[...slug].astro` creates the individual event pages from the
+event collection. Do not change the square-bracket route or the content schema
+without asking a maintainer.
+
 ## What you can work on
 
 Good beginner tasks include:
@@ -35,48 +142,47 @@ Ask an adult or technical maintainer before changing:
 - GitHub permissions, Netlify, the domain, or CMS authentication;
 - routing, the content schema, or anything involving privacy or security.
 
-## Option A: use GitHub Codespaces
+## Set up your computer
 
-Codespaces is the easiest setup because the tools are already installed.
-
-1. Open the repository on GitHub.
-2. Select **Code** > **Codespaces** > **Create codespace on main**.
-3. Wait for the browser version of VS Code to finish loading.
-4. Open the built-in terminal with **Terminal > New Terminal**.
-5. Continue at [Start the website](#start-the-website).
-
-Codespaces can use organisation resources, so check with an adult before a whole
-class creates one. Close the codespace when you are finished.
-
-## Option B: set up your own computer
+The normal setup is **VS Code + Node.js 22 + Git**. These are free tools. Ask an
+adult before installing software on a school-managed computer.
 
 ### Install the tools
 
-Install these tools from their official websites or your computer's package
-manager:
+Install these tools from their official websites:
 
-1. **VS Code**: the editor where you will open and change files.
-2. **Git**: the tool that records and shares your changes.
-3. **Node.js 22**: the program that runs Astro. The required version is written
-   in `.nvmrc`.
+1. **[VS Code](https://code.visualstudio.com/download)**: the editor where you
+   will open and change files.
+2. **[Git](https://git-scm.com/downloads)**: the tool that records and shares
+   your changes.
+3. **[Node.js 22 LTS](https://nodejs.org/en/download)**: the program that runs
+   Astro. Do not install the newest
+   version if it is not version 22; this project is pinned to Node 22 in
+   `.nvmrc`.
 
-On macOS or Linux, `nvm` is a convenient way to install and select Node:
+On macOS, install Node 22 with `nvm` if it is already available:
 
 ```bash
 nvm install 22
 nvm use 22
 ```
 
-On Windows, an adult can help install Node 22 using the Windows installer or
-`nvm-windows`. After installing, check that the tools work:
+On Windows, an adult can help install Node 22 with the official installer or
+`nvm-windows`. On macOS, Git is included with the Xcode Command Line Tools; if
+the terminal asks to install them, accept the prompt. On Windows, Git is
+included with Git for Windows.
+
+Open a new terminal after installing and verify all three tools:
 
 ```bash
+code --version
 node --version
 git --version
 ```
 
 The Node version should start with `v22`. If it does not, stop and fix the Node
-version before continuing.
+version before continuing. If `code` is not recognised, open VS Code from the
+Applications or Start menu; Git and Node can still work normally.
 
 ### Download the project
 
@@ -89,6 +195,10 @@ cd oikotaan
 npm install
 code .
 ```
+
+The first `npm install` can take a few minutes. It downloads the project's
+packages into a local folder called `node_modules`; you do not edit that folder
+or commit it to Git.
 
 If `code .` does not work, open VS Code normally and choose **File > Open
 Folder**, then select the `oikotaan` folder.
