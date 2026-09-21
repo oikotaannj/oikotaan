@@ -144,17 +144,56 @@ Ask an adult or technical maintainer before changing:
 
 ## Set up your computer
 
-The normal setup is **VS Code + Node.js 22 + Git**. These are free tools. Ask an
-adult before installing software on a school-managed computer.
+The normal setup is **VS Code + Node.js 22 + Git**, plus a GitHub account with
+access to the repository. These are free. Ask an adult before installing
+software on a school-managed computer.
 
-### Install the tools
+### 1. Create a GitHub account
+
+1. Go to [github.com/join](https://github.com/join) and sign up with an email
+   address you actually check — ask a parent first if you are not sure which
+   one to use.
+2. Pick a username you are comfortable being public. It will show up on every
+   commit and pull request you make, forever, including after you graduate
+   from this project.
+3. Verify your email address — GitHub emails you a code or link, and some
+   GitHub features (including accepting a repository invitation) do not work
+   until you do.
+4. Turn on two-factor authentication: **Settings → Password and
+   authentication → Two-factor authentication**. This protects your account,
+   and by extension the project, if your password ever leaks somewhere else.
+
+Once your account exists, tell a maintainer your exact GitHub username so they
+can give you access.
+
+### 2. Get access to the repository
+
+The code lives at
+[github.com/oikotaannj/oikotaan](https://github.com/oikotaannj/oikotaan). The
+repository is public, so anyone can look at it — but only people a maintainer
+has explicitly added can push a branch to it, which is what this manual's
+workflow assumes.
+
+1. A maintainer goes to the repository → **Settings → Collaborators and
+   teams → Add people**, and adds your GitHub username.
+2. GitHub sends you an invitation — check
+   [github.com/notifications](https://github.com/notifications) or your email,
+   and accept it.
+3. Once accepted, visit the repository page again. You should see the normal
+   green **Code** button and be able to create branches. If you still see
+   "Fork this repository" as your only option, the invitation has not been
+   accepted yet.
+
+### 3. Install the tools
 
 Install these tools from their official websites:
 
 1. **[VS Code](https://code.visualstudio.com/download)**: the editor where you
    will open and change files.
 2. **[Git](https://git-scm.com/downloads)**: the tool that records and shares
-   your changes.
+   your changes. The official installer for both Windows and macOS already
+   includes Git Credential Manager, which is what makes step 4 below work
+   without extra setup.
 3. **[Node.js 22 LTS](https://nodejs.org/en/download)**: the program that runs
    Astro. Do not install the newest
    version if it is not version 22; this project is pinned to Node 22 in
@@ -169,8 +208,10 @@ nvm use 22
 
 On Windows, an adult can help install Node 22 with the official installer or
 `nvm-windows`. On macOS, Git is included with the Xcode Command Line Tools; if
-the terminal asks to install them, accept the prompt. On Windows, Git is
-included with Git for Windows.
+the terminal asks to install them, accept the prompt — but prefer the
+installer linked above, since the Xcode Command Line Tools version does not
+include Git Credential Manager. On Windows, Git Credential Manager is included
+automatically with Git for Windows.
 
 Open a new terminal after installing and verify all three tools:
 
@@ -184,10 +225,30 @@ The Node version should start with `v22`. If it does not, stop and fix the Node
 version before continuing. If `code` is not recognised, open VS Code from the
 Applications or Start menu; Git and Node can still work normally.
 
-### Download the project
+### 4. Connect Git to your GitHub account
 
-Ask the project maintainer for repository access if GitHub says you do not have
-permission. In a terminal, run:
+Git needs to know who you are, separately from logging in to GitHub itself.
+Set this once, using the same email address as your GitHub account:
+
+```bash
+git config --global user.name "Your Name"
+git config --global user.email "the-email-on-your-github-account@example.com"
+```
+
+You do not need to do anything else in advance. The first time you `git push`
+from this computer, a browser window opens automatically and asks you to log
+in to GitHub and click **Authorize**. After that, Git remembers this computer
+and will not ask again.
+
+If a browser window does not open, or `git push` fails with something like
+`could not read Username`, Git Credential Manager did not install correctly —
+reinstall Git from the official link in step 3 and try again. GitHub
+Codespaces does not need any of this: it is already signed in as you.
+
+### 5. Download the project
+
+By this point you should have a GitHub account, access to the repository, and
+the tools installed. In a terminal, run:
 
 ```bash
 git clone https://github.com/oikotaannj/oikotaan.git
@@ -397,9 +458,12 @@ probably wrong.
 Open the marked file, choose the text that should remain, remove the conflict
 markers, save, then run `git add`, `git commit`, and `git push`.
 
-**GitHub rejects your push.** You may not have permission, or the branch name
-may be wrong. Copy the full error and ask the maintainer; do not paste passwords
-or tokens into chat.
+**GitHub rejects your push with "permission denied" or "403".** Most often
+this means you have not accepted the repository invitation yet — check
+[github.com/notifications](https://github.com/notifications) — or the Git
+login from step 4 of setup authorized a different GitHub account than the one
+a maintainer added. Copy the full error and ask the maintainer; do not paste
+passwords or tokens into chat.
 
 **You changed or deleted the wrong thing.** Stop editing and ask for help. Git
 usually has the old version, so more random changes will only make recovery
