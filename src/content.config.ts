@@ -30,9 +30,8 @@ const events = defineCollection({
 
     summary: z.string().max(200),
 
-    // Path under public/, e.g. /images/uploads/puja-2026.jpg
-    // Keep these under 200KB. A 4MB phone photo makes the repo slow to clone
-    // for every kid on the team, forever, because git keeps every version.
+    // A Cloudinary URL, picked through the CMS's image field rather than a
+    // file committed to this repo. See public/admin/config.yml.
     image: z.string().optional(),
     imageAlt: z.string().optional(),
 
@@ -140,8 +139,7 @@ const impact = defineCollection({
     // Credit a partner organisation, e.g. "Community FoodBank of New Jersey".
     partner: z.string().optional(),
 
-    // Path under public/, e.g. /images/uploads/food-drive-2026.jpg
-    // Keep these under 200KB, same rule as event images.
+    // A Cloudinary URL, same as event images — see public/admin/config.yml.
     image: z.string().optional(),
     imageAlt: z.string().optional(),
 

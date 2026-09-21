@@ -105,8 +105,8 @@ oikotaan/
 │   ├── content.config.ts     Rules for valid event information
 │   └── lib/dates.ts           Shared date formatting helpers
 ├── public/
-│   ├── images/uploads/        Images used by events and pages
-│   └── admin/config.yml       Settings for the browser content editor
+│   ├── images/uploads/        Images committed before Cloudinary; new ones don't go here
+│   └── admin/config.yml       Settings for the browser content editor, incl. Cloudinary
 ├── .devcontainer/             Optional Codespaces setup
 ├── run.sh                     Start, check, build, and preview commands
 ├── package.json               Project commands and package list
@@ -324,7 +324,7 @@ time: "12:00 PM onwards"
 venue: "Community Park"
 address: "1 Main Street, Edison, NJ"
 summary: "A relaxed afternoon for the whole community."
-image: "/images/uploads/picnic.jpg"
+image: "https://res.cloudinary.com/yxpsjuuc/image/upload/v.../picnic.jpg"
 imageAlt: "Families sharing food at picnic tables"
 featured: false
 draft: false
@@ -333,13 +333,19 @@ draft: false
 Write the event details here.
 ```
 
+You do not type the `image` URL by hand — editing through code, use the
+`/admin` editor for just that field, or paste in the link Cloudinary gives you
+after you upload there directly.
+
 Keep `draft: true` while an event is unfinished. It will not appear as a normal
 published event. Change it to `false` only when the information is ready and an
 adult has approved it.
 
-Images belong in `public/images/uploads/`. Keep each image under **200 KB**.
-Resize phone photos before adding them. Every image needs useful `imageAlt`
-text; use `alt: ""` only for decoration that communicates no information.
+Do not add image files to the repository. Use the `image` field's picker in
+the `/admin` editor — it opens Cloudinary, where you upload the photo and it
+hands back a hosted link, resized and optimised automatically. Every image
+needs useful `imageAlt` text; use `alt: ""` only for decoration that
+communicates no information.
 
 ## Get ready for a new change
 
@@ -474,7 +480,8 @@ harder.
 - Never commit passwords, tokens, private keys, or personal data.
 - Do not publish photographs of children without a parent's consent.
 - Never push directly to `main`.
-- Never commit an image over 200 KB.
+- Never commit an image file to the repository — use the CMS's Cloudinary
+  picker instead.
 - Do not add packages or change hosting settings without adult approval.
 - Check the Netlify preview before anything is merged.
 - Share the actual error message when asking for help, along with what you

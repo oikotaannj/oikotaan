@@ -18,8 +18,17 @@ backend:
 # directly, which means the same deploy preview the kids use.
 publish_mode: editorial_workflow
 
-media_folder: public/images/uploads
-public_folder: /images/uploads
+# Every image/file field opens Cloudinary's own picker instead of committing
+# the file to this repo. cloud_name and api_key are public identifiers, safe
+# to commit — the api_secret is never needed here, since the widget
+# authenticates through your own Cloudinary login instead.
+# output_filename_only defaults to false, so the field stores the full
+# Cloudinary URL, ready to drop straight into an <img src>.
+media_libraries:
+  cloudinary:
+    config:
+      cloud_name: yxpsjuuc
+      api_key: "441399937953154"
 
 collections:
   - name: pages

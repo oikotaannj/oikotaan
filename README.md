@@ -70,7 +70,9 @@ src/
 run.sh                  Start, stop, check and build the site locally.
 public/
   admin/config.yml      What the editor shows in its form. Read at runtime, not build time.
-  images/uploads/       Images. Keep every file under 200KB.
+  images/uploads/       Images committed before Cloudinary was wired up. New
+                         uploads go through the CMS instead; see "Photographs
+                         and video" below.
 ```
 
 ## Adding an event
@@ -158,14 +160,19 @@ Requires 501(c)(3) verification. Paste the hosted page URLs into
 - Use **Google Forms** for event registration. Netlify Forms caps out around 100
   submissions a month on the free tier, and one popular event clears that.
 
-## Photographs
+## Photographs and video
 
-Do not commit large images. Git keeps every version of every file forever, so a
-single 4MB phone photo makes the repository slower to clone for every person on
-the team from that day on.
+Media is not committed to this repository. Every image or file field in the
+CMS at `/admin` opens **Cloudinary**'s own picker: upload there, and the field
+stores a hosted URL instead of a file in Git. This keeps the repository small
+regardless of how many 4MB phone photos get uploaded, and Cloudinary optimizes
+and resizes on its own, so there is no manual "resize to 1600px" step anymore.
 
-- Banner images: resize to 1600px wide, save under 200KB, put in `public/images/uploads/`.
-- Full galleries: a shared **Google Photos** album, linked from the event page.
+- Banner images and event photos: upload through the CMS field, not by adding
+  a file under `public/images/uploads/` directly.
+- Full galleries and video: upload straight into the shared Cloudinary
+  account and link out from the event page, the same way a Google Photos
+  album link worked before.
 - Publish photographs of children only with a parent's consent. The footer
   carries a takedown contact; keep it working.
 
