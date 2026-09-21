@@ -9,7 +9,7 @@ summary: "Bengali New Year, celebrated the way it should be: with new clothes, l
 image: "/images/uploads/placeholder-event.svg"
 imageAlt: "A table set for a community dinner"
 featured: false
-draft: false
+draft: true
 ---
 
 শুভ নববর্ষ. Join us for our Poila Boishakh dinner, the first gathering of the
