@@ -14,9 +14,13 @@ backend:
   # URL here. See README, "Wiring up the content editor".
   base_url: https://YOUR-AUTH-WORKER.workers.dev # still to deploy, see README
 
-# Editors get a preview branch and a pull request instead of committing to main
-# directly, which means the same deploy preview the kids use.
-publish_mode: editorial_workflow
+# No publish_mode set: Sveltia's default is to commit straight to `main` on
+# save, live as soon as Netlify's next build finishes. Chosen deliberately so
+# non-technical committee members can publish events themselves without a
+# maintainer merging every change — see CONTENT_EDITOR_GUIDE.md. This trades
+# away the review-before-publish safety net that a pull request would give;
+# if that stops being the right tradeoff, set this back to
+# `editorial_workflow` and every save goes through a PR again instead.
 
 # Every image/file field opens Cloudinary's own picker instead of committing
 # the file to this repo. cloud_name and api_key are public identifiers, safe
@@ -52,11 +56,7 @@ collections:
                   media_folder: public/images/site,
                   public_folder: /images/site,
                 }
-              - {
-                  name: imageAlt,
-                  label: Describe the photo for screen readers,
-                  widget: string,
-                }
+              - { name: imageAlt, label: Describe the photo for screen readers, widget: string }
           - label: Programs (3 pillars under the hero)
             name: programs
             widget: list
@@ -77,11 +77,7 @@ collections:
                   media_folder: public/images/site,
                   public_folder: /images/site,
                 }
-              - {
-                  name: alt,
-                  label: Describe the photo for screen readers,
-                  widget: string,
-                }
+              - { name: alt, label: Describe the photo for screen readers, widget: string }
           - label: Contact section
             name: contact
             widget: object

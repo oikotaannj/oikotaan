@@ -76,16 +76,15 @@ Tell the maintainer your exact GitHub username once you have one.
 
 ## What happens after you save
 
-Saving does not put your change on the live website immediately. It creates
-a draft that a maintainer reviews before it goes live — the same safety check
-that applies to every change on this site, code or content. You do not need
-to do anything else; a maintainer will publish it or reach out if something
-needs fixing.
+Saving publishes your change to the live website directly — there is no
+separate review or approval step. It usually appears within a minute or two,
+once Netlify finishes rebuilding the site. That also means a typo or a wrong
+date goes live just as fast, so take a moment to reread the form before you
+click Save, the same way you would before sending an email to the whole
+community.
 
-(If your committee agrees this review step is unnecessary friction for
-routine event updates, ask a maintainer about turning it off — it is a small
-configuration change, not something available in this guide, since it
-affects everyone who uses the editor.)
+If you notice a mistake right after publishing, open the same entry, fix it,
+and save again — that is normal and not something to worry about.
 
 ## If something looks wrong after it's published
 

@@ -386,10 +386,13 @@ editor, called **Sveltia CMS**, at `/admin` on the live site (or
 3. Fill in the form. Each field matches a piece of frontmatter described
    elsewhere in this manual (title, date, image, and so on); the CMS just
    draws them as a form instead of raw text.
-4. Save. The CMS does not touch `main` directly — it creates a branch and
-   pull request for you automatically, the same review step described later
-   in this manual under "Open and finish the pull request." A maintainer
-   still reviews and merges it.
+4. Save. Unlike the branch-and-pull-request workflow described elsewhere in
+   this manual, the CMS is configured to commit straight to `main` — your
+   change goes live as soon as Netlify rebuilds, usually within a minute or
+   two, with no separate review step. That trade was made deliberately (see
+   `public/admin/config.yml`) so non-technical committee members can publish
+   routine updates themselves; it means there is no safety net catching a
+   typo before it's public, so read the form over once before saving.
 
 **As of this writing, sign-in at `/admin` may not work yet** — it depends on a
 one-time setup step (a small Cloudflare Worker) that a maintainer sets up
