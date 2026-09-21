@@ -8,7 +8,13 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
 <header class="sticky top-0 z-40 border-b border-sindoor-100 bg-cream/95 backdrop-blur">
-  <Container class="flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+  <Container class="relative flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+    <!-- The checkbox is the toggle for the mobile menu panel below: no
+         JavaScript needed, just the peer-checked variant on that panel. It has
+         to be a sibling of the panel (both direct children of this row) for
+         that selector to reach it. -->
+    <input type="checkbox" id="nav-toggle" class="peer sr-only" />
+
     <!-- min-w-0 lets this shrink inside the flex row. Without it the long
          organisation name refuses to give up width, the nav is pushed past the
          right edge, and the whole page scrolls sideways on a phone. -->
@@ -34,7 +40,10 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
       </span>
     </a>
 
-    <nav aria-label="Main" class="flex shrink-0 items-center gap-1 sm:gap-2">
+    <!-- Full nav, sm and up. Below sm there isn't room for four links plus
+         Donate beside the logo at any phone width, so it collapses into the
+         toggle menu instead of overflowing sideways. -->
+    <nav aria-label="Main" class="hidden shrink-0 items-center gap-1 sm:flex sm:gap-2">
       {
         nav.map((item) => {
           const href = item.href.replace(/\/+$/, "") || "/";
@@ -64,5 +73,58 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
         Donate
       </a>
     </nav>
+
+    <!-- Mobile toggle, below sm only. -->
+    <label
+      for="nav-toggle"
+      class="flex shrink-0 cursor-pointer items-center justify-center rounded-md p-2 text-ink-soft hover:bg-sindoor-50 sm:hidden"
+      aria-label="Open menu"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        class="h-6 w-6"
+      >
+        <path d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </label>
+
+    <!-- Mobile menu panel. Positioned relative to this row (not <header>) so
+         it drops in directly below it regardless of the row's own height. -->
+    <div class="absolute inset-x-0 top-full hidden border-t border-sindoor-100 bg-cream peer-checked:block sm:hidden">
+      <nav aria-label="Main" class="flex flex-col gap-1 px-5 py-3">
+        {
+          nav.map((item) => {
+            const href = item.href.replace(/\/+$/, "") || "/";
+            const isCurrent = current === href;
+            return (
+              <a
+                href={item.href}
+                aria-current={isCurrent ? "page" : undefined}
+                class:list={[
+                  "rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                  isCurrent
+                    ? "bg-sindoor-50 text-sindoor-700"
+                    : "text-ink-soft hover:bg-sindoor-50 hover:text-sindoor-700",
+                ]}
+              >
+                {item.label}
+              </a>
+            );
+          })
+        }
+        <a
+          href={site.zeffy.donateUrl}
+          target="_blank"
+          rel="noopener"
+          class="mt-1 rounded-md bg-sindoor-600 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-sindoor-700"
+        >
+          Donate
+        </a>
+      </nav>
+    </div>
   </Container>
 </header>
