@@ -18,9 +18,13 @@ Netlify  ──► www.oikotaannj.org
 
 ## Running it locally
 
-New contributors can follow the step-by-step [Teen Contributor Manual](TEEN_MANUAL.md),
-which covers computer setup, VS Code, Git branches, local previews, checks, and
-pull requests.
+New code contributors can follow the step-by-step
+[Teen Contributor Manual](TEEN_MANUAL.md), which covers computer setup, VS Code, Git branches,
+local previews, checks, and pull requests.
+
+Committee members who only want to add or edit events, photos, or page text — no code, no Git —
+should use the [Content Editor Guide](CONTENT_EDITOR_GUIDE.md) instead, which covers the `/admin`
+editor on its own.
 
 You need Node 22. The version is pinned in `.nvmrc`, so `nvm use` picks it up.
 
