@@ -70,9 +70,8 @@ src/
 run.sh                  Start, stop, check and build the site locally.
 public/
   admin/config.yml      What the editor shows in its form. Read at runtime, not build time.
-  images/uploads/       Images committed before Cloudinary was wired up. New
-                         uploads go through the CMS instead; see "Photographs
-                         and video" below.
+  images/uploads/       Holds only placeholder-event.svg. Real photos live in
+                         Cloudinary; see "Photographs and video" below.
 ```
 
 ## Adding an event

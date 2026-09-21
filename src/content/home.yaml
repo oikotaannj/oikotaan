@@ -9,7 +9,7 @@ hero:
     A volunteer-run 501(c)(3) nonprofit bringing Bengali families across New
     Jersey together through cultural programs, language classes and
     community service.
-  image: /images/site/hero-dance.jpg
+  image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012665/oikotaan/hero-dance.jpg
   imageAlt: Young dancers in sequined costumes performing on stage at an Oikotaan program
 
 programs:
@@ -24,15 +24,15 @@ programs:
     description: Volunteering and mutual aid for Bengali families settling into New Jersey.
 
 gallery:
-  - image: /images/site/gallery-saraswati.jpg
+  - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012667/oikotaan/gallery-saraswati.jpg
     alt: Saraswati Puja altar decorated with marigold garlands and paper flowers
-  - image: /images/site/gallery-stage-program.jpg
+  - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012667/oikotaan/gallery-stage-program.jpg
     alt: Children performing a cultural program on stage
-  - image: /images/site/gallery-classical-dance.jpg
+  - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012666/oikotaan/gallery-classical-dance.jpg
     alt: A classical dance duo performing in blue and gold costumes
-  - image: /images/site/gallery-volunteers.jpg
+  - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012668/oikotaan/gallery-volunteers.jpg
     alt: Volunteers holding handmade paper flowers used to decorate a puja stage
-  - image: /images/site/gallery-music-night.jpg
+  - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012666/oikotaan/gallery-music-night.jpg
     alt: Two members sharing a moment at a live music performance
 
 contact:

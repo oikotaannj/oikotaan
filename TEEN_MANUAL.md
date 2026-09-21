@@ -105,7 +105,7 @@ oikotaan/
 │   ├── content.config.ts     Rules for valid event information
 │   └── lib/dates.ts           Shared date formatting helpers
 ├── public/
-│   ├── images/uploads/        Images committed before Cloudinary; new ones don't go here
+│   ├── images/uploads/        Holds one placeholder SVG only; real photos live in Cloudinary
 │   └── admin/config.yml       Settings for the browser content editor, incl. Cloudinary
 ├── .devcontainer/             Optional Codespaces setup
 ├── run.sh                     Start, check, build, and preview commands

@@ -6,7 +6,7 @@ time: "Full day event"
 venue: "Hillsborough Middle School"
 address: "260 Triangle Rd, Hillsborough Township, NJ 08844"
 summary: "A full day of cultural celebration honoring Devi Saraswati, the Hindu goddess of culture and education."
-image: "/images/uploads/saraswati-puja-2026.jpg"
+image: "https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012669/oikotaan/saraswati-puja-2026.jpg"
 imageAlt: "Saraswati Puja 2026 event flyer with a veena, books, a kalash and an idol of Devi Saraswati"
 featured: false
 draft: false
