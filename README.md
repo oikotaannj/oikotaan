@@ -86,6 +86,13 @@ If the build fails with a message about the events collection, the frontmatter
 does not match `src/content.config.ts`. That check is deliberate: it catches a
 missing date on your laptop rather than on the live site.
 
+## If a merge breaks the live site
+
+Netlify keeps every previous deploy. In the Netlify dashboard: **Deploys** →
+find the last good deploy → **Publish deploy**. The site is back within a
+minute. Fix the actual problem afterward, in a normal branch and pull request
+— do not skip review just because the live site is already fixed.
+
 ## One-time setup
 
 Everything below is done once, by an adult, before the kids start.
