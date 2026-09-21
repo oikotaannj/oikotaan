@@ -154,3 +154,59 @@ collections:
           default: false,
         }
       - { name: body, label: Details, widget: markdown }
+
+  - name: impact
+    label: Community Impact
+    label_singular: Impact entry
+    folder: src/content/impact
+    create: true
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: titleBengali, label: Title in Bengali, widget: string, required: false }
+      - {
+          name: date,
+          label: Start date,
+          widget: datetime,
+          date_format: YYYY-MM-DD,
+          time_format: false,
+          picker_utc: true,
+        }
+      - {
+          name: endDate,
+          label: End date (leave blank for a single day),
+          widget: datetime,
+          date_format: YYYY-MM-DD,
+          time_format: false,
+          picker_utc: true,
+          required: false,
+        }
+      - {
+          name: summary,
+          label: One-line summary,
+          widget: text,
+          pattern: ["^.{1,200}$", "Keep this under 200 characters"],
+        }
+      - {
+          name: partner,
+          label: Partner organisation,
+          widget: string,
+          required: false,
+          hint: "e.g. Community FoodBank of New Jersey",
+        }
+      - { name: image, label: Photo, widget: image, required: false }
+      - {
+          name: imageAlt,
+          label: Describe the photo for screen readers,
+          widget: string,
+          required: false,
+        }
+      - {
+          name: draft,
+          label: Hide from the site (still writing it),
+          widget: boolean,
+          default: false,
+        }
+      - { name: body, label: Details, widget: markdown }

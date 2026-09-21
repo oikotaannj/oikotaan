@@ -114,4 +114,40 @@ const about = defineCollection({
   }),
 });
 
-export const collections = { events, home, about };
+/**
+ * Community Impact: things the organisation did — food drives, mutual aid,
+ * volunteering — as distinct from events, which are things people attend.
+ * There is no venue and no single date people show up to, so unlike events
+ * this has no upcoming/past split: it is a reverse-chronological record of
+ * completed activity, useful on its own and as evidence of real activity for
+ * things like Google for Nonprofits verification.
+ *
+ * date/endDate reuse the same range as events (e.g. a half-year food drive
+ * runs 2026-01-01 to 2026-06-30) so formatDateRange in lib/dates.ts already
+ * handles it without change.
+ */
+const impact = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/impact" }),
+  schema: z.object({
+    title: z.string(),
+    titleBengali: z.string().optional(),
+
+    date: z.coerce.date(),
+    endDate: z.coerce.date().optional(),
+
+    summary: z.string().max(200),
+
+    // Credit a partner organisation, e.g. "Community FoodBank of New Jersey".
+    partner: z.string().optional(),
+
+    // Path under public/, e.g. /images/uploads/food-drive-2026.jpg
+    // Keep these under 200KB, same rule as event images.
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+
+    // Set to true to keep a half-written entry out of the build.
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { events, home, about, impact };
