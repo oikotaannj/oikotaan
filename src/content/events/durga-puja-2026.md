@@ -19,15 +19,20 @@ time.
 
 ## What to expect
 
-- **Anjali** each morning at 9:30 AM, followed by prasad
-- **Bhog** served from 12:30 PM on all four days, vegetarian and free for all attendees
+- **Anjali** (a morning prayer offering, open to all) each morning at 9:30 AM,
+  followed by prasad (blessed food shared with everyone present)
+- **Bhog** (a full vegetarian meal, blessed and offered to all) served from
+  12:30 PM on all four days, free for all attendees
 - **Cultural programs** every evening from 6:00 PM, featuring our own children's
   dance and recitation groups alongside visiting artists
-- **Dhunuchi naach** on Navami evening, and **sindoor khela** on Dashami afternoon
+- **Dhunuchi naach** (a devotional dance performed with burning incense
+  censers) on Navami evening, the ninth and most festive day of the puja, and
+  **sindoor khela** (a celebration where women mark each other with vermilion
+  powder) on Dashami afternoon, the final day
 
 ## Volunteering
 
-Puja runs entirely on volunteers. We need help with bhog service, parking,
+Puja runs entirely on volunteers. We need help with serving bhog, parking,
 stage management and cleanup. Tell us where you would like to pitch in through
 the contact form on the homepage and a committee member will get in touch.
 

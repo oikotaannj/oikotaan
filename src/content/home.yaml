@@ -4,11 +4,11 @@
 # checked against at build time.
 hero:
   kicker: "ঐকতান"
-  heading: "Celebrating Bengali culture, language and community in New Jersey."
+  heading: "Building community and celebrating Bengali culture in New Jersey."
   description: >-
-    A volunteer-run 501(c)(3) nonprofit bringing Bengali families across New
-    Jersey together through cultural programs, language classes and
-    community service.
+    A volunteer-run 501(c)(3) nonprofit rooted in Bengali culture and open to
+    the whole community, bringing New Jersey families together through
+    cultural programs, language classes and community service.
   image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012665/oikotaan/hero-dance.jpg
   imageAlt: Young dancers in sequined costumes performing on stage at an Oikotaan program
 
@@ -21,7 +21,7 @@ programs:
     description: Bengali reading, writing and conversation for kids growing up outside Bengal.
   - icon: heart
     title: Community service
-    description: Volunteering and mutual aid for Bengali families settling into New Jersey.
+    description: Volunteering and mutual aid for families in our community, in New Jersey and beyond.
 
 gallery:
   - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012667/oikotaan/gallery-saraswati.jpg

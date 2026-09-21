@@ -10,9 +10,9 @@ export const site = {
   name: "Oikotaan",
   shortName: "Oikotaan",
   nameBengali: "ঐকতান",
-  tagline: "Celebrating Bengali culture, language and community in New Jersey.",
+  tagline: "Building community and celebrating Bengali culture in New Jersey.",
   description:
-    "A volunteer-run 501(c)(3) nonprofit bringing Bengali families across New Jersey together through cultural programs, language classes and community service.",
+    "A volunteer-run 501(c)(3) nonprofit rooted in Bengali culture and open to the whole community, bringing New Jersey families together through cultural programs, language classes and community service.",
 
   email: "oikotaanassociationofusa@gmail.com",
   town: "6 Matthew Road, Hillsborough, NJ 08844",
