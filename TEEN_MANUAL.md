@@ -9,29 +9,35 @@ and a habit of previewing your work before asking for it to be published.
 The website is made from files in this repository:
 
 - **Astro** turns the files into web pages.
-- **Markdown** files contain event information.
+- **Markdown** and **YAML** files contain event, homepage, About, and
+  Community Impact content.
 - **CSS** controls colours, fonts, spacing, and layout.
 - **Git** records changes on your computer.
 - **GitHub** stores the project and lets people review changes.
 - **Netlify** builds pull requests and gives each one a private preview URL.
+- **Cloudinary** stores every photo and video, outside the repository.
+- **The content editor** (`/admin`) is a no-code way to change content — see
+  "The content editor" section below.
 
 The live website comes from `main`. You should never edit `main` directly. Make
 a branch, make one focused change, open a pull request, and wait for review.
+Editing through `/admin` instead of code follows this same rule automatically —
+see below.
 
 ## How websites work
 
 A website is a collection of files and services that work together:
 
 - A **domain name** is the human-friendly address, such as
-   `www.oikotaannj.org`.
+  `www.oikotaannj.org`.
 - A **browser** requests a page when someone types an address or clicks a link.
 - A **host** stores the website and sends its files back to the browser.
 - A **page** is the content shown at one address, such as a home page or event
-   page.
+  page.
 - **Assets** are supporting files such as images, fonts, styles, and scripts.
 - A **link** connects one page or website to another.
 - A **form** collects information from a visitor and sends it to a service or
-   inbox.
+  inbox.
 
 The browser turns the files it receives into the page people see. It combines
 the page's content with its layout, colours, images, and interactive behaviour.
@@ -97,16 +103,20 @@ Open the `oikotaan` folder in VS Code. These are the places you will use most:
 oikotaan/
 ├── src/
 │   ├── content/events/       Event Markdown files; one file creates one event
+│   ├── content/impact/       Community Impact entries; one file creates one entry
+│   ├── content/home.yaml     Homepage text, hero image, programs, gallery
+│   ├── content/about.yaml    About page's mission statement
 │   ├── components/           Reusable pieces such as the header and event card
 │   ├── layouts/              The shared shell around every page
-│   ├── pages/                Website routes; index.astro is the homepage
+│   ├── pages/                Website routes; index.astro is the homepage,
+│   │                         about.astro is /about/, impact/index.astro is /impact/
 │   ├── styles/global.css     Colours, fonts, spacing, and global styles
-│   ├── site.config.ts        Organisation details and external links
-│   ├── content.config.ts     Rules for valid event information
+│   ├── site.config.ts        Organisation details, legal/tax facts, external links
+│   ├── content.config.ts     Rules every content file is checked against
 │   └── lib/dates.ts           Shared date formatting helpers
 ├── public/
 │   ├── images/uploads/        Holds one placeholder SVG only; real photos live in Cloudinary
-│   └── admin/config.yml       Settings for the browser content editor, incl. Cloudinary
+│   └── admin/config.yml       Settings for the content editor, incl. Cloudinary
 ├── .devcontainer/             Optional Codespaces setup
 ├── run.sh                     Start, check, build, and preview commands
 ├── package.json               Project commands and package list
@@ -132,14 +142,18 @@ Good beginner tasks include:
 - fixing a typo or changing wording;
 - adding or updating an event;
 - adding an event image;
-- changing a homepage sentence;
+- adding a Community Impact entry (a food drive, volunteering, mutual aid);
+- changing a homepage sentence or the About page's mission text;
 - making a small spacing or layout improvement.
 
 Ask an adult or technical maintainer before changing:
 
 - `package.json`, Node versions, or installed packages;
 - `astro.config.mjs`, `netlify.toml`, or deployment settings;
-- GitHub permissions, Netlify, the domain, or CMS authentication;
+- GitHub permissions, Netlify, the domain, Cloudinary, or CMS authentication;
+- the legal/tax facts near the top of `src/site.config.ts` (legal name, EIN,
+  incorporation date, tax-exempt status) — these have to match the
+  organisation's actual state and IRS filings exactly;
 - routing, the content schema, or anything involving privacy or security.
 
 ## Set up your computer
@@ -302,11 +316,17 @@ When you are done, stop the site with:
 | Task                                           | File or folder                                  |
 | ---------------------------------------------- | ----------------------------------------------- |
 | Add or edit an event                           | `src/content/events/`                           |
-| Change homepage text or structure              | `src/pages/index.astro`                         |
+| Add or edit a Community Impact entry           | `src/content/impact/`                           |
+| Change homepage text, hero image, or gallery   | `src/content/home.yaml`                         |
+| Change the About page's mission text           | `src/content/about.yaml`                        |
+| Change homepage structure (not just text)      | `src/pages/index.astro`                         |
 | Change the header or footer everywhere         | `src/components/Header.astro` or `Footer.astro` |
 | Change colours and fonts                       | `src/styles/global.css`                         |
 | Change organisation details and external links | `src/site.config.ts`                            |
 | Change the page shell and `<head>`             | `src/layouts/BaseLayout.astro`                  |
+
+Everything in the first four rows can also be edited without touching code at
+all, through the content editor — see "The content editor" below.
 
 For a normal event update, the safest choice is an existing Markdown file in
 `src/content/events/`. The filename becomes part of the event URL.
@@ -346,6 +366,58 @@ the `/admin` editor — it opens Cloudinary, where you upload the photo and it
 hands back a hosted link, resized and optimised automatically. Every image
 needs useful `imageAlt` text; use `alt: ""` only for decoration that
 communicates no information.
+
+## The content editor (`/admin`)
+
+Everything above this point describes editing content by hand, in code,
+through a branch and a pull request. There is a second way to make the same
+kind of change — events, the homepage, the About page, Community Impact
+entries — without opening a code editor or knowing Git at all: the content
+editor, called **Sveltia CMS**, at `/admin` on the live site (or
+`./run.sh admin` locally).
+
+1. Open `/admin` and sign in with your GitHub account. You need the same
+   repository access described in "Get access to the repository" above —
+   the CMS is just a friendlier window onto the same GitHub repository, not a
+   separate system with its own permissions.
+2. Pick a collection on the left — **Events**, **Community Impact**, or one of
+   the singleton **Pages** entries (Home Page, About Page) — and either open an
+   existing entry or create a new one.
+3. Fill in the form. Each field matches a piece of frontmatter described
+   elsewhere in this manual (title, date, image, and so on); the CMS just
+   draws them as a form instead of raw text.
+4. Save. The CMS does not touch `main` directly — it creates a branch and
+   pull request for you automatically, the same review step described later
+   in this manual under "Open and finish the pull request." A maintainer
+   still reviews and merges it.
+
+**As of this writing, sign-in at `/admin` may not work yet** — it depends on a
+one-time setup step (a small Cloudflare Worker) that a maintainer sets up
+separately from anything in this manual. If sign-in fails, that is very
+likely why; ask a maintainer whether it has been deployed rather than
+assuming your account or computer is the problem.
+
+## Cloudinary (photos and video)
+
+Photos and video are not stored in this Git repository — they live in
+**Cloudinary**, a separate hosting service, and every image/file field in the
+CMS (the `image` field on an event, for example) opens Cloudinary's own
+picker instead of your computer's file browser. This keeps the repository
+small no matter how many photos get added over the years: Git keeps every
+version of every file forever, and a few years of full-size event photos
+would make cloning the project slow for everyone on the team.
+
+To add a photo: open the relevant field in `/admin` and use Cloudinary's
+upload button. You should not need to sign into Cloudinary separately — the
+picker already knows which account to use. If it ever does prompt you to sign
+in, stop and ask a maintainer rather than creating your own Cloudinary
+account; photos need to land in the organisation's shared account, not a
+personal one.
+
+If you are editing an event's Markdown file directly instead of through
+`/admin`, the `image` field is a full Cloudinary URL
+(`https://res.cloudinary.com/...`) — copy it from Cloudinary or from the CMS
+rather than typing one by hand.
 
 ## Get ready for a new change
 
@@ -474,6 +546,11 @@ passwords or tokens into chat.
 **You changed or deleted the wrong thing.** Stop editing and ask for help. Git
 usually has the old version, so more random changes will only make recovery
 harder.
+
+**`/admin` will not let you sign in.** The CMS's GitHub sign-in depends on a
+separate one-time setup step a maintainer does; it may simply not be deployed
+yet. Ask a maintainer rather than assuming it is your account. In the
+meantime, edit the same content by hand in code — see "Where to edit."
 
 ## Safety and privacy rules
 
