@@ -101,9 +101,10 @@ needed.
 
 ## Troubleshooting
 
-**Sign-in does nothing, or shows an error.** This may mean the editor's
-sign-in system is not finished being set up yet — ask a maintainer rather
-than assuming it's something you did wrong.
+**Sign-in does nothing, or shows an error.** Ask a maintainer rather than
+assuming it's something you did wrong — most sign-in problems trace back to
+step 2 above (not yet added as a collaborator) rather than anything on your
+end.
 
 **"Fork this repository" instead of a normal sign-in.** You have not been
 added as a collaborator yet, or have not accepted the invitation — check

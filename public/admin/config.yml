@@ -10,9 +10,7 @@ backend:
   # and the OAuth app below has to be re-pointed at the new owner.
   repo: oikotaannj/oikotaan
   branch: main
-  # One-time setup: deploy the sveltia-cms-auth Cloudflare Worker and put its
-  # URL here. See README, "Wiring up the content editor".
-  base_url: https://YOUR-AUTH-WORKER.workers.dev # still to deploy, see README
+  base_url: https://sveltia-cms-auth.oikotaanassociationofusa.workers.dev
 
 # No publish_mode set: Sveltia's default is to commit straight to `main` on
 # save, live as soon as Netlify's next build finishes. Chosen deliberately so

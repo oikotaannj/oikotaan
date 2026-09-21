@@ -125,20 +125,23 @@ them two years later.
 Every pull request now gets its own live preview URL. That is the best part of
 this setup: a change can be looked at on a phone before anyone merges it.
 
-### 3. Wiring up the content editor
+### 3. Wiring up the content editor — done
 
-Sveltia CMS talks to GitHub, and GitHub requires an OAuth application. There is
-no shared public one, on purpose, so there is a ten-minute setup:
+Sveltia CMS talks to GitHub, and GitHub requires an OAuth application. There
+is no shared public one, on purpose, so this was a one-time setup:
 
-1. Deploy [`sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) to
-   Cloudflare Workers, free tier, following its README.
-2. Create a GitHub OAuth app pointing at that worker.
-3. Put the worker URL in `public/admin/config.yml` as `base_url`, and set `repo`
-   to your organisation and repository.
+1. [`sveltia-cms-auth`](https://github.com/sveltia/sveltia-cms-auth) is
+   deployed to Cloudflare Workers, under the `oikotaannj` Cloudflare account,
+   as its own `oikotaannj/sveltia-cms-auth` repo.
+2. A GitHub OAuth app ("Oikotaan CMS") is registered under the `oikotaannj`
+   org, pointing at that worker's `/callback`.
+3. The worker's URL is in `public/admin/config.yml` as `base_url`.
 
-If deploying a worker is more than you want to take on, **[Pages CMS](https://pagescms.org)**
-does the same job with hosted authentication and a `.pages.yml` file instead.
-Same idea, no worker, one more vendor in the stack.
+If this ever needs redoing (a new worker, a new OAuth app), [Pages CMS](https://pagescms.org)
+is worth a look as a lower-effort alternative — no worker to deploy, hosted
+auth instead. It does not support Cloudinary, though, only Git-committed
+media, so switching would mean giving up the Cloudinary setup described under
+"Photographs and video" below.
 
 ### 4. Zeffy
 

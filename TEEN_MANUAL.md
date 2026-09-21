@@ -404,11 +404,11 @@ CMS's `publish_mode` is set to. Keep it that way: adding a new collection to
 `config.yml` inherits direct-publish too, so think about whether that's still
 "editorial" before adding one.
 
-**As of this writing, sign-in at `/admin` may not work yet** — it depends on a
-one-time setup step (a small Cloudflare Worker) that a maintainer sets up
-separately from anything in this manual. If sign-in fails, that is very
-likely why; ask a maintainer whether it has been deployed rather than
-assuming your account or computer is the problem.
+Sign-in depends on a small Cloudflare Worker a maintainer deployed separately
+from anything in this manual (`sveltia-cms-auth`, wired to a GitHub OAuth app
+under the `oikotaannj` org). If sign-in ever fails for everyone at once
+rather than just you, that worker or OAuth app is the first place to check,
+not your own account.
 
 ## Cloudinary (photos and video)
 
