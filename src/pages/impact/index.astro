@@ -27,7 +27,7 @@ const items = await Promise.all(
       items.length > 0 ? (
         <div class="mt-12 space-y-12">
           {items.map(({ entry, Content }) => {
-            const { title, titleBengali, date, endDate, summary, partner, image, imageAlt } =
+            const { title, titleBengali, date, endDate, summary, partner, image, imageAlt, gallery } =
               entry.data;
             return (
               <article class="overflow-hidden rounded-2xl border border-sindoor-100 bg-white">
@@ -61,6 +61,19 @@ const items = await Promise.all(
                   <div class="prose prose-sm mt-4 max-w-none text-ink-soft prose-headings:text-ink prose-a:text-sindoor-700">
                     <Content />
                   </div>
+                  {gallery && gallery.length > 0 && (
+                    <div class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                      {gallery.map((photo) => (
+                        <img
+                          src={photo.image}
+                          alt={photo.alt}
+                          loading="lazy"
+                          decoding="async"
+                          class="aspect-square w-full rounded-lg object-cover"
+                        />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </article>
             );

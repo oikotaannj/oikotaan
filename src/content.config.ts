@@ -145,6 +145,19 @@ const impact = defineCollection({
     image: z.string().optional(),
     imageAlt: z.string().optional(),
 
+    // Supporting photos shown in a grid below the banner, same shape as
+    // home.yaml's gallery. Each keeps its own alt text rather than being
+    // flattened into one collage image, which would lose that and need
+    // regenerating by hand every time a photo changes.
+    gallery: z
+      .array(
+        z.object({
+          image: z.string(),
+          alt: z.string(),
+        }),
+      )
+      .optional(),
+
     // Set to true to keep a half-written entry out of the build.
     draft: z.boolean().default(false),
   }),

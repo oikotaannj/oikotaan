@@ -196,13 +196,21 @@ collections:
           required: false,
           hint: "e.g. Community FoodBank of New Jersey",
         }
-      - { name: image, label: Photo, widget: image, required: false }
+      - { name: image, label: Banner photo, widget: image, required: false }
       - {
           name: imageAlt,
-          label: Describe the photo for screen readers,
+          label: Describe the banner photo for screen readers,
           widget: string,
           required: false,
         }
+      - label: More photos
+        name: gallery
+        widget: list
+        required: false
+        summary: "{{fields.alt}}"
+        fields:
+          - { name: image, label: Photo, widget: image }
+          - { name: alt, label: Describe the photo for screen readers, widget: string }
       - {
           name: draft,
           label: Hide from the site (still writing it),

@@ -4,6 +4,17 @@ date: 2026-01-01
 endDate: 2026-06-30
 summary: "Collected food donations from the community for the Community FoodBank of New Jersey, feeding dozens of local families in need."
 partner: "Community FoodBank of New Jersey (CFBNJ)"
+image: "/images/uploads/food-drive-h1-2026.jpg"
+imageAlt: "A donation bin overflowing with canned goods next to a Community FoodBank of New Jersey food donations sign"
+gallery:
+  - image: /images/uploads/food-drive-cans.jpg
+    alt: Canned goods and pantry staples collected in a wire donation bin
+  - image: /images/uploads/food-drive-team.jpg
+    alt: An Oikotaan volunteer at the Community FoodBank of New Jersey, in front of a mural reading Food, Help, Hope
+  - image: /images/uploads/food-drive-mural.jpg
+    alt: A CFBNJ lobby wall reading Food for Today, Hope for the Future, Help for Tomorrow
+  - image: /images/uploads/food-drive-storefront.jpg
+    alt: The Community FoodBank of New Jersey storefront entrance
 draft: false
 ---
 
