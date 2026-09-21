@@ -9,11 +9,15 @@ store submissions is handed to a service that does it for free.
 GitHub (source of truth)
    │  merge to main
    ▼
-Netlify  ──► www.oikotaannj.org
+Netlify  ──► www.oikotaannj.org  (live)
    │
    ├── Netlify Forms  → general enquiries (~100/month on the free tier)
    ├── Zeffy          → donations, tickets, membership (no fees to us)
+   ├── Cloudinary     → every photo and video, not committed to this repo
    └── Google Calendar→ rehearsals, classes, committee meetings
+
+/admin (Sveltia CMS) ──► GitHub OAuth via a Cloudflare Worker ──► commits
+straight to main (no PR review — see "Wiring up the content editor" below)
 ```
 
 ## Running it locally
@@ -62,18 +66,22 @@ billed for the organisation before putting a whole class on it.
 
 ```
 src/
-  site.config.ts        Org name, email, Zeffy links, calendar ID. Edit here, not in templates.
-  content.config.ts     The schema every event file is checked against at build time.
+  site.config.ts        Org name, email, legal/tax facts, Zeffy links, calendar ID. Edit here, not in templates.
+  content.config.ts     The schema every content file is checked against at build time.
   content/events/       One Markdown file per event. Adding a file adds a page.
+  content/impact/       One Markdown file per Community Impact entry (food drives, volunteering).
+  content/home.yaml     Homepage text, hero image, programs, gallery. Singleton.
+  content/about.yaml    About page's mission statement. Singleton.
   components/           Reusable pieces: Header, Footer, EventCard, ContactForm.
   layouts/BaseLayout    The shell every page sits inside: <head>, fonts, header, footer.
-  pages/                One file per route. index.astro is the homepage.
+  pages/                One file per route: index.astro (/), about.astro (/about/),
+                         events/ (/events/), impact/ (/impact/).
   pages/admin/          The content editor, served at /admin
   styles/global.css     Colours and fonts, defined once as Tailwind tokens.
   lib/dates.ts          Date formatting, including the UTC handling events depend on.
 run.sh                  Start, stop, check and build the site locally.
 public/
-  admin/config.yml      What the editor shows in its form. Read at runtime, not build time.
+  admin/config.yml      What the editor shows in its form, incl. Cloudinary. Read at runtime, not build time.
   images/uploads/       Holds only placeholder-event.svg. Real photos live in
                          Cloudinary; see "Photographs and video" below.
 ```
@@ -82,10 +90,14 @@ public/
 
 Two ways, and they produce the same commit.
 
-**In the browser:** go to `/admin`, sign in with GitHub, fill in the form.
+**In the browser:** go to `/admin`, sign in with GitHub, fill in the form, save.
+This commits straight to `main` and is live within a minute or two — there is
+no pull request to merge, by design (see "Wiring up the content editor").
+Reread the form before saving; there is no review step catching a typo.
 
 **In code:** create `src/content/events/your-event.md`, copy the frontmatter from
-an existing file, and change it. The filename becomes the URL.
+an existing file, and change it. The filename becomes the URL. This path still
+goes through a normal branch and pull request.
 
 If the build fails with a message about the events collection, the frontmatter
 does not match `src/content.config.ts`. That check is deliberate: it catches a
@@ -108,19 +120,39 @@ The usual way a volunteer-built nonprofit site dies is that the domain, the repo
 and the hosting all sit in one student's personal account and nobody can reach
 them two years later.
 
-- [ ] GitHub **Organization** account with at least two adults as owners
-- [ ] Netlify **team**, same two adults
-- [ ] Domain registered to the organisation, using an organisation email address
-- [ ] Zeffy account in the organisation's legal name
+- [x] GitHub **Organization** account (`oikotaannj`) — the repo lives there,
+      not in a personal account. Still worth adding a second adult as owner;
+      only one is confirmed as of this writing.
+- [x] Netlify, under the organisation's shared email
+      (`oikotaanassociationofusa@gmail.com`), not a personal account
+- [x] Domain (`oikotaannj.org`) registered under that same shared email, via
+      Cloudflare
+- [ ] Zeffy account in the organisation's legal name — still pending; the
+      hosted page URLs in `src/site.config.ts` are still placeholders
 
-### 2. Netlify
+### 2. Netlify — done
 
-1. Netlify → **Add new site** → **Import an existing project** → pick this repo.
-2. Build command `npm run build`, publish directory `dist`. `netlify.toml`
-   already says so, so the defaults should be correct.
-3. Add the custom domain. Netlify issues the HTTPS certificate itself.
-4. **Forms** → check that the `contact` form appears after the first deploy, and
-   add an email notification so submissions reach a real inbox.
+1. Site imported from `oikotaannj/oikotaan`. `netlify.toml`'s build command
+   (`npm run build`) and publish directory (`dist`) were picked up
+   automatically.
+2. Custom domain added, with `www.oikotaannj.org` set as the **primary**
+   domain (the bare `oikotaannj.org` redirects to it) — matches the canonical
+   URL `astro.config.mjs`/`site.config.ts` already assume.
+3. DNS lives in Cloudflare, not Netlify DNS, so it stays in one place
+   alongside whatever Google Workspace's MX records need later: a flattened
+   `CNAME` at the apex to `apex-loadbalancer.netlify.com`, and a `CNAME` for
+   `www` to the site's `*.netlify.app` subdomain, both set to **DNS only**
+   (grey cloud) — proxying either one through Cloudflare breaks Netlify's
+   certificate issuance.
+4. HTTPS is live (Netlify's automatic Let's Encrypt certificate).
+5. Netlify's site-wide visitor-access gate (shown as "Private" in the
+   dashboard on a fresh site) has been switched to public — worth knowing
+   this exists, since a new site defaults to gated and looks broken to an
+   anonymous visitor until someone clicks "Make public."
+
+**Still to verify**: that the `contact` Netlify Form is actually being
+detected (**Forms** tab in the dashboard) and has an email notification
+wired up so submissions reach a real inbox, not just Netlify's dashboard.
 
 Every pull request now gets its own live preview URL. That is the best part of
 this setup: a change can be looked at on a phone before anyone merges it.
@@ -184,7 +216,11 @@ and resizes on its own, so there is no manual "resize to 1600px" step anymore.
 
 ## What this costs
 
-|                 |           |
-| --------------- | --------- |
-| Domain          | ~$12/year |
-| Everything else | $0        |
+|                                                                 |                   |
+| --------------------------------------------------------------- | ----------------- |
+| Domain                                                          | ~$12/year         |
+| Everything else (Netlify, Cloudflare Worker, Cloudinary, Zeffy) | $0, on free tiers |
+
+Cloudinary's free tier is generous for a site this size, but it is shared
+across storage, bandwidth and transformations — worth an occasional glance at
+the Cloudinary dashboard if the photo/video library grows a lot.
