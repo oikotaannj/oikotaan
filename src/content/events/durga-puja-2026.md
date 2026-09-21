@@ -10,7 +10,7 @@ summary: "Four days of pujo, anjali, dhunuchi naach and bhog. Our largest gather
 image: "/images/uploads/placeholder-event.svg"
 imageAlt: "Marigold garlands strung across a community hall stage"
 featured: true
-draft: false
+draft: true
 ---
 
 Our four-day Durga Puja returns to Edison High School. Everyone is welcome,
