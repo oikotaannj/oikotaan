@@ -190,7 +190,7 @@ Ask the project maintainer for repository access if GitHub says you do not have
 permission. In a terminal, run:
 
 ```bash
-git clone https://github.com/subhachak/oikotaan.git
+git clone https://github.com/oikotaannj/oikotaan.git
 cd oikotaan
 npm install
 code .

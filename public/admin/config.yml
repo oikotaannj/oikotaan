@@ -8,7 +8,7 @@ backend:
   name: github
   # Moving this repository into an organisation account changes this line,
   # and the OAuth app below has to be re-pointed at the new owner.
-  repo: subhachak/oikotaan
+  repo: oikotaannj/oikotaan
   branch: main
   # One-time setup: deploy the sveltia-cms-auth Cloudflare Worker and put its
   # URL here. See README, "Wiring up the content editor".
