@@ -394,6 +394,16 @@ editor, called **Sveltia CMS**, at `/admin` on the live site (or
    routine updates themselves; it means there is no safety net catching a
    typo before it's public, so read the form over once before saving.
 
+This is only safe because of what `/admin` cannot do: it only ever edits
+fields inside the four collections defined in `public/admin/config.yml`, each
+bounded by the schema in `content.config.ts`. There is no field anywhere in
+it that creates a page, a route, a nav item, or a new collection — anything
+structural like that requires editing an `.astro`/`.ts` file directly, which
+stays on the branch → pull request → review → merge path no matter what the
+CMS's `publish_mode` is set to. Keep it that way: adding a new collection to
+`config.yml` inherits direct-publish too, so think about whether that's still
+"editorial" before adding one.
+
 **As of this writing, sign-in at `/admin` may not work yet** — it depends on a
 one-time setup step (a small Cloudflare Worker) that a maintainer sets up
 separately from anything in this manual. If sign-in fails, that is very

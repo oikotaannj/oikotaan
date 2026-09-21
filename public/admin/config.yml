@@ -21,6 +21,17 @@ backend:
 # away the review-before-publish safety net that a pull request would give;
 # if that stops being the right tradeoff, set this back to
 # `editorial_workflow` and every save goes through a PR again instead.
+#
+# This is deliberately safe only because of what this file does NOT expose:
+# every field below is bounded by the Zod schema in src/content.config.ts, and
+# there is no collection here that can create a page, a route, a nav item, or
+# a new content type — only new or edited entries within the four collections
+# already defined. That is what keeps "direct-publish" scoped to editorial
+# content. A genuinely structural change (a new page, a new collection, a
+# layout change) always requires editing an .astro/.ts file directly, which
+# stays on the ordinary branch -> pull request -> review -> merge path
+# regardless of this setting — adding a new collection here is the one way to
+# accidentally break that boundary, so think it through before doing so.
 
 # Every image/file field opens Cloudinary's own picker instead of committing
 # the file to this repo. cloud_name and api_key are public identifiers, safe

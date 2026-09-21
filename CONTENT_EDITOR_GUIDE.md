@@ -15,6 +15,13 @@ website.
 - Update the homepage's text, hero photo, or photo gallery
 - Update the About page's mission text
 
+This editor cannot create a new page, change the menu, or restructure the
+site — those things simply are not here to edit. It only reaches the content
+above, which is why saving publishes immediately without anyone reviewing it
+first: an unusual date or a typo is easy to fix, and nothing you can do here
+can break the website itself. If you ever want something the editor does not
+offer, ask a maintainer — that is a code change, not a content one.
+
 ## Before you start
 
 Ask a maintainer for two things:
