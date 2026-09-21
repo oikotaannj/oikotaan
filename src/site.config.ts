@@ -17,8 +17,27 @@ export const site = {
   email: "hello@oikotaannj.org",
   town: "6 Matthew Road, Hillsborough, NJ 08844",
 
+  /**
+   * Legal identity, straight from the Certificate of Formation, the IRS EIN
+   * letter (CP 575 E) and the 501(c)(3) determination letter, all dated
+   * November 2025. This is what Google/Goodstack and similar nonprofit
+   * verifiers check the site against, so it lives here — a code change and a
+   * PR review — rather than in the CMS, where a typo would be one save away.
+   */
+  legalName: "Oikotaan Association of USA",
+  ein: "41-2452692",
+  incorporated: {
+    state: "New Jersey",
+    date: "2025-11-06",
+  },
+  taxExempt: {
+    section: "501(c)(3)",
+    publicCharityStatus: "509(a)(2)",
+    effectiveDate: "2025-11-06",
+  },
+
   social: {
-    facebook: "https://facebook.com/",
+    facebook: "https://www.facebook.com/people/Oikotaan-NJ/61583657484226/",
     instagram: "https://instagram.com/",
     youtube: "",
   },
@@ -45,5 +64,6 @@ export const site = {
 
 export const nav = [
   { label: "Home", href: "/" },
+  { label: "About", href: "/about/" },
   { label: "Events", href: "/events/" },
 ] as const;

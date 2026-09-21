@@ -1,0 +1,79 @@
+---
+import { getEntry } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/Container.astro";
+import { site } from "../site.config";
+import { formatDate } from "../lib/dates";
+
+const aboutEntry = await getEntry("about", "about");
+if (!aboutEntry) {
+  throw new Error("src/content/about.yaml is missing its top-level `mission:` key");
+}
+const { mission } = aboutEntry.data;
+
+const incorporatedDate = formatDate(new Date(site.incorporated.date));
+const exemptDate = formatDate(new Date(site.taxExempt.effectiveDate));
+---
+
+<BaseLayout
+  title="About"
+  description="Oikotaan's mission, and its legal and tax-exempt status as a New Jersey nonprofit corporation."
+>
+  <Container class="py-12 sm:py-16">
+    <h1 class="text-3xl font-bold text-ink sm:text-4xl">About {site.name}</h1>
+    <span class="mt-3 block h-1 w-16 rounded-full bg-marigold-500" aria-hidden="true"></span>
+
+    <section class="mt-10 max-w-2xl">
+      <h2 class="text-2xl font-bold text-ink">{mission.heading}</h2>
+      <p class="mt-4 text-lg leading-relaxed text-ink-soft">{mission.body}</p>
+    </section>
+
+    <section class="mt-14 rounded-2xl border border-sindoor-100 bg-white p-8 sm:p-10">
+      <h2 class="text-xl font-bold text-ink">Nonprofit status</h2>
+      <p class="mt-2 text-sm text-ink-soft">
+        {site.legalName} is a tax-exempt public charity. Donations are deductible to the extent
+        allowed by law.
+      </p>
+
+      <dl class="mt-6 grid gap-6 sm:grid-cols-2">
+        <div>
+          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">Legal name</dt>
+          <dd class="mt-1 font-medium text-ink">{site.legalName}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">EIN</dt>
+          <dd class="mt-1 font-medium text-ink">{site.ein}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">Incorporated</dt>
+          <dd class="mt-1 font-medium text-ink">
+            {site.incorporated.state}, {incorporatedDate}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">Tax-exempt status</dt>
+          <dd class="mt-1 font-medium text-ink">
+            {site.taxExempt.section} public charity ({site.taxExempt.publicCharityStatus})
+          </dd>
+          <dd class="text-sm text-ink-soft">Effective {exemptDate}</dd>
+        </div>
+        <div class="sm:col-span-2">
+          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">
+            Registered address
+          </dt>
+          <dd class="mt-1 font-medium text-ink">{site.town}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="mt-10 max-w-2xl">
+      <p class="text-ink-soft">
+        Questions about our nonprofit status or documentation? Email
+        <a href={`mailto:${site.email}`} class="font-medium text-sindoor-700 hover:underline">
+          {site.email}
+        </a>
+        .
+      </p>
+    </section>
+  </Container>
+</BaseLayout>

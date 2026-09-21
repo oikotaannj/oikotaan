@@ -95,4 +95,23 @@ const home = defineCollection({
   }),
 });
 
-export const collections = { events, home };
+/**
+ * The About page's editable prose: the mission statement committee members
+ * may want to revise over time. Legal facts that must stay in lockstep with
+ * the state and IRS filings — legal name, EIN, incorporation date, tax-exempt
+ * status — live in src/site.config.ts instead, so they change through a PR
+ * rather than a CMS save. See that file for why.
+ *
+ * Same singleton pattern as `home`: one file, glob-loaded, id is "about".
+ */
+const about = defineCollection({
+  loader: glob({ pattern: "about.yaml", base: "./src/content" }),
+  schema: z.object({
+    mission: z.object({
+      heading: z.string(),
+      body: z.string(),
+    }),
+  }),
+});
+
+export const collections = { events, home, about };

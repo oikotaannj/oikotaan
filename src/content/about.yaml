@@ -1,0 +1,12 @@
+# The About page's editable content, read by src/pages/about.astro.
+# Edit this by hand, or through the "About Page" entry at /admin — both write
+# to this same file. Legal facts (EIN, incorporation date, tax-exempt status)
+# are not here: they live in src/site.config.ts, see that file for why.
+mission:
+  heading: Our mission
+  body: >-
+    Oikotaan Association of USA is committed to promoting cultural awareness,
+    fostering social harmony, and supporting economically disadvantaged
+    communities, both locally and globally. We pursue this mission by
+    organizing cultural exchange programs, festivals and educational events
+    that celebrate diversity.

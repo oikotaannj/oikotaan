@@ -80,6 +80,21 @@ collections:
               - { name: heading, label: Heading, widget: string }
               - { name: body, label: Body text, widget: text }
 
+      - name: about
+        label: About Page
+        file: src/content/about.yaml
+        fields:
+          - label: Mission
+            name: mission
+            widget: object
+            hint: >-
+              Legal name, EIN and tax-exempt status on this page come from
+              src/site.config.ts, not here — ask a developer if those need to
+              change.
+            fields:
+              - { name: heading, label: Heading, widget: string }
+              - { name: body, label: Body text, widget: text }
+
   - name: events
     label: Events
     label_singular: Event
