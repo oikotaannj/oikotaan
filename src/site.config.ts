@@ -61,6 +61,13 @@ export const site = {
     donateEnabled: false,
 
     donateUrl: "https://www.zeffy.com/",
+    /**
+     * Same story as donateEnabled: membershipUrl is still the placeholder, so
+     * the button invited people to join and then dropped them on Zeffy's
+     * marketing homepage. Flip to true when the URL below is a real page.
+     */
+    membershipEnabled: false,
+
     membershipUrl: "https://www.zeffy.com/",
   },
 
