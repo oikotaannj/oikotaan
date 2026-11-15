@@ -64,14 +64,18 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
           );
         })
       }
-      <a
-        href={site.zeffy.donateUrl}
-        target="_blank"
-        rel="noopener"
-        class="ml-1 rounded-md bg-sindoor-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-sindoor-700 sm:px-4"
-      >
-        Donate
-      </a>
+      {
+        site.zeffy.donateEnabled && (
+          <a
+            href={site.zeffy.donateUrl}
+            target="_blank"
+            rel="noopener"
+            class="ml-1 rounded-md bg-sindoor-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-sindoor-700 sm:px-4"
+          >
+            Donate
+          </a>
+        )
+      }
     </nav>
 
     <!-- Mobile toggle, below sm only. -->
@@ -118,14 +122,18 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
             );
           })
         }
-        <a
-          href={site.zeffy.donateUrl}
-          target="_blank"
-          rel="noopener"
-          class="mt-1 rounded-md bg-sindoor-600 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-sindoor-700"
-        >
-          Donate
-        </a>
+        {
+          site.zeffy.donateEnabled && (
+            <a
+              href={site.zeffy.donateUrl}
+              target="_blank"
+              rel="noopener"
+              class="mt-1 rounded-md bg-sindoor-600 px-3 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-sindoor-700"
+            >
+              Donate
+            </a>
+          )
+        }
       </nav>
     </div>
   </Container>

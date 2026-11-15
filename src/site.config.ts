@@ -49,6 +49,17 @@ export const site = {
    * dashboard here once the 501(c)(3) verification clears.
    */
   zeffy: {
+    /**
+     * The Donate button is hidden until the Zeffy integration is live. The URLs
+     * below are still the placeholder https://www.zeffy.com/, which is Zeffy's
+     * own marketing homepage, so the button asked people for money and then
+     * sent them somewhere that could not take it.
+     *
+     * Flip this to true once donateUrl points at the real hosted page. Nothing
+     * else needs changing: the header reads this flag.
+     */
+    donateEnabled: false,
+
     donateUrl: "https://www.zeffy.com/",
     membershipUrl: "https://www.zeffy.com/",
   },
