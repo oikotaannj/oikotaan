@@ -33,6 +33,19 @@ const upcoming = events
 // A named event that has since been deleted or hidden must not blank the
 // homepage, so a miss falls through to whatever is next rather than to nothing.
 const named = home.layout.eventId ? events.find((e) => e.id === home.layout.eventId) : undefined;
+
+// Falling through silently is how someone picks an event, sees no change on
+// the site, and has nothing to go on. The picker no longer offers hidden
+// events, but one can still be hidden after it was chosen, so say so in the
+// build log rather than only in the absence of an effect.
+if (home.layout.eventId && !named) {
+  console.warn(
+    `[homepage] layout.eventId is "${home.layout.eventId}", but no visible event has that id. ` +
+      `It is probably hidden ("Hide from the site") or was deleted. ` +
+      `Featuring the next upcoming event instead.`,
+  );
+}
+
 const spotlit = named ?? upcoming[0];
 
 const useSpotlight = home.layout.mode === "spotlight" && spotlit !== undefined;
