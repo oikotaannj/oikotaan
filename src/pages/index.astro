@@ -64,14 +64,18 @@ const upcomingWidthClass =
           >
             See upcoming events
           </a>
-          <a
-            href={site.zeffy.membershipUrl}
-            target="_blank"
-            rel="noopener"
-            class="rounded-md border border-sindoor-300 bg-white px-6 py-3 font-semibold text-sindoor-700 transition-colors hover:bg-sindoor-50"
-          >
-            Become a member
-          </a>
+          {
+            site.zeffy.membershipEnabled && (
+              <a
+                href={site.zeffy.membershipUrl}
+                target="_blank"
+                rel="noopener"
+                class="rounded-md border border-sindoor-300 bg-white px-6 py-3 font-semibold text-sindoor-700 transition-colors hover:bg-sindoor-50"
+              >
+                Become a member
+              </a>
+            )
+          }
         </div>
       </div>
 
