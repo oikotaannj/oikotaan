@@ -23,7 +23,11 @@ const past = events
 // column count and a width cap track how many are actually there.
 function gridClasses(count: number) {
   const cols =
-    count === 1 ? "sm:grid-cols-1" : count === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3";
+    count === 1
+      ? "sm:grid-cols-1"
+      : count === 2
+        ? "sm:grid-cols-2"
+        : "sm:grid-cols-2 lg:grid-cols-3";
   const width = count === 1 ? "max-w-sm" : count === 2 ? "max-w-3xl" : "";
   return ["mt-6 grid gap-6", cols, width];
 }
@@ -64,7 +68,7 @@ function gridClasses(count: number) {
       past.length > 0 && (
         <section class="mt-16">
           <h2 class="text-2xl font-bold text-ink">Past events</h2>
-          <span class="mt-2 block h-1 w-16 rounded-full bg-marigold-500" aria-hidden="true"></span>
+          <span class="mt-2 block h-1 w-16 rounded-full bg-marigold-500" aria-hidden="true" />
           <div class:list={gridClasses(past.length)}>
             {past.map((event) => (
               <EventCard event={event} />

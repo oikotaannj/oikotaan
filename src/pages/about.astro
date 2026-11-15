@@ -31,8 +31,8 @@ const exemptDate = formatDate(new Date(site.taxExempt.effectiveDate));
     <section class="mt-14 rounded-2xl border border-sindoor-100 bg-white p-8 sm:p-10">
       <h2 class="text-xl font-bold text-ink">Nonprofit status</h2>
       <p class="mt-2 text-sm text-ink-soft">
-        {site.legalName} is a tax-exempt public charity. Donations are deductible to the extent
-        allowed by law.
+        {site.legalName} is a tax-exempt public charity. Donations are deductible to the extent allowed
+        by law.
       </p>
 
       <dl class="mt-6 grid gap-6 sm:grid-cols-2">
@@ -51,7 +51,9 @@ const exemptDate = formatDate(new Date(site.taxExempt.effectiveDate));
           </dd>
         </div>
         <div>
-          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">Tax-exempt status</dt>
+          <dt class="text-xs font-semibold tracking-wide text-ink-soft uppercase">
+            Tax-exempt status
+          </dt>
           <dd class="mt-1 font-medium text-ink">
             {site.taxExempt.section} public charity ({site.taxExempt.publicCharityStatus})
           </dd>
