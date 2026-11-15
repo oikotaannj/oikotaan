@@ -1,0 +1,60 @@
+---
+import SectionShell from "./SectionShell.astro";
+
+interface Props {
+  data: NonNullable<
+    NonNullable<import("astro:content").CollectionEntry<"events">["data"]["spotlight"]>["food"]
+  >;
+}
+const { data } = Astro.props;
+
+const meals = data.meals.filter((m) => m.items.length > 0 || m.note);
+const anyNonVeg = meals.some((m) => m.items.some((i) => i.nonVeg));
+---
+
+{
+  meals.length > 0 && (
+    <SectionShell id="food" heading={data.heading} intro={data.note} tone="white">
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {meals.map((meal) => (
+          <div class="flex flex-col rounded-2xl border border-sindoor-100 bg-cream p-6">
+            <h3 class="text-lg font-bold text-ink">{meal.name}</h3>
+            {meal.time && <p class="mt-1 text-sm font-medium text-sindoor-600">{meal.time}</p>}
+            {meal.note && <p class="mt-2 text-sm leading-relaxed text-ink-soft">{meal.note}</p>}
+
+            {meal.items.length > 0 && (
+              <ul class="mt-4 space-y-2 text-ink-soft">
+                {meal.items.map((item) => (
+                  <li class="flex items-start gap-2">
+                    <span
+                      class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-marigold-500"
+                      aria-hidden="true"
+                    />
+                    <span>
+                      {item.name}
+                      {item.note && <span class="text-sm"> ({item.note})</span>}
+                      {/* The marker is spelled out for screen readers rather
+                          than relying on a coloured dot nobody can hear. */}
+                      {item.nonVeg && (
+                        <span class="ml-1.5 rounded bg-sindoor-50 px-1.5 py-0.5 text-xs font-semibold text-sindoor-700">
+                          <span class="sr-only">Contains </span>non-veg
+                        </span>
+                      )}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {anyNonVeg && (
+        <p class="mt-6 text-sm text-ink-soft">
+          Everything is vegetarian unless marked{" "}
+          <span class="font-semibold text-sindoor-700">non-veg</span>.
+        </p>
+      )}
+    </SectionShell>
+  )
+}

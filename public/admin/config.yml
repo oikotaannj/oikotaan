@@ -169,6 +169,224 @@ collections:
         }
       - { name: body, label: Details, widget: markdown }
 
+      # --- Spotlight sections -------------------------------------------
+      # These drive the spotlight homepage. Each section has its own "Show
+      # this section" switch, so you can write a section over several weeks
+      # and only turn it on when it is ready. A section that is switched on
+      # but empty simply does not appear, so nothing looks broken half-built.
+      - name: spotlight
+        label: "Homepage spotlight sections"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - name: highlights
+            label: "What to expect"
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string, default: "What to expect" }
+              - { name: intro, label: Intro, widget: text, required: false }
+              - name: items
+                label: Highlights
+                widget: list
+                required: false
+                fields:
+                  - {
+                      name: kicker,
+                      label: Small label above the title,
+                      widget: string,
+                      required: false,
+                    }
+                  - { name: title, label: Title, widget: string }
+                  - { name: description, label: Description, widget: text, required: false }
+                  - { name: image, label: Image, widget: image, required: false }
+                  - {
+                      name: imageAlt,
+                      label: Describe the image for screen readers,
+                      widget: string,
+                      required: false,
+                    }
+
+          - name: schedule
+            label: "Schedule"
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string, default: "Schedule" }
+              - { name: note, label: Note under the heading, widget: text, required: false }
+              - name: days
+                label: Days
+                widget: list
+                required: false
+                label_singular: Day
+                summary: "{{fields.label}}"
+                fields:
+                  - { name: label, label: "Day label (e.g. Saturday, 20 February)", widget: string }
+                  - { name: note, label: Note for this day, widget: string, required: false }
+                  - name: items
+                    label: Items
+                    widget: list
+                    required: false
+                    summary: "{{fields.time}} — {{fields.title}}"
+                    fields:
+                      - { name: time, label: "Time (e.g. 9:30 AM)", widget: string }
+                      - { name: title, label: What happens, widget: string }
+                      - { name: description, label: Detail, widget: text, required: false }
+
+          - name: programs
+            label: "Cultural programs"
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string, default: "Cultural programs" }
+              - { name: intro, label: Intro, widget: text, required: false }
+              - name: groups
+                label: Groups
+                widget: list
+                required: false
+                label_singular: Group
+                summary: "{{fields.label}}"
+                fields:
+                  - {
+                      name: label,
+                      label: "Group label (e.g. Afternoon, Evening)",
+                      widget: string,
+                      required: false,
+                    }
+                  - { name: note, label: Note for this group, widget: string, required: false }
+                  - name: items
+                    label: Performances
+                    widget: list
+                    required: false
+                    summary: "{{fields.title}}"
+                    fields:
+                      - { name: time, label: Time, widget: string, required: false }
+                      - { name: title, label: Title, widget: string }
+                      - { name: performer, label: Performer, widget: string, required: false }
+                      - { name: description, label: Description, widget: text, required: false }
+                      - { name: image, label: Image, widget: image, required: false }
+                      - {
+                          name: imageAlt,
+                          label: Describe the image for screen readers,
+                          widget: string,
+                          required: false,
+                        }
+
+          - name: food
+            label: "Food"
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string, default: "Food" }
+              - { name: note, label: Note under the heading, widget: text, required: false }
+              - name: meals
+                label: Meals
+                widget: list
+                required: false
+                label_singular: Meal
+                summary: "{{fields.name}}"
+                fields:
+                  - { name: name, label: "Meal (e.g. Lunch, Snacks, Dinner)", widget: string }
+                  - { name: time, label: Time, widget: string, required: false }
+                  - { name: note, label: Note, widget: string, required: false }
+                  - name: items
+                    label: Dishes
+                    widget: list
+                    required: false
+                    summary: "{{fields.name}}"
+                    fields:
+                      - { name: name, label: Dish, widget: string }
+                      - { name: note, label: Note, widget: string, required: false }
+                      - {
+                          name: nonVeg,
+                          label: "Contains meat or fish",
+                          widget: boolean,
+                          default: false,
+                        }
+
+          - name: registration
+            label: "Registration and contributions"
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string, default: "Registration" }
+              - { name: intro, label: Intro, widget: text, required: false }
+              - {
+                  name: deadline,
+                  label: "Deadline banner (leave empty for none)",
+                  widget: string,
+                  required: false,
+                }
+              - { name: url, label: "Registration link", widget: string, required: false }
+              - { name: urlLabel, label: Button text, widget: string, default: "Register" }
+              - name: tiers
+                label: Contribution tiers
+                widget: list
+                required: false
+                label_singular: Tier
+                summary: "{{fields.name}} — {{fields.price}}"
+                fields:
+                  - { name: name, label: "Name (e.g. Family, Single, Children)", widget: string }
+                  - { name: price, label: "Price (e.g. $60, Free)", widget: string }
+                  - { name: unit, label: "Unit (e.g. per family)", widget: string, required: false }
+                  - { name: description, label: Description, widget: text, required: false }
+                  - { name: includes, label: What it includes, widget: list, required: false }
+                  - {
+                      name: highlight,
+                      label: Draw attention to this tier,
+                      widget: boolean,
+                      default: false,
+                    }
+              - { name: note, label: Note under the tiers, widget: text, required: false }
+
+          - name: payment
+            label: "How to pay"
+            widget: object
+            required: false
+            collapsed: true
+            fields:
+              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string, default: "How to pay" }
+              - { name: intro, label: Intro, widget: text, required: false }
+              - { name: qrImage, label: "Payment QR code image", widget: image, required: false }
+              - {
+                  name: qrAlt,
+                  label: Describe the QR code for screen readers,
+                  widget: string,
+                  required: false,
+                }
+              - {
+                  name: qrCaption,
+                  label: Caption under the QR code,
+                  widget: string,
+                  required: false,
+                }
+              # A QR code cannot be read by a screen reader, or used by someone
+              # already on the phone that would scan it. Always fill these in
+              # as well, or those people have no way to pay.
+              - name: methods
+                label: "Payment details (always fill these in, not only the QR)"
+                widget: list
+                required: false
+                label_singular: Method
+                summary: "{{fields.label}}: {{fields.value}}"
+                fields:
+                  - { name: label, label: "Method (e.g. Zelle, Cheque)", widget: string }
+                  - { name: value, label: "Handle, address or payee name", widget: string }
+                  - { name: note, label: Note, widget: string, required: false }
+              - { name: note, label: Note under the section, widget: text, required: false }
+
   - name: impact
     label: Community Impact
     label_singular: Impact entry

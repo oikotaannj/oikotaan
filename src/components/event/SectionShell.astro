@@ -1,0 +1,33 @@
+---
+import Container from "../Container.astro";
+
+/**
+ * The frame every spotlight section sits in: heading, marigold rule, optional
+ * intro. Having it in one place is what stops six sections drifting into six
+ * slightly different headings.
+ */
+interface Props {
+  id?: string;
+  heading: string;
+  intro?: string;
+  tone?: "cream" | "white";
+}
+const { id, heading, intro, tone = "cream" } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={[
+    "scroll-mt-24 border-t border-sindoor-100 py-14 sm:py-16",
+    tone === "white" ? "bg-white" : "",
+  ]}
+>
+  <Container>
+    <h2 class="text-2xl font-bold text-ink sm:text-3xl">{heading}</h2>
+    <span class="mt-3 block h-1 w-12 rounded-full bg-marigold-500" aria-hidden="true"></span>
+    {intro && <p class="mt-4 max-w-2xl text-lg leading-relaxed text-ink-soft">{intro}</p>}
+    <div class="mt-8">
+      <slot />
+    </div>
+  </Container>
+</section>

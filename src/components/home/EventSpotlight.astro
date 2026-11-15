@@ -4,6 +4,12 @@ import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../Container.astro";
 import ContactSection from "./ContactSection.astro";
+import ScheduleSection from "../event/ScheduleSection.astro";
+import FoodSection from "../event/FoodSection.astro";
+import ProgramsSection from "../event/ProgramsSection.astro";
+import RegistrationSection from "../event/RegistrationSection.astro";
+import PaymentSection from "../event/PaymentSection.astro";
+import HighlightsSection from "../event/HighlightsSection.astro";
 import { site } from "../../site.config";
 import { formatDateRange, isoDate } from "../../lib/dates";
 
@@ -43,6 +49,33 @@ const mapUrl = address
   ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`
   : null;
 const detailsUrl = `/events/${event.id}/`;
+
+// Each section is drawn only when the committee has switched it on AND put
+// something in it. Enabled-but-empty is the normal state six weeks out, and it
+// should read as "not announced yet", not as a broken page.
+const sp = event.data.spotlight;
+const on = <T extends { enabled: boolean }>(s: T | undefined): s is T => s?.enabled === true;
+
+const show = {
+  highlights: on(sp?.highlights) && sp!.highlights!.items.length > 0,
+  schedule: on(sp?.schedule) && sp!.schedule!.days.some((d) => d.items.length > 0),
+  programs: on(sp?.programs) && sp!.programs!.groups.some((g) => g.items.length > 0),
+  food: on(sp?.food) && sp!.food!.meals.length > 0,
+  registration:
+    on(sp?.registration) && (sp!.registration!.tiers.length > 0 || !!sp!.registration!.url),
+  payment: on(sp?.payment) && (!!sp!.payment!.qrImage || sp!.payment!.methods.length > 0),
+};
+
+// The jump bar is built from what actually rendered, so it can never offer a
+// link to a section that is not on the page.
+const jumpLinks = [
+  show.highlights && { href: "#highlights", label: sp!.highlights!.heading },
+  show.schedule && { href: "#schedule", label: sp!.schedule!.heading },
+  show.programs && { href: "#programs", label: sp!.programs!.heading },
+  show.food && { href: "#food", label: sp!.food!.heading },
+  show.registration && { href: "#registration", label: sp!.registration!.heading },
+  show.payment && { href: "#payment", label: sp!.payment!.heading },
+].filter((l): l is { href: string; label: string } => Boolean(l));
 ---
 
 <BaseLayout title={title} description={summary} image={image}>
@@ -149,6 +182,26 @@ const detailsUrl = `/events/${event.id}/`;
     </Container>
   </section>
 
+  {
+    jumpLinks.length > 1 && (
+      <nav
+        aria-label="On this page"
+        class="sticky top-[72px] z-30 border-b border-sindoor-100 bg-cream/95 backdrop-blur"
+      >
+        <Container class="flex gap-1 overflow-x-auto py-3">
+          {jumpLinks.map((l) => (
+            <a
+              href={l.href}
+              class="shrink-0 rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap text-ink-soft transition-colors hover:bg-sindoor-50 hover:text-sindoor-700"
+            >
+              {l.label}
+            </a>
+          ))}
+        </Container>
+      </nav>
+    )
+  }
+
   <section class="py-14">
     <Container>
       <div class="prose prose-lg max-w-2xl prose-headings:text-ink prose-a:text-sindoor-700">
@@ -156,6 +209,13 @@ const detailsUrl = `/events/${event.id}/`;
       </div>
     </Container>
   </section>
+
+  {show.highlights && <HighlightsSection data={sp!.highlights!} />}
+  {show.schedule && <ScheduleSection data={sp!.schedule!} />}
+  {show.programs && <ProgramsSection data={sp!.programs!} />}
+  {show.food && <FoodSection data={sp!.food!} />}
+  {show.registration && <RegistrationSection data={sp!.registration!} />}
+  {show.payment && <PaymentSection data={sp!.payment!} />}
 
   <!-- Someone who arrived for the puja may never have heard of us, so the
        introduction the standard homepage leads with goes here instead of

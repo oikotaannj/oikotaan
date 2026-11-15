@@ -1,0 +1,63 @@
+---
+import SectionShell from "./SectionShell.astro";
+
+interface Props {
+  data: NonNullable<
+    NonNullable<import("astro:content").CollectionEntry<"events">["data"]["spotlight"]>["programs"]
+  >;
+}
+const { data } = Astro.props;
+
+const groups = data.groups.filter((g) => g.items.length > 0);
+---
+
+{
+  groups.length > 0 && (
+    <SectionShell id="programs" heading={data.heading} intro={data.intro}>
+      <div class="space-y-12">
+        {groups.map((group) => (
+          <div>
+            {group.label && <h3 class="text-lg font-bold text-sindoor-700">{group.label}</h3>}
+            {group.note && <p class="mt-1 text-sm text-ink-soft">{group.note}</p>}
+
+            <div
+              class:list={[
+                "grid gap-6 sm:grid-cols-2",
+                group.items.length > 2 && "lg:grid-cols-3",
+                (group.label || group.note) && "mt-5",
+              ]}
+            >
+              {group.items.map((item) => (
+                <article class="flex flex-col overflow-hidden rounded-2xl border border-sindoor-100 bg-white">
+                  {item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.imageAlt ?? ""}
+                      width="800"
+                      height="450"
+                      loading="lazy"
+                      decoding="async"
+                      class="aspect-[16/9] w-full object-cover"
+                    />
+                  )}
+                  <div class="flex flex-1 flex-col p-5">
+                    {item.time && (
+                      <p class="text-sm font-semibold tabular-nums text-sindoor-600">{item.time}</p>
+                    )}
+                    <h4 class="mt-1 font-semibold text-ink">{item.title}</h4>
+                    {item.performer && (
+                      <p class="mt-0.5 text-sm font-medium text-ink-soft">{item.performer}</p>
+                    )}
+                    {item.description && (
+                      <p class="mt-3 text-sm leading-relaxed text-ink-soft">{item.description}</p>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </SectionShell>
+  )
+}

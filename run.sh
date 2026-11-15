@@ -271,6 +271,11 @@ do_check() {
   echo "==> formatting"
   (cd "$SCRIPT_DIR" && npx prettier --check .) || fmt_failed=1
 
+  # Runs inside npm run build too, but naming it here means a drift failure
+  # reads as itself rather than as a mysterious build error.
+  echo "==> cms form matches the content schema"
+  (cd "$SCRIPT_DIR" && npm run --silent check:cms) || build_failed=1
+
   echo "==> types and build"
   (cd "$SCRIPT_DIR" && npm run build) || build_failed=1
 
