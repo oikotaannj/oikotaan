@@ -1,4 +1,6 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+// Astro 6 bundled Zod 4 and deprecated re-exporting z from astro:content.
+import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
 /**
