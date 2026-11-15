@@ -106,6 +106,42 @@ ensure_dependencies() {
   fi
 }
 
+# Routes are derived from src/pages rather than written down here. The list used
+# to be hardcoded, and when Durga Puja was unpublished in September the status
+# check began reporting a 404 that was correct and looked like a breakage. A
+# list of routes maintained by hand is a list that goes stale.
+first_published_event() {
+  local f
+  for f in "$SCRIPT_DIR"/src/content/events/*.md; do
+    [[ -e "$f" ]] || continue
+    # Drafts are deliberately not built, so probing one would 404 correctly.
+    grep -qE '^draft:[[:space:]]*true' "$f" && continue
+    basename "$f" .md
+    return 0
+  done
+  return 1
+}
+
+discover_routes() {
+  local f rel
+  while IFS= read -r f; do
+    rel="${f#"$SCRIPT_DIR"/src/pages/}"
+    case "$rel" in
+      *'['*)          continue ;;   # dynamic route, covered by the event below
+      404.astro)      echo "/404" ;;
+      index.astro)    echo "/" ;;
+      */index.astro)  echo "/${rel%/index.astro}/" ;;
+      *.astro)        echo "/${rel%.astro}/" ;;
+    esac
+  done < <(find "$SCRIPT_DIR/src/pages" -name '*.astro' | sort)
+
+  # Not a page, but the editor is useless without it and it is easy to break.
+  echo "/admin/config.yml"
+
+  local slug
+  slug="$(first_published_event)" && echo "/events/$slug/"
+}
+
 # --- lifecycle -------------------------------------------------------------
 
 do_start() {
@@ -128,6 +164,13 @@ do_start() {
   echo $! > "$DEV_PID_FILE"
 
   if wait_for_http "$APP_URL" 45; then
+    # npm exits once astro is up, and astro reparents to init, so the pid we
+    # forked is dead while the real server still holds the port. Recording the
+    # forked pid made stop a no-op that still printed "stopped", and made
+    # status call our own server one we did not start. Record the listener.
+    local listener
+    listener="$(lsof -ti "tcp:$PORT" -sTCP:LISTEN 2>/dev/null | head -1 || true)"
+    [[ -n "$listener" ]] && echo "$listener" > "$DEV_PID_FILE"
     echo "dev: ready"
   else
     echo "dev: failed to start — check $DEV_LOG" >&2
@@ -146,6 +189,16 @@ do_start() {
 
 do_stop() {
   stop_pid_tree "$DEV_PID_FILE" "dev"
+
+  # Say what is true, not what was attempted. A server started before this fix
+  # landed, or by something else entirely, still holds the port here.
+  local held
+  held="$(lsof -ti "tcp:$PORT" -sTCP:LISTEN 2>/dev/null | tr '\n' ' ' || true)"
+  if [[ -n "$held" ]]; then
+    echo "Oikotaan dev server stopped, but port $PORT is still held by pid(s) ${held% }."
+    echo "Run ./run.sh start to take it over, or kill it yourself."
+    return 1
+  fi
   echo "Oikotaan dev server stopped."
 }
 
@@ -163,7 +216,7 @@ do_status() {
   if curl -fs -o /dev/null "$APP_URL" 2>/dev/null; then
     echo
     local path code
-    for path in / /events/ /events/durga-puja-2026/ /admin/ /admin/config.yml /404; do
+    for path in $(discover_routes); do
       code="$(curl -s -o /dev/null -w '%{http_code}' "$APP_URL$path")"
       printf "  %-28s %s\n" "$path" "$code"
     done
@@ -206,19 +259,30 @@ do_preview() {
 
 # What CI enforces, plus the formatting CI does not. Running it before opening a
 # pull request turns a red check into a local failure you can fix in a minute.
+#
+# The two halves are reported separately because they are not the same claim.
+# CI runs npm ci and npm run build and has no formatting step, so a formatting
+# failure here does not predict a red check. Saying it does teaches people to
+# distrust this script, which is worse than not having it.
 do_check() {
   ensure_dependencies
-  local failed=0
+  local fmt_failed=0 build_failed=0
 
   echo "==> formatting"
-  (cd "$SCRIPT_DIR" && npx prettier --check .) || { failed=1; echo "    fix with: npm run format"; }
+  (cd "$SCRIPT_DIR" && npx prettier --check .) || fmt_failed=1
 
   echo "==> types and build"
-  (cd "$SCRIPT_DIR" && npm run build) || failed=1
+  (cd "$SCRIPT_DIR" && npm run build) || build_failed=1
 
   echo
-  if (( failed )); then
-    echo "check failed — CI will fail on this too."
+  if (( build_failed )); then
+    echo "check failed: the build is broken. CI runs the build, so CI will fail too."
+    (( fmt_failed )) && echo "               formatting is also off; fix with: npm run format"
+    exit 1
+  fi
+  if (( fmt_failed )); then
+    echo "check failed: formatting only. The build is green and CI has no formatting"
+    echo "              step, so CI will pass. Fix with: npm run format"
     exit 1
   fi
   echo "check passed."

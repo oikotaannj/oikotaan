@@ -88,13 +88,15 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
         stroke-linecap="round"
         class="h-6 w-6"
       >
-        <path d="M4 6h16M4 12h16M4 18h16" />
+        <path d="M4 6h16M4 12h16M4 18h16"></path>
       </svg>
     </label>
 
     <!-- Mobile menu panel. Positioned relative to this row (not <header>) so
          it drops in directly below it regardless of the row's own height. -->
-    <div class="absolute inset-x-0 top-full hidden border-t border-sindoor-100 bg-cream peer-checked:block sm:hidden">
+    <div
+      class="absolute inset-x-0 top-full hidden border-t border-sindoor-100 bg-cream peer-checked:block sm:hidden"
+    >
       <nav aria-label="Main" class="flex flex-col gap-1 px-5 py-3">
         {
           nav.map((item) => {
