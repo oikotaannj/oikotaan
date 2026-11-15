@@ -1,0 +1,78 @@
+---
+import Container from "../Container.astro";
+import ContactForm from "../ContactForm.astro";
+import { site } from "../../site.config";
+
+/**
+ * The "say hello" block, shared by both homepage variants so the
+ * contactFormEnabled branch lives in one place. The form is hidden until
+ * Netlify Forms detection is switched on; until then email carries the weight.
+ */
+interface Props {
+  heading: string;
+  body: string;
+}
+const { heading, body } = Astro.props;
+---
+
+<!-- The id is the link target for /donate, which offers volunteering as the
+       way to help that costs nothing. scroll-mt clears the sticky header, or
+       the heading lands underneath it. -->
+<section id="contact" class="scroll-mt-24 pb-16">
+  <Container>
+    <div
+      class:list={[
+        "rounded-2xl border border-sindoor-100 bg-white p-8 sm:p-10",
+        site.contactFormEnabled && "grid gap-10 lg:grid-cols-5",
+      ]}
+    >
+      <div class={site.contactFormEnabled ? "lg:col-span-2" : "max-w-xl"}>
+        <h2 class="text-2xl font-bold text-ink">{heading}</h2>
+        <span class="mt-2 block h-1 w-12 rounded-full bg-marigold-500" aria-hidden="true"></span>
+        <p class="mt-4 leading-relaxed text-ink-soft">
+          {body}
+        </p>
+
+        {
+          site.contactFormEnabled ? (
+            <p class="mt-4 text-sm text-ink-soft">
+              Or email{" "}
+              <a href={`mailto:${site.email}`} class="font-medium text-sindoor-700 hover:underline">
+                {site.email}
+              </a>
+            </p>
+          ) : (
+            <>
+              {/* With the form off, email is the only way through, so it gets
+                    the weight the Send button used to carry rather than a line
+                    of small print underneath a missing form. */}
+              <a
+                href={`mailto:${site.email}?subject=${encodeURIComponent("Hello from the " + site.name + " website")}`}
+                class="mt-6 inline-block rounded-md bg-sindoor-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-sindoor-700"
+              >
+                Email us
+              </a>
+              <p class="mt-4 text-sm text-ink-soft">
+                Or write directly to{" "}
+                <a
+                  href={`mailto:${site.email}`}
+                  class="font-medium text-sindoor-700 hover:underline"
+                >
+                  {site.email}
+                </a>
+              </p>
+            </>
+          )
+        }
+      </div>
+
+      {
+        site.contactFormEnabled && (
+          <div class="lg:col-span-3">
+            <ContactForm />
+          </div>
+        )
+      }
+    </div>
+  </Container>
+</section>
