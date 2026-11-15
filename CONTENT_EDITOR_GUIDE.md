@@ -217,6 +217,10 @@ Pick one from the list by name. If you leave it empty, the homepage features
 whichever event is next on the calendar and moves on by itself once that one
 has passed — so you do not have to remember to change it after the puja.
 
+**Only events that are visible on the site appear in this list.** If the event
+you want is missing, open it under Events and switch **Hide from the site**
+off. An event that is hidden everywhere else cannot be the homepage.
+
 Pick an event by name when you want a specific one regardless of dates.
 
 Two things that cannot go wrong:
@@ -224,8 +228,9 @@ Two things that cannot go wrong:
 - If you choose **Feature one event** and there is no upcoming event, the
   normal homepage is shown instead. The site never ends up with a blank
   homepage.
-- If you pick an event and it is later deleted or hidden, the homepage falls
-  back to the next event rather than breaking.
+- If you pick an event and it is later hidden or deleted, the homepage falls
+  back to the next event rather than breaking. The website will keep working;
+  it just will not be showing the event you chose.
 
 ## If something looks wrong after it's published
 

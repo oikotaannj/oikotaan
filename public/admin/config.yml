@@ -73,10 +73,18 @@ collections:
                 display_fields: [title]
                 value_field: "{{slug}}"
                 required: false
+                # Only events that are actually visible on the site. Without
+                # this the list offered hidden events too, and picking one
+                # changed nothing with no explanation: the homepage cannot
+                # feature an event that is hidden everywhere else.
+                filters:
+                  - { field: draft, values: [false] }
                 hint: >-
-                  Pick an event from the list. Leave it empty and the homepage
-                  features whichever event is next, moving on by itself once
-                  that one has passed.
+                  Pick an event from the list. Only events that are visible
+                  on the site appear here, so if one is missing, check that
+                  "Hide from the site" is switched off on that event. Leave
+                  this empty and the homepage features whichever event is
+                  next, moving on by itself once that one has passed.
           - label: Hero
             name: hero
             widget: object
