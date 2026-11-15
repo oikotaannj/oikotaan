@@ -2,6 +2,13 @@
 # Edit this by hand, or through the "Home Page" entry at /admin — both write
 # to this same file. See src/content.config.ts for the schema this is
 # checked against at build time.
+# Which homepage layout runs. Editable at /admin under Pages > Home Page.
+layout:
+  # standard = the usual homepage. spotlight = give the page to one event.
+  mode: spotlight
+  # Leave empty to track whatever event is next.
+  eventId: ""
+
 hero:
   kicker: "ঐকতান"
   heading: "Building community and celebrating Bengali culture in New Jersey."

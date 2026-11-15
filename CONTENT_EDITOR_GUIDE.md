@@ -199,6 +199,34 @@ community.
 If you notice a mistake right after publishing, open the same entry, fix it,
 and save again — that is normal and not something to worry about.
 
+## Making one event the homepage
+
+In the weeks before a big event you can hand the whole homepage over to it,
+then switch back afterwards. This is in **Pages → Home Page**, at the top,
+under **Homepage layout**.
+
+**Which layout**
+
+- **Normal homepage** — the usual page: who we are, what is coming up
+- **Feature one event** — the homepage becomes that event's page, with its
+  date, venue and all the sections you filled in
+
+**Which event to feature**
+
+Pick one from the list by name. If you leave it empty, the homepage features
+whichever event is next on the calendar and moves on by itself once that one
+has passed — so you do not have to remember to change it after the puja.
+
+Pick an event by name when you want a specific one regardless of dates.
+
+Two things that cannot go wrong:
+
+- If you choose **Feature one event** and there is no upcoming event, the
+  normal homepage is shown instead. The site never ends up with a blank
+  homepage.
+- If you pick an event and it is later deleted or hidden, the homepage falls
+  back to the next event rather than breaking.
+
 ## If something looks wrong after it's published
 
 Tell a maintainer what you saw and which page it was on. Do not try to fix it
