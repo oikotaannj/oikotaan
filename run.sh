@@ -164,6 +164,13 @@ do_start() {
   echo $! > "$DEV_PID_FILE"
 
   if wait_for_http "$APP_URL" 45; then
+    # npm exits once astro is up, and astro reparents to init, so the pid we
+    # forked is dead while the real server still holds the port. Recording the
+    # forked pid made stop a no-op that still printed "stopped", and made
+    # status call our own server one we did not start. Record the listener.
+    local listener
+    listener="$(lsof -ti "tcp:$PORT" -sTCP:LISTEN 2>/dev/null | head -1 || true)"
+    [[ -n "$listener" ]] && echo "$listener" > "$DEV_PID_FILE"
     echo "dev: ready"
   else
     echo "dev: failed to start — check $DEV_LOG" >&2
@@ -182,6 +189,16 @@ do_start() {
 
 do_stop() {
   stop_pid_tree "$DEV_PID_FILE" "dev"
+
+  # Say what is true, not what was attempted. A server started before this fix
+  # landed, or by something else entirely, still holds the port here.
+  local held
+  held="$(lsof -ti "tcp:$PORT" -sTCP:LISTEN 2>/dev/null | tr '\n' ' ' || true)"
+  if [[ -n "$held" ]]; then
+    echo "Oikotaan dev server stopped, but port $PORT is still held by pid(s) ${held% }."
+    echo "Run ./run.sh start to take it over, or kill it yourself."
+    return 1
+  fi
   echo "Oikotaan dev server stopped."
 }
 
