@@ -15,6 +15,18 @@ export const site = {
     "A volunteer-run 501(c)(3) nonprofit rooted in Bengali culture and open to the whole community, bringing New Jersey families together through cultural programs, language classes and community service.",
 
   email: "oikotaanassociationofusa@gmail.com",
+
+  /**
+   * The contact form posts to Netlify Forms, which only handles a form once
+   * someone has turned on Forms > Enable form detection in the Netlify UI and
+   * the site has been redeployed so the detection pass runs. Until then every
+   * submission returns 404: the sender sees an error page and nothing is
+   * stored or emailed, which is worse than offering no form at all.
+   *
+   * This is unrelated to the zeffy flags below. Enabling Zeffy does not enable
+   * this, and vice versa. Turn it on once a test submission reaches the inbox.
+   */
+  contactFormEnabled: false,
   town: "6 Matthew Road, Hillsborough, NJ 08844",
 
   /**
