@@ -13,12 +13,6 @@
   command = "npm run build"
 
 [[redirects]]
-  from = "/donate"
-  to = "https://www.zeffy.com/"
-  status = 302
-  force = true
-
-[[redirects]]
   from = "/admin"
   to = "/admin/index.html"
   status = 200
