@@ -106,6 +106,42 @@ ensure_dependencies() {
   fi
 }
 
+# Routes are derived from src/pages rather than written down here. The list used
+# to be hardcoded, and when Durga Puja was unpublished in September the status
+# check began reporting a 404 that was correct and looked like a breakage. A
+# list of routes maintained by hand is a list that goes stale.
+first_published_event() {
+  local f
+  for f in "$SCRIPT_DIR"/src/content/events/*.md; do
+    [[ -e "$f" ]] || continue
+    # Drafts are deliberately not built, so probing one would 404 correctly.
+    grep -qE '^draft:[[:space:]]*true' "$f" && continue
+    basename "$f" .md
+    return 0
+  done
+  return 1
+}
+
+discover_routes() {
+  local f rel
+  while IFS= read -r f; do
+    rel="${f#"$SCRIPT_DIR"/src/pages/}"
+    case "$rel" in
+      *'['*)          continue ;;   # dynamic route, covered by the event below
+      404.astro)      echo "/404" ;;
+      index.astro)    echo "/" ;;
+      */index.astro)  echo "/${rel%/index.astro}/" ;;
+      *.astro)        echo "/${rel%.astro}/" ;;
+    esac
+  done < <(find "$SCRIPT_DIR/src/pages" -name '*.astro' | sort)
+
+  # Not a page, but the editor is useless without it and it is easy to break.
+  echo "/admin/config.yml"
+
+  local slug
+  slug="$(first_published_event)" && echo "/events/$slug/"
+}
+
 # --- lifecycle -------------------------------------------------------------
 
 do_start() {
@@ -163,7 +199,7 @@ do_status() {
   if curl -fs -o /dev/null "$APP_URL" 2>/dev/null; then
     echo
     local path code
-    for path in / /events/ /events/durga-puja-2026/ /admin/ /admin/config.yml /404; do
+    for path in $(discover_routes); do
       code="$(curl -s -o /dev/null -w '%{http_code}' "$APP_URL$path")"
       printf "  %-28s %s\n" "$path" "$code"
     done
