@@ -1,24 +1,12 @@
-# The homepage's editable content, read by src/pages/index.astro.
-# Edit this by hand, or through the "Home Page" entry at /admin — both write
-# to this same file. See src/content.config.ts for the schema this is
-# checked against at build time.
-# Which homepage layout runs. Editable at /admin under Pages > Home Page.
 layout:
-  # standard = the usual homepage. spotlight = give the page to one event.
   mode: spotlight
-  # Leave empty to track whatever event is next.
-  eventId: ""
-
+  eventId: durga-puja-2026
 hero:
-  kicker: "ঐকতান"
-  heading: "Building community and celebrating Bengali culture in New Jersey."
-  description: >-
-    A volunteer-run 501(c)(3) nonprofit rooted in Bengali culture and open to
-    the whole community, bringing New Jersey families together through
-    cultural programs, language classes and community service.
+  kicker: ঐকতান
+  heading: Building community and celebrating Bengali culture in New Jersey.
+  description: A volunteer-run 501(c)(3) nonprofit rooted in Bengali culture and open to the whole community, bringing New Jersey families together through cultural programs, language classes and community service.
   image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012665/oikotaan/hero-dance.jpg
   imageAlt: Young dancers in sequined costumes performing on stage at an Oikotaan program
-
 programs:
   - icon: flame
     title: Cultural programs
@@ -29,7 +17,6 @@ programs:
   - icon: heart
     title: Community service
     description: Volunteering and mutual aid for families in our community, in New Jersey and beyond.
-
 gallery:
   - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012667/oikotaan/gallery-saraswati.jpg
     alt: Saraswati Puja altar decorated with marigold garlands and paper flowers
@@ -41,10 +28,6 @@ gallery:
     alt: Volunteers holding handmade paper flowers used to decorate a puja stage
   - image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012666/oikotaan/gallery-music-night.jpg
     alt: Two members sharing a moment at a live music performance
-
 contact:
   heading: Say hello
-  body: >-
-    New to the area, curious about Bengali classes for your children, or
-    looking to volunteer? Send us a note and one of us will reply. We are
-    all volunteers, so give us a few days.
+  body: New to the area, curious about Bengali classes for your children, or looking to volunteer? Send us a note and one of us will reply. We are all volunteers, so give us a few days.
