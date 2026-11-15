@@ -27,6 +27,26 @@ export const site = {
    * this, and vice versa. Turn it on once a test submission reaches the inbox.
    */
   contactFormEnabled: false,
+
+  /**
+   * Which homepage template runs.
+   *
+   *   "standard"  introduces the organisation and lists what is coming up
+   *   "spotlight" gives the whole page over to the next upcoming event
+   *
+   * Spotlight is for the weeks when one event is the reason anybody is
+   * visiting. It selects the soonest upcoming event by date, so it moves on by
+   * itself once that event passes, and it falls back to the standard homepage
+   * when nothing is upcoming.
+   */
+  homeLayout: "spotlight" as "standard" | "spotlight",
+
+  /**
+   * Pin the spotlight to one event by its id, which is the Markdown filename
+   * in src/content/events without the extension. Leave empty to let it track
+   * whatever is next, which is almost always what you want.
+   */
+  spotlightEventId: "",
   town: "6 Matthew Road, Hillsborough, NJ 08844",
 
   /**
