@@ -14,6 +14,8 @@ website.
 - Add a Community Impact entry (a food drive, volunteering, mutual aid)
 - Update the homepage's text, hero photo, or photo gallery
 - Update the About page's mission text
+- Build out a big event page with a schedule, menu, programme and prices
+  (see section 4)
 
 This editor cannot create a new page, change the menu, or restructure the
 site — those things simply are not here to edit. It only reaches the content
@@ -110,6 +112,80 @@ Tell the maintainer your exact GitHub username once you have one.
    - Every photo needs a short **description for screen readers** — a plain
      sentence describing what's in the photo, for visitors who use one.
 8. Click **Save**.
+
+## 4. Building out a big event page
+
+Most events only need the fields above — a date, a venue, a summary, a photo
+and a few sentences. Skip this section until you are working on something
+larger, like a puja with a full day's programme.
+
+For those, scroll to the **very bottom** of the event form, past the Details
+box. There is one more heading:
+
+> **Homepage spotlight sections**
+
+It is collapsed, so it looks like a single line rather than a panel. Click it
+and six sections open up inside:
+
+| Section                        | What it is for                                             |
+| ------------------------------ | ---------------------------------------------------------- |
+| What to expect                 | A few highlights — anjali, hatekhori, bhog                 |
+| Schedule                       | What happens when, hour by hour                            |
+| Cultural programs              | Performers and slots                                       |
+| Food                           | What is being served at each meal                          |
+| Registration and contributions | What it costs, for families and single people and children |
+| How to pay                     | A payment QR code and the account details                  |
+
+### Nothing appears until you switch it on
+
+Each section has a **Show this section** switch, and each one starts off.
+
+A section only appears on the website when **both** things are true: the
+switch is on, and you have actually put something in it. A section that is
+switched on but still empty simply does not show up — it does not leave a
+blank heading or a gap on the page.
+
+That is deliberate. You can write the schedule over three sittings across two
+weeks, saving as you go, and nobody sees a half-finished list. Turn the switch
+on when it is right.
+
+### Adding things to a section
+
+Several sections hold lists — days in a schedule, meals in the food section,
+tiers in registration. They all work the same way:
+
+- **Add** a new one with the **+** or **Add** button
+- **Reorder** by dragging the handle on the left of each row
+- **Remove** with the menu at the right of the row
+- Click a row to open it; click the header again to fold it away
+
+Lists can sit inside lists. The Schedule holds a list of **days**, and each
+day holds a list of **items** (a time and what happens). A one-day puja has
+one day in it. That is normal, not a mistake.
+
+### A few things worth knowing
+
+- **Food:** everything is treated as vegetarian unless you tick **Contains
+  meat or fish** on a dish. The website then adds a "non-veg" marker beside
+  that dish and a line explaining the marker. Tick it only on the dishes that
+  need it.
+- **Registration:** the **price** is free text, so `$25`, `Free` and
+  `$60 per family` all work. **Draw attention to this tier** puts a highlight
+  around one of them — use it on at most one, or it stops meaning anything.
+- **How to pay:** fill in the **payment details** list even if you upload a
+  QR code. A QR code is invisible to someone using a screen reader, and
+  useless to anyone reading the page on the same phone they would scan with.
+  The written details are the only way those people can pay.
+- **Schedule times** are free text. Write them the way you would say them —
+  `9:30 AM`, `12:30 PM onwards`.
+
+### Checking your work
+
+Save, wait a minute or two, then open the website and look at it on your
+phone as well as a computer. Most people will read it on a phone.
+
+If a section you filled in is not showing, the usual reason is the **Show
+this section** switch is still off.
 
 ## What happens after you save
 
