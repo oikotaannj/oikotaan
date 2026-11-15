@@ -1,0 +1,85 @@
+---
+import SectionShell from "./SectionShell.astro";
+
+interface Props {
+  data: NonNullable<
+    NonNullable<
+      import("astro:content").CollectionEntry<"events">["data"]["spotlight"]
+    >["registration"]
+  >;
+}
+const { data } = Astro.props;
+
+const tiers = data.tiers;
+---
+
+{
+  (tiers.length > 0 || data.url) && (
+    <SectionShell id="registration" heading={data.heading} intro={data.intro} tone="white">
+      {data.deadline && (
+        <p class="mb-8 rounded-xl border border-marigold-400 bg-marigold-300/30 px-5 py-3 font-medium text-ink">
+          {data.deadline}
+        </p>
+      )}
+
+      {tiers.length > 0 && (
+        <div
+          class:list={[
+            "grid gap-6",
+            tiers.length === 2 && "sm:grid-cols-2 lg:max-w-3xl",
+            tiers.length >= 3 && "sm:grid-cols-2 lg:grid-cols-3",
+          ]}
+        >
+          {tiers.map((tier) => (
+            <div
+              class:list={[
+                "flex flex-col rounded-2xl border bg-cream p-6",
+                tier.highlight
+                  ? "border-sindoor-400 ring-2 ring-sindoor-200"
+                  : "border-sindoor-100",
+              ]}
+            >
+              <h3 class="font-bold text-ink">{tier.name}</h3>
+
+              <p class="mt-3 flex items-baseline gap-1.5">
+                <span class="text-3xl font-bold text-sindoor-700">{tier.price}</span>
+                {tier.unit && <span class="text-sm text-ink-soft">{tier.unit}</span>}
+              </p>
+
+              {tier.description && (
+                <p class="mt-3 text-sm leading-relaxed text-ink-soft">{tier.description}</p>
+              )}
+
+              {tier.includes.length > 0 && (
+                <ul class="mt-4 space-y-2 text-sm text-ink-soft">
+                  {tier.includes.map((inc) => (
+                    <li class="flex items-start gap-2">
+                      <span
+                        class="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-marigold-500"
+                        aria-hidden="true"
+                      />
+                      <span>{inc}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {data.url && (
+        <a
+          href={data.url}
+          target="_blank"
+          rel="noopener"
+          class="mt-8 inline-block rounded-md bg-sindoor-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-sindoor-700"
+        >
+          {data.urlLabel}
+        </a>
+      )}
+
+      {data.note && <p class="mt-6 max-w-2xl text-sm leading-relaxed text-ink-soft">{data.note}</p>}
+    </SectionShell>
+  )
+}

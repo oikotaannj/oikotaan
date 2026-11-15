@@ -1,0 +1,47 @@
+---
+import SectionShell from "./SectionShell.astro";
+
+interface Props {
+  data: NonNullable<
+    NonNullable<import("astro:content").CollectionEntry<"events">["data"]["spotlight"]>["schedule"]
+  >;
+}
+const { data } = Astro.props;
+
+// A day with no items is a day the committee has not filled in yet. Dropping
+// it is better than printing a heading over empty space on a live page.
+const days = data.days.filter((d) => d.items.length > 0);
+---
+
+{
+  days.length > 0 && (
+    <SectionShell id="schedule" heading={data.heading} intro={data.note}>
+      <div class="grid gap-8 lg:grid-cols-2">
+        {days.map((day) => (
+          <div class="rounded-2xl border border-sindoor-100 bg-white p-6 sm:p-8">
+            <h3 class="text-lg font-bold text-ink">{day.label}</h3>
+            {day.note && <p class="mt-1 text-sm text-ink-soft">{day.note}</p>}
+
+            <ol class="mt-5 space-y-4">
+              {day.items.map((item) => (
+                <li class="grid grid-cols-[auto_1fr] gap-x-4 border-t border-sindoor-50 pt-4 first:border-0 first:pt-0">
+                  {/* tabular-nums keeps the times in a straight column; without
+                      it "9:30 AM" and "11:00 AM" sit ragged against each other. */}
+                  <span class="text-sm font-semibold tabular-nums text-sindoor-600">
+                    {item.time}
+                  </span>
+                  <div>
+                    <p class="font-medium text-ink">{item.title}</p>
+                    {item.description && (
+                      <p class="mt-1 text-sm leading-relaxed text-ink-soft">{item.description}</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        ))}
+      </div>
+    </SectionShell>
+  )
+}
