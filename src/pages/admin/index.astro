@@ -17,7 +17,11 @@
 // Pinned on purpose. Sveltia is pre-1.0, so a floating range would hand every
 // editor whatever shipped that morning, and a CMS that breaks silently is worse
 // than one that needs a deliberate version bump twice a year.
-const SVELTIA_VERSION = "0.210.3";
+//
+// Bump it deliberately rather than never: the pin sat 56 releases behind while
+// new fields were added to the config, and a field that the running version
+// cannot draw simply is not there, with no error to go on.
+const SVELTIA_VERSION = "0.266.0";
 ---
 
 <!doctype html>
@@ -34,10 +38,14 @@ const SVELTIA_VERSION = "0.210.3";
   </head>
   <body>
     <!-- is:inline keeps Astro from trying to bundle a cross-origin URL at build
-         time. Without it the build fails rather than emitting the script tag. -->
+         time. Without it the build fails rather than emitting the script tag.
+         
+         No type="module": the bundle is a classic script, and Sveltia warns in
+         the console that loading it as a module causes "unexpected behavior
+         when using the JavaScript API". It was carrying that attribute from
+         the day it was written. -->
     <script
       is:inline
-      type="module"
       src={`https://unpkg.com/@sveltia/cms@${SVELTIA_VERSION}/dist/sveltia-cms.js`}></script>
   </body>
 </html>
