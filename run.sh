@@ -206,19 +206,30 @@ do_preview() {
 
 # What CI enforces, plus the formatting CI does not. Running it before opening a
 # pull request turns a red check into a local failure you can fix in a minute.
+#
+# The two halves are reported separately because they are not the same claim.
+# CI runs npm ci and npm run build and has no formatting step, so a formatting
+# failure here does not predict a red check. Saying it does teaches people to
+# distrust this script, which is worse than not having it.
 do_check() {
   ensure_dependencies
-  local failed=0
+  local fmt_failed=0 build_failed=0
 
   echo "==> formatting"
-  (cd "$SCRIPT_DIR" && npx prettier --check .) || { failed=1; echo "    fix with: npm run format"; }
+  (cd "$SCRIPT_DIR" && npx prettier --check .) || fmt_failed=1
 
   echo "==> types and build"
-  (cd "$SCRIPT_DIR" && npm run build) || failed=1
+  (cd "$SCRIPT_DIR" && npm run build) || build_failed=1
 
   echo
-  if (( failed )); then
-    echo "check failed — CI will fail on this too."
+  if (( build_failed )); then
+    echo "check failed: the build is broken. CI runs the build, so CI will fail too."
+    (( fmt_failed )) && echo "               formatting is also off; fix with: npm run format"
+    exit 1
+  fi
+  if (( fmt_failed )); then
+    echo "check failed: formatting only. The build is green and CI has no formatting"
+    echo "              step, so CI will pass. Fix with: npm run format"
     exit 1
   fi
   echo "check passed."
