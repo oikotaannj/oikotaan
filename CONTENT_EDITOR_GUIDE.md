@@ -44,8 +44,23 @@ Skip this if you already have one.
    address you check regularly.
 2. Verify your email address — GitHub emails you a code or link, and nothing
    else works until you do this.
-3. Turn on two-factor authentication if you can: **Settings → Password and
-   authentication → Two-factor authentication**. This protects your account.
+3. Turn on two-factor authentication: **Settings → Password and
+   authentication → Two-factor authentication**.
+
+   This is not optional. GitHub requires it of anyone who can change a
+   project, so you will be asked for it sooner or later whether or not you
+   set it up now. Doing it now means you are not stuck on it later, halfway
+   through trying to publish something.
+
+   You will need your phone. The simplest option is an authenticator app
+   (Google Authenticator, Microsoft Authenticator, or whatever your phone
+   already has) — GitHub walks you through scanning a square code with it.
+   **Save the recovery codes GitHub shows you** somewhere you can find again.
+   They are what gets you back in if you lose your phone.
+
+   If this step feels fiddly, do it sitting with the maintainer rather than
+   alone over email. It is the one part of this setup that genuinely trips
+   people up, and it takes two minutes with someone beside you.
 
 Tell the maintainer your exact GitHub username once you have one.
 
@@ -60,15 +75,30 @@ Tell the maintainer your exact GitHub username once you have one.
 ## 3. Sign in and make a change
 
 1. Go to `https://www.oikotaannj.org/admin`.
-2. Click **Sign in with GitHub**, and sign in with the account from step 1.
-3. On the left, pick what you want to work on:
+2. You will see a dark screen with the Sveltia CMS logo and **two** buttons.
+
+   Click the top one, **Sign In with GitHub**.
+
+   Ignore **Sign In Using Access Token** underneath it. That one is for
+   developers and will ask you to paste a long secret code you do not have.
+   If you click it by mistake, just reload the page and pick the top button.
+
+3. Sign in with the GitHub account from step 1.
+4. The first time only, GitHub asks whether to let the editor use your
+   account. Click **Authorize**. This is expected, and it is how the editor
+   saves your changes under your name.
+
+   After this, you stay signed in. On later visits `/admin` usually opens
+   straight into the editor with nothing to click.
+
+5. On the left, pick what you want to work on:
    - **Events** — for pujas, programs, picnics, classes
    - **Community Impact** — for food drives, volunteering, mutual aid
    - **Pages → Home Page** — the homepage's text, hero photo, and gallery
    - **Pages → About Page** — the About page's mission text
-4. To add something new, click **New**. To change something existing, click
+6. To add something new, click **New**. To change something existing, click
    it in the list.
-5. Fill in the form. Every field has a label explaining what goes there. A
+7. Fill in the form. Every field has a label explaining what goes there. A
    few worth knowing:
    - **Date** fields use a calendar picker — no need to type a format.
    - **Photo** fields open an upload window (Cloudinary) — click it, choose a
@@ -79,7 +109,7 @@ Tell the maintainer your exact GitHub username once you have one.
      while you are still working, and uncheck it when it's ready to publish.
    - Every photo needs a short **description for screen readers** — a plain
      sentence describing what's in the photo, for visitors who use one.
-6. Click **Save**.
+8. Click **Save**.
 
 ## What happens after you save
 
@@ -100,6 +130,17 @@ by guessing — the maintainer can see exactly what changed and undo it if
 needed.
 
 ## Troubleshooting
+
+**You are being asked to paste an "access token".** You clicked the lower of
+the two buttons on the sign-in screen. Reload the page and click **Sign In
+with GitHub** at the top instead. You do not need a token and should not
+create one.
+
+**GitHub is asking for a code from your phone.** That is two-factor
+authentication doing its job. Open your authenticator app and type the
+six-digit code it shows. If you have lost your phone, use one of the recovery
+codes you saved in step 1, then ask the maintainer for help setting it up
+again.
 
 **Sign-in does nothing, or shows an error.** Ask a maintainer rather than
 assuming it's something you did wrong — most sign-in problems trace back to
