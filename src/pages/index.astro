@@ -2,7 +2,6 @@
 import { getCollection, getEntry } from "astro:content";
 import StandardHome from "../components/home/StandardHome.astro";
 import EventSpotlight from "../components/home/EventSpotlight.astro";
-import { site } from "../site.config";
 import { isUpcoming } from "../lib/dates";
 
 /**
@@ -11,11 +10,10 @@ import { isUpcoming } from "../lib/dates";
  *   "standard"  introduces the organisation and lists what is coming up
  *   "spotlight" gives the whole page over to the next event
  *
- * Which one runs is site.homeLayout. The spotlight picks the soonest upcoming
- * event on its own rather than naming one, so it advances to the next event
- * after this one passes instead of quietly advertising a puja that already
- * happened. site.spotlightEventId overrides that when a specific event is
- * wanted.
+ * Which one runs is set at /admin under Pages > Home Page, so the committee can
+ * switch back after an event without a developer. The spotlight picks the
+ * soonest upcoming event on its own, so it advances rather than quietly
+ * advertising a puja that already happened; naming an event overrides that.
  *
  * If spotlight is asked for and nothing is upcoming, the standard homepage
  * runs instead. A mode that can leave the site with an empty hero is a mode
@@ -32,11 +30,12 @@ const upcoming = events
   .filter(({ data }) => isUpcoming(data.date, data.endDate))
   .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
 
-const spotlit = site.spotlightEventId
-  ? events.find((e) => e.id === site.spotlightEventId)
-  : upcoming[0];
+// A named event that has since been deleted or hidden must not blank the
+// homepage, so a miss falls through to whatever is next rather than to nothing.
+const named = home.layout.eventId ? events.find((e) => e.id === home.layout.eventId) : undefined;
+const spotlit = named ?? upcoming[0];
 
-const useSpotlight = site.homeLayout === "spotlight" && spotlit !== undefined;
+const useSpotlight = home.layout.mode === "spotlight" && spotlit !== undefined;
 ---
 
 {

@@ -51,6 +51,32 @@ collections:
         label: Home Page
         file: src/content/home.yaml
         fields:
+          - label: Homepage layout
+            name: layout
+            widget: object
+            hint: >-
+              Use "Feature one event" in the weeks before a big event, then
+              switch back to "Normal homepage" afterwards.
+            fields:
+              - name: mode
+                label: Which layout
+                widget: select
+                default: standard
+                options:
+                  - { label: "Normal homepage", value: standard }
+                  - { label: "Feature one event", value: spotlight }
+              - name: eventId
+                label: Which event to feature
+                widget: relation
+                collection: events
+                search_fields: [title]
+                display_fields: [title]
+                value_field: "{{slug}}"
+                required: false
+                hint: >-
+                  Pick an event from the list. Leave it empty and the homepage
+                  features whichever event is next, moving on by itself once
+                  that one has passed.
           - label: Hero
             name: hero
             widget: object

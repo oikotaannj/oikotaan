@@ -233,6 +233,22 @@ const events = defineCollection({
 const home = defineCollection({
   loader: glob({ pattern: "home.yaml", base: "./src/content" }),
   schema: z.object({
+    /**
+     * Which homepage template runs. This sits in content rather than in
+     * site.config.ts so the committee can switch the homepage back after an
+     * event without waiting for a developer and a pull request.
+     *
+     * "spotlight" picks the soonest upcoming event unless eventId names one.
+     * Either way it falls back to the standard homepage when there is nothing
+     * to feature, so the mode cannot leave the site with an empty hero.
+     */
+    layout: z
+      .object({
+        mode: z.enum(["standard", "spotlight"]).default("standard"),
+        eventId: z.string().default(""),
+      })
+      .default({ mode: "standard", eventId: "" }),
+
     hero: z.object({
       kicker: z.string(),
       heading: z.string(),
