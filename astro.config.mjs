@@ -17,5 +17,13 @@ export default defineConfig({
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
+    build: {
+      // Vite 8's minifier emits modern CSS by default: media query range
+      // syntax (width>=40rem) and no -webkit-backdrop-filter. Range syntax
+      // needs Safari 16.4, so an older iPad loses every breakpoint and the
+      // layout collapses to one column. Naming an older target keeps the
+      // min-width queries and the prefix.
+      cssTarget: ["chrome100", "safari15", "firefox100", "edge100"],
+    },
   },
 });
