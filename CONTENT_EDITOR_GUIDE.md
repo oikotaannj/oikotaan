@@ -17,11 +17,9 @@ website.
 - Build out a big event page with a schedule, menu, programme and prices
   (see section 4)
 
-This editor cannot create a new page, change the menu, or restructure the
-site — those things simply are not here to edit. It only reaches the content
-above, which is why saving publishes immediately without anyone reviewing it
-first: an unusual date or a typo is easy to fix, and nothing you can do here
-can break the website itself. If you ever want something the editor does not
+This editor cannot change the menu or the site's visual design. It only reaches
+the content above. Saving creates a private preview first, so you can see the
+real page before publishing it. If you ever want something the editor does not
 offer, ask a maintainer — that is a code change, not a content one.
 
 ## Before you start
@@ -111,7 +109,8 @@ Tell the maintainer your exact GitHub username once you have one.
      while you are still working, and uncheck it when it's ready to publish.
    - Every photo needs a short **description for screen readers** — a plain
      sentence describing what's in the photo, for visitors who use one.
-8. Click **Save**.
+8. Click **Save**. This saves a private draft; it does not immediately change
+   the public website.
 
 ## 4. Building out a big event page
 
@@ -119,35 +118,29 @@ Most events only need the fields above — a date, a venue, a summary, a photo
 and a few sentences. Skip this section until you are working on something
 larger, like a puja with a full day's programme.
 
-For those, scroll to the **very bottom** of the event form, past the Details
-box. There is one more heading:
+For those, scroll to **Page sections** at the bottom of the event form. Click
+**Add section** and choose what the page needs:
 
-> **Homepage spotlight sections**
+| Section                  | What it is for                              |
+| ------------------------ | ------------------------------------------- |
+| Text and image           | A story, welcome, directions, or background |
+| Highlights               | A few things visitors can look forward to   |
+| Schedule                 | What happens when, hour by hour             |
+| Performers and programs  | Performers and stage slots                  |
+| Food and menu            | What is served at each meal                 |
+| Registration and pricing | Prices, deadlines, and registration link    |
+| Payment details          | QR code and accessible written details      |
+| Photo gallery            | A group of event photos                     |
+| Questions and answers    | Parking, accessibility, dress, and policies |
 
-It is collapsed, so it looks like a single line rather than a panel. Click it
-and six sections open up inside:
+Only add sections the event actually needs. Drag them into the order visitors
+should read them. Removing a section removes it from the page; there is no
+separate show/hide switch.
 
-| Section                        | What it is for                                             |
-| ------------------------------ | ---------------------------------------------------------- |
-| What to expect                 | A few highlights — anjali, hatekhori, bhog                 |
-| Schedule                       | What happens when, hour by hour                            |
-| Cultural programs              | Performers and slots                                       |
-| Food                           | What is being served at each meal                          |
-| Registration and contributions | What it costs, for families and single people and children |
-| How to pay                     | A payment QR code and the account details                  |
-
-### Nothing appears until you switch it on
-
-Each section has a **Show this section** switch, and each one starts off.
-
-A section only appears on the website when **both** things are true: the
-switch is on, and you have actually put something in it. A section that is
-switched on but still empty simply does not show up — it does not leave a
-blank heading or a gap on the page.
-
-That is deliberate. You can write the schedule over three sittings across two
-weeks, saving as you go, and nobody sees a half-finished list. Turn the switch
-on when it is right.
+To reuse a previous event, open it and choose **Duplicate** from the entry
+menu. Change the title, URL name, dates, and identifying details before saving.
+There is also a hidden **Template — Full festival event** entry that can be
+duplicated when you want a complete starting point.
 
 ### Adding things to a section
 
@@ -181,56 +174,25 @@ one day in it. That is normal, not a mistake.
 
 ### Checking your work
 
-Save, wait a minute or two, then open the website and look at it on your
-phone as well as a computer. Most people will read it on a phone.
-
-If a section you filled in is not showing, the usual reason is the **Show
-this section** switch is still off.
+Save, wait for the preview build, then use the preview link to look at the page
+on your phone as well as a computer. Most people will read it on a phone.
 
 ## What happens after you save
 
-Saving publishes your change to the live website directly — there is no
-separate review or approval step. It usually appears within a minute or two,
-once Netlify finishes rebuilding the site. That also means a typo or a wrong
-date goes live just as fast, so take a moment to reread the form before you
-click Save, the same way you would before sending an email to the whole
-community.
+Saving creates a draft and asks Netlify to build a private copy of the site.
+When the preview is ready, open it from the editor and check the page. When it
+looks right, click **Publish**. Publishing merges the draft and rebuilds the
+public website, usually within a minute or two.
 
-If you notice a mistake right after publishing, open the same entry, fix it,
-and save again — that is normal and not something to worry about.
+If you notice a mistake after publishing, open the same entry, fix it, preview
+it, and publish again.
 
 ## Making one event the homepage
 
-In the weeks before a big event you can hand the whole homepage over to it,
-then switch back afterwards. This is in **Pages → Home Page**, at the top,
-under **Homepage layout**.
-
-**Which layout**
-
-- **Normal homepage** — the usual page: who we are, what is coming up
-- **Feature one event** — the homepage becomes that event's page, with its
-  date, venue and all the sections you filled in
-
-**Which event to feature**
-
-Pick one from the list by name. If you leave it empty, the homepage features
-whichever event is next on the calendar and moves on by itself once that one
-has passed — so you do not have to remember to change it after the puja.
-
-**Only events that are visible on the site appear in this list.** If the event
-you want is missing, open it under Events and switch **Hide from the site**
-off. An event that is hidden everywhere else cannot be the homepage.
-
-Pick an event by name when you want a specific one regardless of dates.
-
-Two things that cannot go wrong:
-
-- If you choose **Feature one event** and there is no upcoming event, the
-  normal homepage is shown instead. The site never ends up with a blank
-  homepage.
-- If you pick an event and it is later hidden or deleted, the homepage falls
-  back to the next event rather than breaking. The website will keep working;
-  it just will not be showing the event you chose.
+Open the event and switch on **Feature this event on the homepage**. The
+homepage shows a prominent card with its date, title, venue, and image while
+keeping the organisation's story visible. Keep this switched on for only one
+upcoming event at a time. Past and hidden events are never featured.
 
 ## If something looks wrong after it's published
 

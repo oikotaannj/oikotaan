@@ -1,18 +1,17 @@
 ---
-title: "Saraswati Puja 2027 (sample)"
+title: "Template — Full festival event"
 titleBengali: "সরস্বতী পূজা ২০২৭"
 date: 2027-02-20
 time: "9:00 AM to 9:00 PM"
 venue: "Auten Road Intermediate School"
 address: "281 Auten Rd, Hillsborough Township, NJ 08844"
-summary: "A sample copy of the 2027 puja with every spotlight section filled in, so the committee can see how a complete event page looks."
+summary: "A hidden starter event with every page section filled in. Duplicate it in the CMS, then replace the sample content."
 image: "https://res.cloudinary.com/yxpsjuuc/image/upload/c_fill,ar_16:9,g_auto/v1790024893/oikotaan/saraswati-puja-2027.png"
 imageAlt: "A devotional portrait of Devi Saraswati holding a book and prayer beads, playing a veena"
 featured: false
-draft: false
-spotlight:
-  highlights:
-    enabled: true
+draft: true
+sections:
+  - type: highlights
     heading: "What to expect"
     intro: "A full day of prayer, music and food, open to everyone whether or not you are a member."
     items:
@@ -36,8 +35,7 @@ spotlight:
         description: "Khichuri at midday and a full dinner in the evening, cooked by the food committee rather than catered."
         image: "https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012668/oikotaan/gallery-volunteers.jpg"
         imageAlt: "Volunteers holding handmade paper flowers used to decorate a puja stage"
-  schedule:
-    enabled: true
+  - type: schedule
     heading: "Schedule"
     note: "Doors open at 9:00 AM. Timings shift a little on the day, so treat the evening slots as approximate."
     days:
@@ -73,8 +71,7 @@ spotlight:
               title: "Close",
               description: "Volunteers welcome to stay and help pack up.",
             }
-  programs:
-    enabled: true
+  - type: programs
     heading: "Cultural programs"
     intro: "Our own groups perform first, followed by guest artists in the evening."
     groups:
@@ -108,8 +105,7 @@ spotlight:
               performer: "Anyone who would like a turn",
               description: "Tell a volunteer at the sound desk before 6:30 PM.",
             }
-  food:
-    enabled: true
+  - type: menu
     heading: "Food"
     note: "Cooked by the food committee. Tell a volunteer about allergies and we will do our best."
     meals:
@@ -140,8 +136,7 @@ spotlight:
           - { name: "Fish kalia", note: "limited", nonVeg: true }
           - { name: "Chutney and papad" }
           - { name: "Mishti doi" }
-  registration:
-    enabled: true
+  - type: registration
     heading: "Registration"
     intro: "Registration covers dinner and the evening programme. Bhog at midday is free for everyone."
     deadline: "Early registration closes Monday 1 February 2027. After that, add $5 per person."
@@ -171,8 +166,7 @@ spotlight:
         unit: "with student ID"
         includes: ["Dinner", "Evening cultural programme"]
     note: "Nobody is turned away for not being able to contribute. Write to us quietly and we will sort it out."
-  payment:
-    enabled: true
+  - type: payment
     heading: "How to pay"
     intro: "Pay after you register. Please put your name in the reference so the treasurer can match it up."
     qrImage: "/images/sample-qr.svg"

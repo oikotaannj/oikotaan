@@ -16,8 +16,8 @@ Netlify  ──► www.oikotaannj.org  (live)
    ├── Cloudinary     → every photo and video, not committed to this repo
    └── Google Calendar→ rehearsals, classes, committee meetings
 
-/admin (Sveltia CMS) ──► GitHub OAuth via a Cloudflare Worker ──► commits
-straight to main (no PR review — see "Wiring up the content editor" below)
+/admin (Sveltia CMS) ──► GitHub OAuth via a Cloudflare Worker ──► preview branch
+   └── Netlify deploy preview ──► editor checks it ──► publish to main
 ```
 
 ## Running it locally
@@ -90,10 +90,9 @@ public/
 
 Two ways, and they produce the same commit.
 
-**In the browser:** go to `/admin`, sign in with GitHub, fill in the form, save.
-This commits straight to `main` and is live within a minute or two — there is
-no pull request to merge, by design (see "Wiring up the content editor").
-Reread the form before saving; there is no review step catching a typo.
+**In the browser:** go to `/admin`, sign in with GitHub, then create a blank
+event or duplicate a past event/template. Save to build a private Netlify
+preview; publish from the editor once the page looks right.
 
 **In code:** create `src/content/events/your-event.md`, copy the frontmatter from
 an existing file, and change it. The filename becomes the URL. This path still

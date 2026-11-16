@@ -14,31 +14,36 @@
   /* Noto Sans Bengali is listed in the body stack, not only the Bengali stack.
      Default system fonts render যুক্তাক্ষর (conjuncts) inconsistently on Windows
      and Android, so any stray Bengali word in an English sentence needs it too. */
-  --font-sans: "Inter", "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Noto Serif Bengali", ui-serif, Georgia, Cambria, serif;
+  --font-sans: "Manrope", "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "DM Serif Display", "Noto Serif Bengali", ui-serif, Georgia, Cambria, serif;
   --font-bengali: "Noto Sans Bengali", ui-sans-serif, system-ui, sans-serif;
 
-  /* Alpona red, the colour of Durga Puja and Poila Boishakh. */
-  --color-sindoor-50: #fdf3f2;
-  --color-sindoor-100: #fce4e2;
-  --color-sindoor-200: #facdc9;
-  --color-sindoor-300: #f5a49e;
-  --color-sindoor-400: #ec726b;
-  --color-sindoor-500: #dc4740;
-  --color-sindoor-600: #c1272d;
-  --color-sindoor-700: #a11f26;
-  --color-sindoor-800: #851c21;
-  --color-sindoor-900: #6f1b1f;
+  /* Editorial Bengal: mineral reds rather than bright web red. */
+  --color-sindoor-50: #fbf1ed;
+  --color-sindoor-100: #f5dfd8;
+  --color-sindoor-200: #ebc1b6;
+  --color-sindoor-300: #dc9787;
+  --color-sindoor-400: #c86a58;
+  --color-sindoor-500: #b44a3c;
+  --color-sindoor-600: #a6372d;
+  --color-sindoor-700: #862b25;
+  --color-sindoor-800: #6f2823;
+  --color-sindoor-900: #5d2521;
 
   /* Marigold, for accents and highlights. */
-  --color-marigold-300: #f7d488;
-  --color-marigold-400: #f0b429;
-  --color-marigold-500: #e8a33d;
-  --color-marigold-600: #c77f16;
+  --color-marigold-300: #f1d49a;
+  --color-marigold-400: #e8b95b;
+  --color-marigold-500: #d99a31;
+  --color-marigold-600: #ae741f;
 
-  --color-cream: #fff9f2;
-  --color-ink: #1f1a17;
-  --color-ink-soft: #5a4f47;
+  --color-cream: #f8f2e8;
+  --color-paper: #fffaf2;
+  --color-leaf: #49635d;
+  --color-leaf-dark: #314944;
+  --color-ink: #27211e;
+  --color-ink-soft: #655b54;
+
+  --shadow-card: 0 20px 50px -24px rgba(64, 42, 29, 0.35);
 }
 
 html {
@@ -49,6 +54,32 @@ body {
   background-color: var(--color-cream);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-marigold-300);
+  color: var(--color-ink);
+}
+
+.display-heading {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.05;
+}
+
+.eyebrow {
+  color: var(--color-sindoor-600);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.alpona-wash {
+  background-image:
+    radial-gradient(circle at 82% 15%, rgb(217 154 49 / 22%) 0 7%, transparent 7.2%),
+    repeating-radial-gradient(circle at 82% 15%, transparent 0 25px, rgb(166 55 45 / 8%) 26px 27px);
 }
 
 /* Bengali text sits lower and needs more line height than Latin at the same
