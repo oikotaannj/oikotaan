@@ -48,7 +48,9 @@ const src = readFileSync("src/content.config.ts", "utf8");
 // long chains. Matching only `z\.` silently missed every multi-line field and
 // reported ten false disagreements.
 const schemaNames = new Set(
-  [...src.matchAll(/^\s+([a-zA-Z][a-zA-Z0-9]*):\s*z[\s.]/gm)].map((m) => m[1]),
+  [...src.matchAll(/^\s+([a-zA-Z][a-zA-Z0-9]*):\s*(?:z|optionalDate|optionalUrl)[\s.,]/gm)].map(
+    (m) => m[1],
+  ),
 );
 
 // Zod and Astro API keys that are not content fields.
