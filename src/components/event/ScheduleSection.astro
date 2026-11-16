@@ -16,7 +16,15 @@ const days = data.days.filter((d) => d.items.length > 0);
 {
   days.length > 0 && (
     <SectionShell id="schedule" heading={data.heading} intro={data.note}>
-      <div class="grid gap-8 lg:grid-cols-2">
+      {/* A grid built for two looks unfinished with one, and a single-day
+          event is the common case, so the column count tracks what is there. */}
+      <div
+        class:list={[
+          "grid gap-8",
+          days.length > 1 && "lg:grid-cols-2",
+          days.length === 1 && "max-w-2xl",
+        ]}
+      >
         {days.map((day) => (
           <div class="rounded-2xl border border-sindoor-100 bg-white p-6 sm:p-8">
             <h3 class="text-lg font-bold text-ink">{day.label}</h3>
