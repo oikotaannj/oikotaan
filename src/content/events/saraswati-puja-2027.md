@@ -18,6 +18,10 @@ sections:
     body: lorem ipsum
     image: https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012670/oikotaan/food-drive-team.jpg
     imageAlt: ''
+  - type: highlights
+    heading: What to expect
+    intro: A full day of fun and cultural engagement
+    items: []
 ---
 
 Please join us for Saraswati Puja 2027 at Auten Road Intermediate School, as
