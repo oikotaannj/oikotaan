@@ -12,9 +12,9 @@ const { data } = Astro.props;
 const groups = data.groups.filter((g) => g.items.length > 0);
 ---
 
-{
-  groups.length > 0 && (
-    <SectionShell id="programs" heading={data.heading} intro={data.intro}>
+<SectionShell id="programs" heading={data.heading} intro={data.intro}>
+  {
+    groups.length > 0 && (
       <div class="space-y-12">
         {groups.map((group) => (
           <div>
@@ -59,6 +59,6 @@ const groups = data.groups.filter((g) => g.items.length > 0);
           </div>
         ))}
       </div>
-    </SectionShell>
-  )
-}
+    )
+  }
+</SectionShell>

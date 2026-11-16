@@ -14,11 +14,13 @@ const { data } = Astro.props;
 const days = data.days.filter((d) => d.items.length > 0);
 ---
 
-{
-  days.length > 0 && (
-    <SectionShell id="schedule" heading={data.heading} intro={data.note}>
-      {/* A grid built for two looks unfinished with one, and a single-day
-          event is the common case, so the column count tracks what is there. */}
+<SectionShell id="schedule" heading={data.heading} intro={data.note}>
+  {
+    /* A grid built for two looks unfinished with one, and a single-day event is
+      the common case, so the column count tracks what is there. */
+  }
+  {
+    days.length > 0 && (
       <div
         class:list={[
           "grid gap-8",
@@ -51,6 +53,6 @@ const days = data.days.filter((d) => d.items.length > 0);
           </div>
         ))}
       </div>
-    </SectionShell>
-  )
-}
+    )
+  }
+</SectionShell>
