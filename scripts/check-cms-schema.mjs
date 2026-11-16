@@ -27,6 +27,9 @@ const walk = (fields) => {
     cmsNames.add(f.name);
     walk(f.fields);
     if (f.field) walk([f.field]);
+    // Variable-type lists are the CMS page-builder shape. The type's own name
+    // is a discriminator value, not a stored field; only walk its fields.
+    for (const type of f.types ?? []) walk(type.fields);
   }
 };
 for (const c of cfg.collections ?? []) {
@@ -48,11 +51,8 @@ const schemaNames = new Set(
   [...src.matchAll(/^\s+([a-zA-Z][a-zA-Z0-9]*):\s*z[\s.]/gm)].map((m) => m[1]),
 );
 
-// Composed in from standalone consts, so they never appear as `key: z…`.
-for (const n of ["spotlight"]) schemaNames.add(n);
-
 // Zod and Astro API keys that are not content fields.
-for (const n of ["schema", "loader"]) schemaNames.delete(n);
+for (const n of ["schema", "loader", "type"]) schemaNames.delete(n);
 
 const onlyCms = [...cmsNames].filter((n) => !schemaNames.has(n)).sort();
 const onlySchema = [...schemaNames].filter((n) => !cmsNames.has(n)).sort();

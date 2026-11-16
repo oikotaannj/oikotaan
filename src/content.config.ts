@@ -12,22 +12,9 @@ import { glob } from "astro/loaders";
  * This is also what the CMS at /admin reads to draw its form, so adding a field
  * here means adding it to public/admin/config.yml as well.
  */
-/**
- * The spotlight sections.
- *
- * These describe a single event in the detail a landing page needs: what
- * happens when, what is being served, who is performing, what it costs and how
- * to pay. They drive the spotlight homepage (src/components/home/EventSpotlight)
- * and nothing else reads them.
- *
- * Every section carries its own `enabled`, so the committee turns a section on
- * only once it has something true to put in it. A section that is enabled but
- * empty renders nothing rather than an empty heading: half-finished is the
- * normal state of an event page six weeks out, and it should not look broken.
- *
- * None of this is required. An event with no spotlight block renders the way
- * events always have.
- */
+/** Reusable event-page building blocks. Editors add only the sections they
+ * need and drag them into order; the presence of a block is what makes it
+ * visible, so there is no second layer of "enabled" switches to manage. */
 const scheduleItem = z.object({
   time: z.string(),
   title: z.string(),
@@ -51,133 +38,117 @@ const programItem = z.object({
   imageAlt: z.string().optional(),
 });
 
-const spotlight = z
-  .object({
-    schedule: z
-      .object({
-        enabled: z.boolean().default(false),
-        heading: z.string().default("Schedule"),
+const eventSection = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("story"),
+    heading: z.string(),
+    body: z.string(),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal("highlights"),
+    heading: z.string().default("What to expect"),
+    intro: z.string().optional(),
+    items: z.array(
+      z.object({
+        kicker: z.string().optional(),
+        title: z.string(),
+        description: z.string().optional(),
+        image: z.string().optional(),
+        imageAlt: z.string().optional(),
+      }),
+    ),
+  }),
+  z.object({
+    type: z.literal("schedule"),
+    heading: z.string().default("Schedule"),
+    note: z.string().optional(),
+    days: z.array(
+      z.object({
+        label: z.string(),
         note: z.string().optional(),
-        // A list of days, so a one-day puja and a four-day one use the same
-        // shape and nothing needs rewriting when the event grows.
-        days: z
-          .array(
-            z.object({
-              label: z.string(),
-              note: z.string().optional(),
-              items: z.array(scheduleItem).default([]),
-            }),
-          )
-          .default([]),
-      })
-      .optional(),
-
-    food: z
-      .object({
-        enabled: z.boolean().default(false),
-        heading: z.string().default("Food"),
+        items: z.array(scheduleItem),
+      }),
+    ),
+  }),
+  z.object({
+    type: z.literal("programs"),
+    heading: z.string().default("Cultural programs"),
+    intro: z.string().optional(),
+    groups: z.array(
+      z.object({
+        label: z.string().optional(),
         note: z.string().optional(),
-        // Named rather than fixed to lunch/snacks/dinner, because a day event
-        // serves breakfast and prasad and a four-day one serves bhog.
-        meals: z
-          .array(
-            z.object({
-              name: z.string(),
-              time: z.string().optional(),
-              note: z.string().optional(),
-              items: z.array(menuItem).default([]),
-            }),
-          )
-          .default([]),
-      })
-      .optional(),
-
-    programs: z
-      .object({
-        enabled: z.boolean().default(false),
-        heading: z.string().default("Cultural programs"),
-        intro: z.string().optional(),
-        // Groups are deliberately unlabelled by meaning: an evening, a day, a
-        // category. The committee decides what a group is.
-        groups: z
-          .array(
-            z.object({
-              label: z.string().optional(),
-              note: z.string().optional(),
-              items: z.array(programItem).default([]),
-            }),
-          )
-          .default([]),
-      })
-      .optional(),
-
-    registration: z
-      .object({
-        enabled: z.boolean().default(false),
-        heading: z.string().default("Registration"),
-        intro: z.string().optional(),
-        deadline: z.string().optional(),
-        url: z.string().url().optional(),
-        urlLabel: z.string().default("Register"),
-        tiers: z
-          .array(
-            z.object({
-              name: z.string(),
-              price: z.string(),
-              unit: z.string().optional(),
-              description: z.string().optional(),
-              includes: z.array(z.string()).default([]),
-              highlight: z.boolean().default(false),
-            }),
-          )
-          .default([]),
+        items: z.array(programItem),
+      }),
+    ),
+  }),
+  z.object({
+    type: z.literal("menu"),
+    heading: z.string().default("Food"),
+    note: z.string().optional(),
+    meals: z.array(
+      z.object({
+        name: z.string(),
+        time: z.string().optional(),
         note: z.string().optional(),
-      })
-      .optional(),
-
-    payment: z
-      .object({
-        enabled: z.boolean().default(false),
-        heading: z.string().default("How to pay"),
-        intro: z.string().optional(),
-        // An image the committee uploads. Nothing here generates a payment
-        // code; whatever the payment app produced is what gets shown.
-        qrImage: z.string().optional(),
-        qrAlt: z.string().optional(),
-        qrCaption: z.string().optional(),
-        methods: z
-          .array(
-            z.object({
-              label: z.string(),
-              value: z.string(),
-              note: z.string().optional(),
-            }),
-          )
-          .default([]),
+        items: z.array(menuItem),
+      }),
+    ),
+  }),
+  z.object({
+    type: z.literal("registration"),
+    heading: z.string().default("Registration"),
+    intro: z.string().optional(),
+    deadline: z.string().optional(),
+    url: z.url().optional(),
+    urlLabel: z.string().default("Register"),
+    tiers: z.array(
+      z.object({
+        name: z.string(),
+        price: z.string(),
+        unit: z.string().optional(),
+        description: z.string().optional(),
+        includes: z.array(z.string()).default([]),
+        highlight: z.boolean().default(false),
+      }),
+    ),
+    note: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal("payment"),
+    heading: z.string().default("How to pay"),
+    intro: z.string().optional(),
+    qrImage: z.string().optional(),
+    qrAlt: z.string().optional(),
+    qrCaption: z.string().optional(),
+    methods: z.array(
+      z.object({
+        label: z.string(),
+        value: z.string(),
         note: z.string().optional(),
-      })
-      .optional(),
-
-    highlights: z
-      .object({
-        enabled: z.boolean().default(false),
-        heading: z.string().default("What to expect"),
-        intro: z.string().optional(),
-        items: z
-          .array(
-            z.object({
-              kicker: z.string().optional(),
-              title: z.string(),
-              description: z.string().optional(),
-              image: z.string().optional(),
-              imageAlt: z.string().optional(),
-            }),
-          )
-          .default([]),
-      })
-      .optional(),
-  })
-  .optional();
+      }),
+    ),
+    note: z.string().optional(),
+  }),
+  z.object({
+    type: z.literal("gallery"),
+    heading: z.string().default("Gallery"),
+    intro: z.string().optional(),
+    photos: z.array(z.object({ image: z.string(), alt: z.string() })),
+  }),
+  z.object({
+    type: z.literal("faq"),
+    heading: z.string().default("Good to know"),
+    items: z.array(
+      z.object({
+        question: z.string(),
+        answer: z.string(),
+      }),
+    ),
+  }),
+]);
 
 const events = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),
@@ -205,7 +176,7 @@ const events = defineCollection({
     imageAlt: z.string().optional(),
 
     // Zeffy ticket or registration page for this specific event.
-    ticketUrl: z.string().url().optional(),
+    ticketUrl: z.url().optional(),
 
     // Pins the event to the top of the homepage.
     featured: z.boolean().default(false),
@@ -213,7 +184,7 @@ const events = defineCollection({
     // Set to true to keep a half-written event out of the build.
     draft: z.boolean().default(false),
 
-    spotlight,
+    sections: z.array(eventSection).default([]),
   }),
 });
 
@@ -233,22 +204,6 @@ const events = defineCollection({
 const home = defineCollection({
   loader: glob({ pattern: "home.yaml", base: "./src/content" }),
   schema: z.object({
-    /**
-     * Which homepage template runs. This sits in content rather than in
-     * site.config.ts so the committee can switch the homepage back after an
-     * event without waiting for a developer and a pull request.
-     *
-     * "spotlight" picks the soonest upcoming event unless eventId names one.
-     * Either way it falls back to the standard homepage when there is nothing
-     * to feature, so the mode cannot leave the site with an empty hero.
-     */
-    layout: z
-      .object({
-        mode: z.enum(["standard", "spotlight"]).default("standard"),
-        eventId: z.string().default(""),
-      })
-      .default({ mode: "standard", eventId: "" }),
-
     hero: z.object({
       kicker: z.string(),
       heading: z.string(),

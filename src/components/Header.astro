@@ -7,8 +7,8 @@ import Container from "./Container.astro";
 const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
 ---
 
-<header class="sticky top-0 z-40 border-b border-sindoor-100 bg-cream/95 backdrop-blur">
-  <Container class="relative flex items-center justify-between gap-3 py-3 sm:gap-4 sm:py-4">
+<header class="sticky top-0 z-40 border-b border-sindoor-100/80 bg-paper/95 backdrop-blur-xl">
+  <Container class="relative flex items-center justify-between gap-3 py-3 sm:gap-4">
     <!-- The checkbox is the toggle for the mobile menu panel below: no
          JavaScript needed, just the peer-checked variant on that panel. It has
          to be a sibling of the panel (both direct children of this row) for
@@ -20,20 +20,20 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
          right edge, and the whole page scrolls sideways on a phone. -->
     <a href="/" class="group flex min-w-0 items-center gap-3">
       <img
-        src="https://res.cloudinary.com/yxpsjuuc/image/upload/v1790012665/oikotaan/logo.jpg"
+        src="/images/oikotaan-logo.png"
         alt=""
-        width="44"
-        height="44"
-        class="h-10 w-10 shrink-0 rounded-full ring-1 ring-sindoor-100 sm:h-11 sm:w-11"
+        width="512"
+        height="511"
+        class="h-12 w-12 shrink-0 rounded-full bg-white object-contain shadow-sm ring-1 ring-sindoor-100"
       />
       <span class="min-w-0 leading-tight">
         <!-- The full name does not fit beside the nav on a 375px screen, so
              phones get the initials and everything else gets the name. Both are
              inside the same link, so the accessible name is still correct. -->
-        <span class="block font-semibold text-ink group-hover:text-sindoor-700 sm:hidden">
+        <span class="block font-serif text-xl text-ink group-hover:text-sindoor-700 sm:hidden">
           {site.shortName}
         </span>
-        <span class="hidden font-semibold text-ink group-hover:text-sindoor-700 sm:block">
+        <span class="hidden font-serif text-xl text-ink group-hover:text-sindoor-700 sm:block">
           {site.name}
         </span>
         <span lang="bn" class="hidden text-sm text-ink-soft sm:block">{site.nameBengali}</span>
@@ -53,7 +53,7 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
               href={item.href}
               aria-current={isCurrent ? "page" : undefined}
               class:list={[
-                "rounded-md px-2 py-2 text-sm font-medium transition-colors sm:px-3",
+                "rounded-full px-2 py-2 text-sm font-semibold transition-colors sm:px-3",
                 isCurrent
                   ? "bg-sindoor-50 text-sindoor-700"
                   : "text-ink-soft hover:bg-sindoor-50 hover:text-sindoor-700",
@@ -70,7 +70,7 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
             href={site.zeffy.donateUrl}
             target="_blank"
             rel="noopener"
-            class="ml-1 rounded-md bg-sindoor-600 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-sindoor-700 sm:px-4"
+            class="ml-1 rounded-full bg-sindoor-600 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-sindoor-700 sm:px-5"
           >
             Donate
           </a>
@@ -81,7 +81,7 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
     <!-- Mobile toggle, below sm only. -->
     <label
       for="nav-toggle"
-      class="flex shrink-0 cursor-pointer items-center justify-center rounded-md p-2 text-ink-soft hover:bg-sindoor-50 sm:hidden"
+      class="flex shrink-0 cursor-pointer items-center justify-center rounded-full p-2 text-ink-soft hover:bg-sindoor-50 sm:hidden"
       aria-label="Open menu"
     >
       <svg
@@ -99,7 +99,7 @@ const current = Astro.url.pathname.replace(/\/+$/, "") || "/";
     <!-- Mobile menu panel. Positioned relative to this row (not <header>) so
          it drops in directly below it regardless of the row's own height. -->
     <div
-      class="absolute inset-x-0 top-full hidden border-t border-sindoor-100 bg-cream peer-checked:block sm:hidden"
+      class="absolute inset-x-0 top-full hidden border-t border-sindoor-100 bg-paper shadow-card peer-checked:block sm:hidden"
     >
       <nav aria-label="Main" class="flex flex-col gap-1 px-5 py-3">
         {

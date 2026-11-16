@@ -2,10 +2,9 @@
 import SectionShell from "./SectionShell.astro";
 
 interface Props {
-  data: NonNullable<
-    NonNullable<
-      import("astro:content").CollectionEntry<"events">["data"]["spotlight"]
-    >["highlights"]
+  data: Extract<
+    import("astro:content").CollectionEntry<"events">["data"]["sections"][number],
+    { type: "highlights" }
   >;
 }
 const { data } = Astro.props;

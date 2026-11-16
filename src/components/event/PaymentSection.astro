@@ -2,8 +2,9 @@
 import SectionShell from "./SectionShell.astro";
 
 interface Props {
-  data: NonNullable<
-    NonNullable<import("astro:content").CollectionEntry<"events">["data"]["spotlight"]>["payment"]
+  data: Extract<
+    import("astro:content").CollectionEntry<"events">["data"]["sections"][number],
+    { type: "payment" }
   >;
 }
 const { data } = Astro.props;
@@ -53,7 +54,7 @@ const { data } = Astro.props;
         )}
       </div>
 
-      {data.note && <p class="mt-6 max-w-2xl text-sm leading-relaxed text-ink-soft">{data.note}</p>}
+      {data.note && <p class="mt-6 text-sm leading-relaxed text-ink-soft">{data.note}</p>}
     </SectionShell>
   )
 }

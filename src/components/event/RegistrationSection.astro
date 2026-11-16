@@ -2,10 +2,9 @@
 import SectionShell from "./SectionShell.astro";
 
 interface Props {
-  data: NonNullable<
-    NonNullable<
-      import("astro:content").CollectionEntry<"events">["data"]["spotlight"]
-    >["registration"]
+  data: Extract<
+    import("astro:content").CollectionEntry<"events">["data"]["sections"][number],
+    { type: "registration" }
   >;
 }
 const { data } = Astro.props;
@@ -27,7 +26,11 @@ const tiers = data.tiers;
           class:list={[
             "grid gap-6",
             tiers.length === 2 && "sm:grid-cols-2 lg:max-w-3xl",
-            tiers.length >= 3 && "sm:grid-cols-2 lg:grid-cols-3",
+            tiers.length === 3 && "sm:grid-cols-2 lg:grid-cols-3",
+            // Four across is cramped once a tier lists what it includes, and
+            // three across strands the fourth alone on a second row.
+            tiers.length === 4 && "sm:grid-cols-2 lg:max-w-4xl",
+            tiers.length >= 5 && "sm:grid-cols-2 lg:grid-cols-3",
           ]}
         >
           {tiers.map((tier) => (
@@ -79,7 +82,7 @@ const tiers = data.tiers;
         </a>
       )}
 
-      {data.note && <p class="mt-6 max-w-2xl text-sm leading-relaxed text-ink-soft">{data.note}</p>}
+      {data.note && <p class="mt-6 text-sm leading-relaxed text-ink-soft">{data.note}</p>}
     </SectionShell>
   )
 }

@@ -1,42 +1,14 @@
-# Sveltia CMS configuration.
-#
-# The fields below must stay in step with the Zod schema in
-# src/content.config.ts. If they drift, the CMS will happily save frontmatter
-# that fails the next build, and the person who saved it will have no idea why.
-
 backend:
   name: github
-  # Moving this repository into an organisation account changes this line,
-  # and the OAuth app below has to be re-pointed at the new owner.
   repo: oikotaannj/oikotaan
   branch: main
   base_url: https://sveltia-cms-auth.oikotaanassociationofusa.workers.dev
 
-# No publish_mode set: Sveltia's default is to commit straight to `main` on
-# save, live as soon as Netlify's next build finishes. Chosen deliberately so
-# non-technical committee members can publish events themselves without a
-# maintainer merging every change — see CONTENT_EDITOR_GUIDE.md. This trades
-# away the review-before-publish safety net that a pull request would give;
-# if that stops being the right tradeoff, set this back to
-# `editorial_workflow` and every save goes through a PR again instead.
-#
-# This is deliberately safe only because of what this file does NOT expose:
-# every field below is bounded by the Zod schema in src/content.config.ts, and
-# there is no collection here that can create a page, a route, a nav item, or
-# a new content type — only new or edited entries within the four collections
-# already defined. That is what keeps "direct-publish" scoped to editorial
-# content. A genuinely structural change (a new page, a new collection, a
-# layout change) always requires editing an .astro/.ts file directly, which
-# stays on the ordinary branch -> pull request -> review -> merge path
-# regardless of this setting — adding a new collection here is the one way to
-# accidentally break that boundary, so think it through before doing so.
+# Saving creates a private draft and a Netlify deploy preview. Editors publish
+# only after checking the real page; no GitHub knowledge is required.
+publish_mode: preview
+site_url: https://www.oikotaannj.org
 
-# Every image/file field opens Cloudinary's own picker instead of committing
-# the file to this repo. cloud_name and api_key are public identifiers, safe
-# to commit — the api_secret is never needed here, since the widget
-# authenticates through your own Cloudinary login instead.
-# output_filename_only defaults to false, so the field stores the full
-# Cloudinary URL, ready to drop straight into an <img src>.
 media_libraries:
   cloudinary:
     config:
@@ -48,257 +20,192 @@ collections:
     label: Pages
     files:
       - name: home
-        label: Home Page
+        label: Homepage
         file: src/content/home.yaml
+        preview_path: /
         fields:
-          - label: Homepage layout
-            name: layout
-            widget: object
-            hint: >-
-              Use "Feature one event" in the weeks before a big event, then
-              switch back to "Normal homepage" afterwards.
-            fields:
-              - name: mode
-                label: Which layout
-                widget: select
-                default: standard
-                options:
-                  - { label: "Normal homepage", value: standard }
-                  - { label: "Feature one event", value: spotlight }
-              - name: eventId
-                label: Which event to feature
-                widget: relation
-                collection: events
-                search_fields: [title]
-                display_fields: [title]
-                value_field: "{{slug}}"
-                required: false
-                # Only events that are actually visible on the site. Without
-                # this the list offered hidden events too, and picking one
-                # changed nothing with no explanation: the homepage cannot
-                # feature an event that is hidden everywhere else.
-                filters:
-                  - { field: draft, values: [false] }
-                hint: >-
-                  Pick an event from the list. Only events that are visible
-                  on the site appear here, so if one is missing, check that
-                  "Hide from the site" is switched off on that event. Leave
-                  this empty and the homepage features whichever event is
-                  next, moving on by itself once that one has passed.
-          - label: Hero
-            name: hero
+          - name: hero
+            label: Homepage introduction
             widget: object
             fields:
-              - { name: kicker, label: Kicker (Bengali script), widget: string }
+              - { name: kicker, label: Bengali name, widget: string }
               - { name: heading, label: Headline, widget: text }
-              - { name: description, label: Description, widget: text }
-              - {
-                  name: image,
-                  label: Photo,
-                  widget: image,
-                  media_folder: public/images/site,
-                  public_folder: /images/site,
-                }
-              - { name: imageAlt, label: Describe the photo for screen readers, widget: string }
-          - label: Programs (3 pillars under the hero)
-            name: programs
+              - { name: description, label: Introduction, widget: text }
+              - { name: image, label: Main photo, widget: image }
+              - { name: imageAlt, label: Describe the photo, widget: string }
+          - name: programs
+            label: What we do
             widget: list
             summary: "{{fields.title}}"
             fields:
               - { name: icon, label: Icon, widget: select, options: [flame, book, heart] }
               - { name: title, label: Title, widget: string }
               - { name: description, label: Description, widget: text }
-          - label: Gallery (From our events)
-            name: gallery
+          - name: gallery
+            label: Community photos
             widget: list
             summary: "{{fields.alt}}"
             fields:
-              - {
-                  name: image,
-                  label: Photo,
-                  widget: image,
-                  media_folder: public/images/site,
-                  public_folder: /images/site,
-                }
-              - { name: alt, label: Describe the photo for screen readers, widget: string }
-          - label: Contact section
-            name: contact
+              - { name: image, label: Photo, widget: image }
+              - { name: alt, label: Describe the photo, widget: string }
+          - name: contact
+            label: Contact invitation
             widget: object
             fields:
               - { name: heading, label: Heading, widget: string }
-              - { name: body, label: Body text, widget: text }
+              - { name: body, label: Message, widget: text }
 
       - name: about
-        label: About Page
+        label: About page
         file: src/content/about.yaml
+        preview_path: /about/
         fields:
-          - label: Mission
-            name: mission
+          - name: mission
+            label: Mission
             widget: object
-            hint: >-
-              Legal name, EIN and tax-exempt status on this page come from
-              src/site.config.ts, not here — ask a developer if those need to
-              change.
             fields:
               - { name: heading, label: Heading, widget: string }
-              - { name: body, label: Body text, widget: text }
+              - { name: body, label: Mission statement, widget: text }
 
   - name: events
     label: Events
     label_singular: Event
     folder: src/content/events
     create: true
+    duplicate: true
     slug: "{{slug}}"
+    preview_path: "/events/{{slug}}/"
     summary: "{{title}} — {{date}}"
     sortable_fields: [date, title]
+    view_filters:
+      - { label: Featured, field: featured, pattern: true }
+      - { label: Hidden drafts, field: draft, pattern: true }
     fields:
-      - { name: title, label: Title, widget: string }
-      - { name: titleBengali, label: Title in Bengali, widget: string, required: false }
-      - {
-          name: date,
-          label: Date,
-          widget: datetime,
-          date_format: YYYY-MM-DD,
-          time_format: false,
-          picker_utc: true,
-        }
-      - {
-          name: endDate,
-          label: End date (multi-day events only),
-          widget: datetime,
-          date_format: YYYY-MM-DD,
-          time_format: false,
-          picker_utc: true,
-          required: false,
-        }
+      - { name: title, label: Event title, widget: string }
+      - { name: titleBengali, label: Bengali title, widget: string, required: false }
+      - name: date
+        label: Start date
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        picker_utc: true
+      - name: endDate
+        label: End date
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        picker_utc: true
+        required: false
+        hint: Leave blank for a one-day event.
       - {
           name: time,
           label: Time,
           widget: string,
           required: false,
-          hint: "Free text, e.g. 6:00 PM onwards",
+          hint: "For example: 9:00 AM to 9:00 PM",
         }
       - { name: venue, label: Venue, widget: string }
       - { name: address, label: Full address, widget: string, required: false }
-      - {
-          name: summary,
-          label: One-line summary,
-          widget: text,
-          pattern: ["^.{1,200}$", "Keep this under 200 characters"],
-        }
-      - { name: image, label: Banner image, widget: image, required: false }
-      - {
-          name: imageAlt,
-          label: Describe the image for screen readers,
-          widget: string,
-          required: false,
-        }
-      - { name: ticketUrl, label: Zeffy ticket link, widget: string, required: false }
-      - { name: featured, label: Pin to homepage, widget: boolean, default: false }
-      - {
-          name: draft,
-          label: Hide from the site (still writing it),
-          widget: boolean,
-          default: false,
-        }
-      - { name: body, label: Details, widget: markdown }
+      - name: summary
+        label: Short introduction
+        widget: text
+        pattern: ["^.{1,200}$", "Keep this under 200 characters"]
+      - { name: image, label: Main image, widget: image, required: false }
+      - { name: imageAlt, label: Describe the image, widget: string, required: false }
+      - { name: ticketUrl, label: Registration or ticket link, widget: string, required: false }
+      - name: featured
+        label: Feature this event on the homepage
+        widget: boolean
+        default: false
+        hint: Only one upcoming event should be featured at a time.
+      - name: draft
+        label: Hide this event from the website
+        widget: boolean
+        default: true
+        hint: Keep this on until the event is ready to publish.
+      - name: body
+        label: Main description
+        widget: markdown
+        required: false
 
-      # --- Spotlight sections -------------------------------------------
-      # These drive the spotlight homepage. Each section has its own "Show
-      # this section" switch, so you can write a section over several weeks
-      # and only turn it on when it is ready. A section that is switched on
-      # but empty simply does not appear, so nothing looks broken half-built.
-      - name: spotlight
-        label: "Homepage spotlight sections"
-        widget: object
+      # A small page builder. Editors add only what the event needs and drag
+      # blocks into the desired order. No separate show/hide switches.
+      - name: sections
+        label: Page sections
+        label_singular: Section
+        widget: list
         required: false
         collapsed: true
-        fields:
-          - name: highlights
-            label: "What to expect"
+        minimize_collapsed: true
+        types:
+          - name: story
+            label: Text and image
             widget: object
-            required: false
-            collapsed: true
+            summary: "Story — {{fields.heading}}"
             fields:
-              - { name: enabled, label: Show this section, widget: boolean, default: false }
+              - { name: heading, label: Heading, widget: string }
+              - { name: body, label: Text, widget: text }
+              - { name: image, label: Photo, widget: image, required: false }
+              - { name: imageAlt, label: Describe the photo, widget: string, required: false }
+
+          - name: highlights
+            label: Highlights
+            widget: object
+            summary: "Highlights — {{fields.heading}}"
+            fields:
               - { name: heading, label: Heading, widget: string, default: "What to expect" }
-              - { name: intro, label: Intro, widget: text, required: false }
+              - { name: intro, label: Introduction, widget: text, required: false }
               - name: items
                 label: Highlights
                 widget: list
-                required: false
+                summary: "{{fields.title}}"
                 fields:
-                  - {
-                      name: kicker,
-                      label: Small label above the title,
-                      widget: string,
-                      required: false,
-                    }
+                  - { name: kicker, label: Small label, widget: string, required: false }
                   - { name: title, label: Title, widget: string }
                   - { name: description, label: Description, widget: text, required: false }
                   - { name: image, label: Image, widget: image, required: false }
-                  - {
-                      name: imageAlt,
-                      label: Describe the image for screen readers,
-                      widget: string,
-                      required: false,
-                    }
+                  - { name: imageAlt, label: Describe the image, widget: string, required: false }
 
           - name: schedule
-            label: "Schedule"
+            label: Schedule
             widget: object
-            required: false
-            collapsed: true
+            summary: "Schedule — {{fields.heading}}"
             fields:
-              - { name: enabled, label: Show this section, widget: boolean, default: false }
-              - { name: heading, label: Heading, widget: string, default: "Schedule" }
-              - { name: note, label: Note under the heading, widget: text, required: false }
+              - { name: heading, label: Heading, widget: string, default: Schedule }
+              - { name: note, label: Introductory note, widget: text, required: false }
               - name: days
                 label: Days
                 widget: list
-                required: false
-                label_singular: Day
                 summary: "{{fields.label}}"
                 fields:
-                  - { name: label, label: "Day label (e.g. Saturday, 20 February)", widget: string }
-                  - { name: note, label: Note for this day, widget: string, required: false }
+                  - { name: label, label: Day label, widget: string }
+                  - { name: note, label: Note, widget: string, required: false }
                   - name: items
-                    label: Items
+                    label: Schedule items
                     widget: list
-                    required: false
                     summary: "{{fields.time}} — {{fields.title}}"
                     fields:
-                      - { name: time, label: "Time (e.g. 9:30 AM)", widget: string }
+                      - { name: time, label: Time, widget: string }
                       - { name: title, label: What happens, widget: string }
                       - { name: description, label: Detail, widget: text, required: false }
 
           - name: programs
-            label: "Cultural programs"
+            label: Performers and programs
             widget: object
-            required: false
-            collapsed: true
+            summary: "Programs — {{fields.heading}}"
             fields:
-              - { name: enabled, label: Show this section, widget: boolean, default: false }
               - { name: heading, label: Heading, widget: string, default: "Cultural programs" }
-              - { name: intro, label: Intro, widget: text, required: false }
+              - { name: intro, label: Introduction, widget: text, required: false }
               - name: groups
                 label: Groups
                 widget: list
-                required: false
-                label_singular: Group
                 summary: "{{fields.label}}"
                 fields:
-                  - {
-                      name: label,
-                      label: "Group label (e.g. Afternoon, Evening)",
-                      widget: string,
-                      required: false,
-                    }
-                  - { name: note, label: Note for this group, widget: string, required: false }
+                  - { name: label, label: Group label, widget: string, required: false }
+                  - { name: note, label: Note, widget: string, required: false }
                   - name: items
                     label: Performances
                     widget: list
-                    required: false
                     summary: "{{fields.title}}"
                     fields:
                       - { name: time, label: Time, widget: string, required: false }
@@ -308,179 +215,159 @@ collections:
                       - { name: image, label: Image, widget: image, required: false }
                       - {
                           name: imageAlt,
-                          label: Describe the image for screen readers,
+                          label: Describe the image,
                           widget: string,
                           required: false,
                         }
 
-          - name: food
-            label: "Food"
+          - name: menu
+            label: Food and menu
             widget: object
-            required: false
-            collapsed: true
+            summary: "Menu — {{fields.heading}}"
             fields:
-              - { name: enabled, label: Show this section, widget: boolean, default: false }
-              - { name: heading, label: Heading, widget: string, default: "Food" }
-              - { name: note, label: Note under the heading, widget: text, required: false }
+              - { name: heading, label: Heading, widget: string, default: Food }
+              - { name: note, label: Introduction, widget: text, required: false }
               - name: meals
                 label: Meals
                 widget: list
-                required: false
-                label_singular: Meal
                 summary: "{{fields.name}}"
                 fields:
-                  - { name: name, label: "Meal (e.g. Lunch, Snacks, Dinner)", widget: string }
+                  - { name: name, label: Meal, widget: string }
                   - { name: time, label: Time, widget: string, required: false }
                   - { name: note, label: Note, widget: string, required: false }
                   - name: items
                     label: Dishes
                     widget: list
-                    required: false
                     summary: "{{fields.name}}"
                     fields:
                       - { name: name, label: Dish, widget: string }
                       - { name: note, label: Note, widget: string, required: false }
                       - {
                           name: nonVeg,
-                          label: "Contains meat or fish",
+                          label: Contains meat or fish,
                           widget: boolean,
                           default: false,
                         }
 
           - name: registration
-            label: "Registration and contributions"
+            label: Registration and pricing
             widget: object
-            required: false
-            collapsed: true
+            summary: "Registration — {{fields.heading}}"
             fields:
-              - { name: enabled, label: Show this section, widget: boolean, default: false }
-              - { name: heading, label: Heading, widget: string, default: "Registration" }
-              - { name: intro, label: Intro, widget: text, required: false }
-              - {
-                  name: deadline,
-                  label: "Deadline banner (leave empty for none)",
-                  widget: string,
-                  required: false,
-                }
-              - { name: url, label: "Registration link", widget: string, required: false }
-              - { name: urlLabel, label: Button text, widget: string, default: "Register" }
+              - { name: heading, label: Heading, widget: string, default: Registration }
+              - { name: intro, label: Introduction, widget: text, required: false }
+              - { name: deadline, label: Deadline message, widget: string, required: false }
+              - { name: url, label: Registration link, widget: string, required: false }
+              - { name: urlLabel, label: Button text, widget: string, default: Register }
               - name: tiers
-                label: Contribution tiers
+                label: Prices
                 widget: list
                 required: false
-                label_singular: Tier
                 summary: "{{fields.name}} — {{fields.price}}"
                 fields:
-                  - { name: name, label: "Name (e.g. Family, Single, Children)", widget: string }
-                  - { name: price, label: "Price (e.g. $60, Free)", widget: string }
-                  - { name: unit, label: "Unit (e.g. per family)", widget: string, required: false }
+                  - { name: name, label: Name, widget: string }
+                  - { name: price, label: Price, widget: string }
+                  - { name: unit, label: Unit, widget: string, required: false }
                   - { name: description, label: Description, widget: text, required: false }
                   - { name: includes, label: What it includes, widget: list, required: false }
                   - {
                       name: highlight,
-                      label: Draw attention to this tier,
+                      label: Highlight this option,
                       widget: boolean,
                       default: false,
                     }
-              - { name: note, label: Note under the tiers, widget: text, required: false }
+              - { name: note, label: Additional note, widget: text, required: false }
 
           - name: payment
-            label: "How to pay"
+            label: Payment details
             widget: object
-            required: false
-            collapsed: true
+            summary: "Payment — {{fields.heading}}"
             fields:
-              - { name: enabled, label: Show this section, widget: boolean, default: false }
               - { name: heading, label: Heading, widget: string, default: "How to pay" }
-              - { name: intro, label: Intro, widget: text, required: false }
-              - { name: qrImage, label: "Payment QR code image", widget: image, required: false }
-              - {
-                  name: qrAlt,
-                  label: Describe the QR code for screen readers,
-                  widget: string,
-                  required: false,
-                }
-              - {
-                  name: qrCaption,
-                  label: Caption under the QR code,
-                  widget: string,
-                  required: false,
-                }
-              # A QR code cannot be read by a screen reader, or used by someone
-              # already on the phone that would scan it. Always fill these in
-              # as well, or those people have no way to pay.
+              - { name: intro, label: Introduction, widget: text, required: false }
+              - { name: qrImage, label: QR code, widget: image, required: false }
+              - { name: qrAlt, label: Describe the QR code, widget: string, required: false }
+              - { name: qrCaption, label: QR caption, widget: string, required: false }
               - name: methods
-                label: "Payment details (always fill these in, not only the QR)"
+                label: Payment methods
                 widget: list
                 required: false
-                label_singular: Method
                 summary: "{{fields.label}}: {{fields.value}}"
                 fields:
-                  - { name: label, label: "Method (e.g. Zelle, Cheque)", widget: string }
-                  - { name: value, label: "Handle, address or payee name", widget: string }
+                  - { name: label, label: Method, widget: string }
+                  - { name: value, label: Account or payee, widget: string }
                   - { name: note, label: Note, widget: string, required: false }
-              - { name: note, label: Note under the section, widget: text, required: false }
+              - { name: note, label: Additional note, widget: text, required: false }
+
+          - name: gallery
+            label: Photo gallery
+            widget: object
+            summary: "Gallery — {{fields.heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, default: Gallery }
+              - { name: intro, label: Introduction, widget: text, required: false }
+              - name: photos
+                label: Photos
+                widget: list
+                fields:
+                  - { name: image, label: Photo, widget: image }
+                  - { name: alt, label: Describe the photo, widget: string }
+
+          - name: faq
+            label: Questions and answers
+            widget: object
+            summary: "FAQ — {{fields.heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string, default: "Good to know" }
+              - name: items
+                label: Questions
+                widget: list
+                summary: "{{fields.question}}"
+                fields:
+                  - { name: question, label: Question, widget: string }
+                  - { name: answer, label: Answer, widget: text }
 
   - name: impact
     label: Community Impact
     label_singular: Impact entry
     folder: src/content/impact
     create: true
+    duplicate: true
     slug: "{{slug}}"
+    preview_path: /impact/
     summary: "{{title}} — {{date}}"
     sortable_fields: [date, title]
     fields:
       - { name: title, label: Title, widget: string }
-      - { name: titleBengali, label: Title in Bengali, widget: string, required: false }
-      - {
-          name: date,
-          label: Start date,
-          widget: datetime,
-          date_format: YYYY-MM-DD,
-          time_format: false,
-          picker_utc: true,
-        }
-      - {
-          name: endDate,
-          label: End date (leave blank for a single day),
-          widget: datetime,
-          date_format: YYYY-MM-DD,
-          time_format: false,
-          picker_utc: true,
-          required: false,
-        }
+      - { name: titleBengali, label: Bengali title, widget: string, required: false }
+      - name: date
+        label: Start date
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        picker_utc: true
+      - name: endDate
+        label: End date
+        widget: datetime
+        date_format: YYYY-MM-DD
+        time_format: false
+        picker_utc: true
+        required: false
       - {
           name: summary,
-          label: One-line summary,
+          label: Short introduction,
           widget: text,
           pattern: ["^.{1,200}$", "Keep this under 200 characters"],
         }
-      - {
-          name: partner,
-          label: Partner organisation,
-          widget: string,
-          required: false,
-          hint: "e.g. Community FoodBank of New Jersey",
-        }
-      - { name: image, label: Banner photo, widget: image, required: false }
-      - {
-          name: imageAlt,
-          label: Describe the banner photo for screen readers,
-          widget: string,
-          required: false,
-        }
-      - label: More photos
-        name: gallery
+      - { name: partner, label: Partner organisation, widget: string, required: false }
+      - { name: image, label: Main photo, widget: image, required: false }
+      - { name: imageAlt, label: Describe the photo, widget: string, required: false }
+      - name: gallery
+        label: More photos
         widget: list
         required: false
-        summary: "{{fields.alt}}"
         fields:
           - { name: image, label: Photo, widget: image }
-          - { name: alt, label: Describe the photo for screen readers, widget: string }
-      - {
-          name: draft,
-          label: Hide from the site (still writing it),
-          widget: boolean,
-          default: false,
-        }
-      - { name: body, label: Details, widget: markdown }
+          - { name: alt, label: Describe the photo, widget: string }
+      - { name: draft, label: Hide from the website, widget: boolean, default: true }
+      - { name: body, label: Details, widget: markdown, required: false }
