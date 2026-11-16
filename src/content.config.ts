@@ -3,6 +3,13 @@ import { defineCollection } from "astro:content";
 import { z } from "astro/zod";
 import { glob } from "astro/loaders";
 
+// Sveltia serializes an optional field that an editor clears as an empty
+// string. Normalize that UI representation to `undefined` so a blank date or
+// URL behaves exactly like an omitted optional field on every future save.
+const emptyToUndefined = (value: unknown) => (value === "" || value == null ? undefined : value);
+const optionalDate = z.preprocess(emptyToUndefined, z.coerce.date().optional());
+const optionalUrl = z.preprocess(emptyToUndefined, z.url().optional());
+
 /**
  * The events collection is the site's content database. Each Markdown file in
  * src/content/events/ is one event, and the schema below is checked at build
@@ -102,7 +109,7 @@ const eventSection = z.discriminatedUnion("type", [
     heading: z.string().default("Registration"),
     intro: z.string().optional(),
     deadline: z.string().optional(),
-    url: z.url().optional(),
+    url: optionalUrl,
     urlLabel: z.string().default("Register"),
     tiers: z.array(
       z.object({
@@ -159,7 +166,7 @@ const events = defineCollection({
     // Written as YYYY-MM-DD in the frontmatter. Zod turns it into a real Date,
     // which is what lets the listing page sort and split past from upcoming.
     date: z.coerce.date(),
-    endDate: z.coerce.date().optional(),
+    endDate: optionalDate,
 
     // Free text, because "6:00 PM onwards" and "Doors 5:30, program 6:00" are
     // both things the committee actually writes.
@@ -176,7 +183,7 @@ const events = defineCollection({
     imageAlt: z.string().optional(),
 
     // Zeffy ticket or registration page for this specific event.
-    ticketUrl: z.url().optional(),
+    ticketUrl: optionalUrl,
 
     // Pins the event to the top of the homepage.
     featured: z.boolean().default(false),
@@ -274,7 +281,7 @@ const impact = defineCollection({
     titleBengali: z.string().optional(),
 
     date: z.coerce.date(),
-    endDate: z.coerce.date().optional(),
+    endDate: optionalDate,
 
     summary: z.string().max(200),
 
