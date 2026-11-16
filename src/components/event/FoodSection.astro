@@ -13,9 +13,9 @@ const meals = data.meals.filter((m) => m.items.length > 0 || m.note);
 const anyNonVeg = meals.some((m) => m.items.some((i) => i.nonVeg));
 ---
 
-{
-  meals.length > 0 && (
-    <SectionShell id="food" heading={data.heading} intro={data.note} tone="white">
+<SectionShell id="food" heading={data.heading} intro={data.note} tone="white">
+  {
+    meals.length > 0 && (
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {meals.map((meal) => (
           <div class="flex flex-col rounded-2xl border border-sindoor-100 bg-cream p-6">
@@ -49,13 +49,15 @@ const anyNonVeg = meals.some((m) => m.items.some((i) => i.nonVeg));
           </div>
         ))}
       </div>
+    )
+  }
 
-      {anyNonVeg && (
-        <p class="mt-6 text-sm text-ink-soft">
-          Everything is vegetarian unless marked{" "}
-          <span class="font-semibold text-sindoor-700">non-veg</span>.
-        </p>
-      )}
-    </SectionShell>
-  )
-}
+  {
+    anyNonVeg && (
+      <p class="mt-6 text-sm text-ink-soft">
+        Everything is vegetarian unless marked{" "}
+        <span class="font-semibold text-sindoor-700">non-veg</span>.
+      </p>
+    )
+  }
+</SectionShell>

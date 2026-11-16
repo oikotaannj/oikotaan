@@ -10,9 +10,9 @@ interface Props {
 const { data } = Astro.props;
 ---
 
-{
-  data.items.length > 0 && (
-    <SectionShell id="highlights" heading={data.heading} intro={data.intro} tone="white">
+<SectionShell id="highlights" heading={data.heading} intro={data.intro} tone="white">
+  {
+    data.items.length > 0 && (
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {data.items.map((item, i) => (
           <article class="flex flex-col overflow-hidden rounded-2xl border border-sindoor-100 bg-cream">
@@ -46,6 +46,6 @@ const { data } = Astro.props;
           </article>
         ))}
       </div>
-    </SectionShell>
-  )
-}
+    )
+  }
+</SectionShell>
